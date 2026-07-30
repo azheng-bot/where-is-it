@@ -1,0 +1,374 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Codex Catalog - Airy Minimalist</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#f4f1ed", /* Softened secondary container */
+                    "on-surface-variant": "#6b6152", /* Muted variant text */
+                    "tertiary-container": "#e5e2e0",
+                    "on-tertiary-fixed": "#1b1c1b",
+                    "outline": "#e5e2e0", /* Lighter outline for 'airy' feel */
+                    "background": "#ffffff", /* True white background for minimalist feel */
+                    "primary-fixed": "#ffdcbd",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed-dim": "#f0bd8b",
+                    "on-tertiary-container": "#41403f",
+                    "on-primary-fixed": "#2c1600",
+                    "primary-container": "#d4a373",
+                    "tertiary": "#5f5e5d",
+                    "surface-container-high": "#f9f8f7",
+                    "secondary": "#665d4e",
+                    "on-secondary-container": "#4e4638",
+                    "inverse-surface": "#2f3130",
+                    "error-container": "#ffdad6",
+                    "primary": "#4e3b31", /* Deeper, more sophisticated primary */
+                    "on-secondary-fixed": "#211b0f",
+                    "on-secondary-fixed-variant": "#4e4638",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#c8c6c4",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#f0edea", /* Very light separators */
+                    "surface": "#ffffff",
+                    "on-primary-container": "#5b3912",
+                    "inverse-primary": "#f0bd8b",
+                    "secondary-fixed": "#eee1ce",
+                    "on-surface": "#1a1c1c",
+                    "surface-dim": "#f4f3f2",
+                    "on-tertiary-fixed-variant": "#474745",
+                    "tertiary-fixed": "#e5e2e0",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#d1c5b3",
+                    "error": "#ba1a1a",
+                    "surface-bright": "#ffffff",
+                    "surface-tint": "#7d562d",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#f1f0f0",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#faf9f8",
+                    "surface-container": "#f7f6f5",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#f4f3f2",
+                    "surface-container-highest": "#f0f0ef",
+                    "on-primary-fixed-variant": "#623f18",
+                    "found-green": "#7d9a78", /* Muted, sophisticated green */
+                    "notfound-amber": "#c49a6c" /* Muted, sophisticated amber */
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.75rem",
+                    "lg": "1.5rem",
+                    "xl": "2.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "gutter": "32px",
+                    "margin-desktop": "80px",
+                    "unit": "8px",
+                    "container-max": "1200px",
+                    "xs": "8px",
+                    "sm": "16px",
+                    "md": "24px",
+                    "lg": "48px",
+                    "xl": "80px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["44px", {"lineHeight": "52px", "letterSpacing": "-0.03em", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                    "mono-data": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #ffffff;
+            color: #1a1c1c;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        /* Custom scrollbar for an airy feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f0edea;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5e2e0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background" style="background-color: rgb(253, 253, 252);">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col h-screen py-lg space-y-md bg-surface-container-low border-r border-outline-variant w-[280px] flex-shrink-0" style="background-color: rgb(253, 253, 252);">
+<!-- Header -->
+<div class="px-8 mb-xl">
+<div class="flex items-center gap-sm">
+<div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-secondary text-[20px]">orbit</span>
+</div>
+<div>
+<h1 class="font-headline-md text-[18px] font-bold tracking-tight text-primary">Codex</h1>
+</div>
+</div>
+</div>
+<!-- Main Navigation -->
+<ul class="flex-1 space-y-1 px-4">
+<li class="">
+<a class="flex items-center gap-sm text-on-surface-variant px-4 py-3 hover:bg-white hover:shadow-sm transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Search</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-sm text-white px-4 py-3 transition-all rounded-lg" href="#" style="background-color: rgb(74, 73, 72);"><span class="material-symbols-outlined text-[22px]" data-icon="grid_view">grid_view</span><span class="font-label-sm text-label-sm uppercase tracking-widest">Catalog</span></a>
+</li>
+<li class="">
+<a class="flex items-center gap-sm text-on-surface-variant px-4 py-3 hover:bg-white hover:shadow-sm transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary" data-icon="history_toggle_off">history_toggle_off</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">History</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-sm text-on-surface-variant px-4 py-3 hover:bg-white hover:shadow-sm transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined text-[22px] group-hover:text-primary" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest">Settings</span>
+</a>
+</li>
+</ul>
+<!-- Footer Navigation -->
+<ul class="px-4 space-y-1 mt-auto">
+<li class="">
+<a class="flex items-center gap-sm text-on-surface-variant/60 px-4 py-2 hover:text-on-surface transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span class="font-label-sm text-[11px] uppercase tracking-widest">Help</span>
+</a>
+</li>
+<li class="">
+<a class="flex items-center gap-sm text-on-surface-variant/60 px-4 py-2 hover:text-on-surface transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="font-label-sm text-[11px] uppercase tracking-widest">Privacy</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto w-full p-margin-mobile md:p-margin-desktop bg-background" style="background-color: rgb(253, 253, 252);">
+<div class="max-w-6xl mx-auto space-y-xl">
+<!-- Page Header -->
+<header class="flex justify-between items-end border-b border-outline-variant pb-8 mb-xl">
+<div>
+<h2 class="font-display-lg text-display-lg text-primary tracking-tighter">System Catalog</h2>
+<p class="font-body-md text-on-surface-variant/80 mt-2">Oversee your monitored items and environmental zones.</p>
+</div>
+</header>
+<!-- Layout Grid for Objects and Zones -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Objects Section -->
+<section class="space-y-md">
+<h3 class="font-label-sm text-[12px] uppercase tracking-[0.2em] text-on-surface-variant/60 px-1">Registered Objects</h3>
+<div class="bg-white border border-outline-variant overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] rounded-xl">
+<!-- List Item 1 -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high border border-outline-variant flex items-center justify-center text-secondary group-hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">key</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">House Keys</p>
+<p class="font-mono-data text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">near_me</span>
+                                    Workspace Desk
+                                </p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-2 bg-found-green/5 border border-found-green/20 px-3 py-1 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-found-green shadow-[0_0_8px_rgba(125,154,120,0.4)]"></span>
+<span class="font-label-sm text-[11px] text-found-green uppercase tracking-wider">Found</span>
+</div>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white hover:shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 2 -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high border border-outline-variant flex items-center justify-center text-secondary group-hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">glasses</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Reading Glasses</p>
+<p class="font-mono-data text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">near_me</span>
+                                    Bedside Table
+                                </p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-2 bg-found-green/5 border border-found-green/20 px-3 py-1 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-found-green shadow-[0_0_8px_rgba(125,154,120,0.4)]"></span>
+<span class="font-label-sm text-[11px] text-found-green uppercase tracking-wider">Found</span>
+</div>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white hover:shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- List Item 3 -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high border border-outline-variant flex items-center justify-center text-secondary group-hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">local_drink</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Water Bottle</p>
+<p class="font-mono-data text-on-surface-variant flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-error/40">location_off</span>
+                                    Untracked
+                                </p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-2 bg-notfound-amber/5 border border-notfound-amber/20 px-3 py-1 rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-notfound-amber shadow-[0_0_8px_rgba(196,154,108,0.4)]"></span>
+<span class="font-label-sm text-[11px] text-notfound-amber uppercase tracking-wider">Lost</span>
+</div>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white hover:shadow-sm transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Zones Section -->
+<section class="space-y-md">
+<div class="flex justify-between items-center rounded-xl">
+<h3 class="font-label-sm text-[12px] uppercase tracking-[0.2em] text-on-surface-variant/60 px-1">Monitored Zones</h3>
+</div>
+<div class="bg-white border border-outline-variant overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] rounded-xl">
+<!-- Zone 1 -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg border border-outline-variant bg-surface-container-high flex items-center justify-center text-on-surface-variant/60 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">desk</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Workspace Desk</p>
+<p class="font-mono-data text-on-surface-variant/60">Active • 2 Items</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all" title="Recalibrate">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all" title="Rename">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+</div>
+</div>
+<!-- Zone 2 -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg border border-outline-variant bg-surface-container-high flex items-center justify-center text-on-surface-variant/60 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">bed</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Master Bed</p>
+<p class="font-mono-data text-on-surface-variant/60">Active • 0 Items</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+</div>
+</div>
+<!-- Zone 3 -->
+<div class="flex items-center justify-between p-6 border-b border-outline-variant hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg border border-outline-variant bg-surface-container-high flex items-center justify-center text-on-surface-variant/60 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">night_shelter</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Bedside Table</p>
+<p class="font-mono-data text-on-surface-variant/60">Active • 1 Item</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+</div>
+</div>
+<!-- Zone 4 -->
+<div class="flex items-center justify-between p-6 hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-lg border border-outline-variant bg-surface-container-high flex items-center justify-center text-on-surface-variant/60 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">shelves</span>
+</div>
+<div>
+<p class="font-body-lg font-semibold text-on-surface">Wardrobe</p>
+<p class="font-mono-data text-on-surface-variant/60">Active • 0 Items</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="text-on-surface-variant/40 hover:text-primary p-2 rounded-full hover:bg-white transition-all">
+<span class="material-symbols-outlined text-[18px]">edit_square</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+
+
+</body></html>

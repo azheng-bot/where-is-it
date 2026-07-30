@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+services/api/data/*.db
+services/api/data/evidence/

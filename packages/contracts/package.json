@@ -1,0 +1,10 @@
+{
+  "name": "@where-is-it/contracts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": { ".": "./src/api.ts" },
+  "scripts": {
+    "check": "node ./scripts/check-enums.mjs"
+  }
+}

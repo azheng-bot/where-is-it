@@ -1,0 +1,323 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Settings &amp; System Status</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#d1c5b3",
+                        "error-container": "#ffdad6",
+                        "secondary": "#665d4e",
+                        "on-surface-variant": "#50453b",
+                        "on-primary": "#ffffff",
+                        "surface": "#faf9f8",
+                        "on-surface": "#1a1c1c",
+                        "tertiary-fixed": "#e5e2e0",
+                        "outline-variant": "#d4c4b7",
+                        "on-tertiary-container": "#41403f",
+                        "on-tertiary-fixed": "#1b1c1b",
+                        "tertiary": "#5f5e5d",
+                        "surface-container-highest": "#e3e2e1",
+                        "primary": "#7d562d",
+                        "surface-tint": "#7d562d",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-fixed": "#ffdcbd",
+                        "on-primary-container": "#5b3912",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dadad9",
+                        "surface-bright": "#faf9f8",
+                        "tertiary-fixed-dim": "#c8c6c4",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#ebdecb",
+                        "inverse-on-surface": "#f1f0f0",
+                        "surface-variant": "#e3e2e1",
+                        "outline": "#82756a",
+                        "inverse-surface": "#2f3130",
+                        "tertiary-container": "#aeacaa",
+                        "surface-container": "#eeeeed",
+                        "on-secondary-container": "#6b6152",
+                        "secondary-fixed": "#eee1ce",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#f0bd8b",
+                        "on-tertiary-fixed-variant": "#474745",
+                        "on-secondary-fixed-variant": "#4e4638",
+                        "on-background": "#1a1c1c",
+                        "on-primary-fixed-variant": "#623f18",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#f0bd8b",
+                        "primary-container": "#d4a373",
+                        "background": "#faf9f8",
+                        "on-primary-fixed": "#2c1600",
+                        "surface-container-low": "#f4f3f2",
+                        "on-secondary-fixed": "#211b0f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1.5rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "container-max": "1200px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "label-sm": ["13px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #7d562d;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #7d562d;
+        }
+        .airy-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(125, 86, 45, 0.05);
+        }
+        .airy-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px -5px rgba(125, 86, 45, 0.08);
+            border-color: #d4c4b7;
+        }
+        .nav-link-active {
+            background-color: #eee1ce;
+            color: #7d562d;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased h-screen flex overflow-hidden" style="background-color: rgb(253, 253, 252);">
+<!-- SideNavBar -->
+<nav class="hidden lg:flex flex-col h-screen py-10 space-y-8 bg-surface-container-low border-r border-outline-variant w-72" style="background-color: rgb(253, 253, 252);">
+<div class="px-8 mb-10">
+<span class="font-display-lg text-2xl font-bold text-primary tracking-tight">Codex Finder</span>
+</div>
+<div class="flex-1 flex flex-col gap-2 px-4">
+<a class="flex items-center gap-4 text-on-surface-variant px-5 py-3 rounded-full hover:bg-surface-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm uppercase tracking-wide">Search</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-5 py-3 rounded-full hover:bg-surface-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-sm uppercase tracking-wide">Catalog</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant px-5 py-3 rounded-full hover:bg-surface-container transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="history_toggle_off">history_toggle_off</span>
+<span class="font-label-sm uppercase tracking-wide">History</span>
+</a>
+<a class="flex items-center gap-4 nav-link-active px-5 py-3 rounded-full transition-all duration-200" href="#" style="background-color: rgb(74, 73, 72); color: rgb(255, 255, 255);">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: &quot;FILL&quot; 1; color: rgb(255, 255, 255);">settings</span>
+<span class="font-label-sm uppercase tracking-wide">Settings</span>
+</a>
+</div>
+<div class="px-6 mt-auto">
+<div class="flex flex-col gap-1 pt-6 border-t border-outline-variant">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+<span class="font-label-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="shield">shield</span>
+<span class="font-label-sm">Privacy &amp; Security</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background p-margin-mobile md:p-margin-desktop">
+<div class="max-w-5xl mx-auto space-y-14">
+<header class="space-y-3">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary">Settings &amp; System Status</h1>
+<p class="font-body-lg text-on-surface-variant opacity-70">Manage your workspace preferences and monitor live system metrics.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: System Health -->
+<div class="lg:col-span-8 space-y-8">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-label-sm text-primary uppercase tracking-[0.2em]">System Health</h2>
+<span class="h-px flex-1 ml-6 bg-outline-variant opacity-50"></span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Camera Feed Status -->
+<div class="airy-card p-8 rounded-3xl border border-outline-variant/30 flex flex-col justify-between h-52 group">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="videocam">videocam</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-secondary-container/50 border border-secondary-container rounded-full">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Live</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline-md text-on-surface mb-1">Camera Array</h3>
+<p class="text-on-surface-variant text-sm opacity-80">4K Optics active • 60 FPS</p>
+</div>
+</div>
+<!-- AI Latency -->
+<div class="airy-card p-8 rounded-3xl border border-outline-variant/30 flex flex-col justify-between h-52 group">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="memory">memory</span>
+</div>
+<span class="font-bold text-primary text-sm px-2 py-1 bg-surface-container-high/50 rounded-lg">24ms</span>
+</div>
+<div>
+<h3 class="font-headline-md text-on-surface mb-2">Visual AI Core</h3>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[15%] rounded-full transition-all duration-1000"></div>
+</div>
+<p class="text-on-surface-variant text-xs mt-3 uppercase tracking-wider opacity-60">Low Load Threshold</p>
+</div>
+</div>
+<!-- Connectivity -->
+<div class="airy-card p-8 rounded-3xl border border-outline-variant/30 flex flex-col justify-between h-52 sm:col-span-2 group">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="wifi">wifi</span>
+</div>
+<div>
+<h3 class="font-headline-md text-on-surface">Connectivity</h3>
+<p class="text-xs text-on-surface-variant opacity-60 uppercase tracking-widest">Global Mesh Active</p>
+</div>
+</div>
+<span class="text-[10px] font-bold text-primary uppercase bg-secondary-container/50 border border-secondary-container px-4 py-1.5 rounded-full tracking-widest">Uplink Stable</span>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/20 pt-6">
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-on-surface-variant text-[10px] uppercase tracking-wider opacity-60">Current Network</span>
+<span class="font-bold text-on-surface">Codex-Mesh-01</span>
+</div>
+<div class="flex flex-col text-right gap-1">
+<span class="font-label-sm text-on-surface-variant text-[10px] uppercase tracking-wider opacity-60">Signal Strength</span>
+<span class="font-bold text-primary">-42 dBm</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Settings & Info -->
+<div class="lg:col-span-4 space-y-12">
+<!-- Accessibility -->
+<div class="space-y-6">
+<h2 class="font-label-sm text-primary uppercase tracking-[0.2em] px-1">Accessibility</h2>
+<div class="bg-white rounded-3xl border border-outline-variant/30 overflow-hidden shadow-[0_4px_20px_-2px_rgba(125,86,45,0.03)]">
+<!-- Voice Broadcast Toggle -->
+<div class="p-6 flex items-center justify-between hover:bg-surface-container-low transition-colors duration-300">
+<div class="flex items-center gap-4">
+<div class="w-11 h-11 flex items-center justify-center bg-secondary-container/40 rounded-2xl">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="record_voice_over">record_voice_over</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface text-sm">Voice Alerts</span>
+<span class="text-on-surface-variant text-[11px] opacity-60">Live status updates</span>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer transition-all duration-300 z-10" id="toggle_voice" name="toggle_voice" style="transform: translateX(100%); border-color: rgb(125, 86, 45);" type="checkbox">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-colors duration-300" for="toggle_voice" style="background-color: rgb(125, 86, 45);"></label>
+</div>
+</div>
+<!-- Screen Reader Toggle -->
+<div class="p-6 flex items-center justify-between border-t border-outline-variant/20 hover:bg-surface-container-low transition-colors duration-300">
+<div class="flex items-center gap-4">
+<div class="w-11 h-11 flex items-center justify-center bg-secondary-container/40 rounded-2xl">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="blind">blind</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-on-surface text-sm">Contrast Opt</span>
+<span class="text-on-surface-variant text-[11px] opacity-60">High visibility mode</span>
+</div>
+</div>
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-2 border-outline-variant appearance-none cursor-pointer transition-all duration-300 z-10" id="toggle_reader" name="toggle_reader" type="checkbox" style="border-color: rgb(212, 196, 183);">
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer transition-colors duration-300" for="toggle_reader" style="background-color: rgb(227, 226, 225);"></label>
+</div>
+</div>
+</div>
+</div>
+<!-- Device Info -->
+<div class="space-y-6">
+<h2 class="font-label-sm text-primary uppercase tracking-[0.2em] px-1">Device Info</h2>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant/30 flex flex-col gap-2 shadow-[0_4px_20px_-2px_rgba(125,86,45,0.03)]">
+<div class="flex justify-between items-center py-4 border-b border-outline-variant/10">
+<span class="text-on-surface-variant text-sm opacity-70">Device ID</span>
+<span class="font-bold text-on-surface text-sm">CDX-992-A</span>
+</div>
+<div class="flex justify-between items-center py-4 border-b border-outline-variant/10">
+<span class="text-on-surface-variant text-sm opacity-70">Firmware</span>
+<span class="font-bold text-on-surface text-sm">v2.4.1-stable</span>
+</div>
+<div class="flex justify-between items-center py-4">
+<span class="text-on-surface-variant text-sm opacity-70">Admin Account</span>
+<span class="font-bold text-on-surface text-sm">admin@local</span>
+</div>
+<button class="mt-8 w-full py-4 bg-primary text-white font-label-sm uppercase tracking-[0.2em] rounded-2xl hover:bg-on-primary-container hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-primary/20">
+                                Check for Updates
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        const checkboxes = document.querySelectorAll('.toggle-checkbox');
+        checkboxes.forEach(box => {
+            box.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if(this.checked) {
+                    this.style.borderColor = '#7d562d';
+                    label.style.backgroundColor = '#7d562d';
+                    this.style.transform = 'translateX(100%)';
+                } else {
+                    this.style.borderColor = '#d4c4b7';
+                    label.style.backgroundColor = '#e3e2e1';
+                    this.style.transform = 'translateX(0)';
+                }
+            });
+            // Initial state set
+            if(box.checked) {
+                box.style.transform = 'translateX(100%)';
+                box.style.borderColor = '#7d562d';
+                box.nextElementSibling.style.backgroundColor = '#7d562d';
+            } else {
+                box.style.borderColor = '#d4c4b7';
+                box.nextElementSibling.style.backgroundColor = '#e3e2e1';
+            }
+        });
+    </script>
+
+
+</body></html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Codex Finder - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#f1f0ee",
+                        "on-surface-variant": "#6b6a68",
+                        "tertiary-container": "#f1f0ee",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "outline": "#b3b1af",
+                        "background": "#fdfdfc",
+                        "primary-fixed": "#e6e4e2",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed-dim": "#cfcdcb",
+                        "on-tertiary-container": "#4a4948",
+                        "on-primary-fixed": "#1c1b1b",
+                        "primary-container": "#e6e4e2",
+                        "tertiary": "#6b6a68",
+                        "surface-container-high": "#f5f4f2",
+                        "secondary": "#52514f",
+                        "on-secondary-container": "#52514f",
+                        "inverse-surface": "#2d2c2b",
+                        "error-container": "#fce8e6",
+                        "primary": "#4a4948",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#4a4948",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#cfcdcb",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#e6e4e2",
+                        "surface": "#fdfdfc",
+                        "on-primary-container": "#2d2c2b",
+                        "inverse-primary": "#cfcdcb",
+                        "secondary-fixed": "#f1f0ee",
+                        "on-surface": "#1c1b1b",
+                        "surface-dim": "#f1f0ee",
+                        "on-tertiary-fixed-variant": "#4a4948",
+                        "tertiary-fixed": "#f1f0ee",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#d6d4d2",
+                        "error": "#b3261e",
+                        "surface-bright": "#fdfdfc",
+                        "surface-tint": "#4a4948",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f5f4f2",
+                        "on-background": "#1c1b1b",
+                        "surface-container-low": "#f9f8f7",
+                        "surface-container": "#f5f4f2",
+                        "on-error-container": "#410e0b",
+                        "surface-variant": "#f1f0ee",
+                        "surface-container-highest": "#f1f0ee",
+                        "on-primary-fixed-variant": "#4a4948"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "20px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "container-max": "1200px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "label-sm": ["13px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+        .bounding-box {
+            position: absolute;
+            border: 1px solid #4a4948;
+            background-color: rgba(74, 73, 72, 0.08);
+            border-radius: 8px;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fdfdfc;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-screen py-gutter space-y-gutter w-64 bg-surface border-r border-outline-variant/50 flex-shrink-0 z-10" style="background-color: rgb(253, 253, 252);">
+<div class="px-gutter mb-6">
+<h1 class="text-headline-md font-bold text-primary tracking-tight">Codex Finder</h1>
+<p class="text-label-sm text-on-surface-variant mt-1">System Online</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<!-- Active Tab: Search -->
+<a class="flex items-center gap-3 px-6 py-3 bg-primary text-on-primary font-label-sm rounded-full group shadow-sm" href="#" style="background-color: rgb(74, 73, 72); color: rgb(255, 255, 255);">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">search</span>
+            Search
+        </a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-sm rounded-full group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">grid_view</span>
+            Catalog
+        </a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-sm rounded-full group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">history_toggle_off</span>
+            History
+        </a>
+<a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-sm rounded-full group" href="#">
+<span class="material-symbols-outlined text-[20px] group-hover:text-primary transition-colors">settings</span>
+            Settings
+        </a>
+</nav>
+<div class="px-4 mt-auto mb-6">
+<button class="w-full flex items-center justify-center gap-2 bg-surface-container border border-outline-variant/50 text-on-surface py-3 px-4 rounded-full hover:bg-surface-container-high transition-all font-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            Add New Object
+        </button>
+</div>
+<div class="px-gutter border-t border-outline-variant/30 pt-6 flex flex-col gap-3">
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-sm" href="#">
+<span class="material-symbols-outlined text-[16px]">help</span>
+            Help
+        </a>
+<a class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors font-label-sm" href="#">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+            Privacy
+        </a>
+</div>
+<div class="px-gutter pb-6 mt-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover grayscale opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkdscJRGTShsVHsE5HuRrHPM0a_juvtrGaHZsn_I97N6zFL8V451UVmyAEtg15Fcpq1veUJV2qCt8NOjti8euhyOgltOfGnrVbMTvrAfohMSZgbxBpdwcd9DnHiyU_H_l9twS4Okw6ujHbu2E0-CPFTxNqzJW2_T12mzFj3RnsIMLBtLIAIRlprlra3O_tvgI33zezx5_5zHzNSqe06puZojPyFFA2Y64X3LFdMznDeLb5Iu3pHpxEbg">
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen relative bg-background" style="background-color: rgb(253, 253, 252);">
+<!-- Top App Bar -->
+<header class="lg:hidden flex justify-between items-center w-full px-margin-mobile py-4 border-b border-outline-variant/30 bg-surface">
+<h1 class="text-headline-md font-semibold text-primary">Codex Finder</h1>
+<button class="p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Search Canvas -->
+<div class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop py-12 pb-24 relative">
+<div class="max-w-4xl mx-auto space-y-16">
+<!-- Central Search Input -->
+<div class="relative group max-w-2xl mx-auto">
+<div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-[22px]">search</span>
+</div>
+<input class="block w-full pl-16 pr-16 py-6 border border-outline-variant/30 bg-surface-container-lowest rounded-full text-headline-md text-on-surface focus:ring-1 focus:ring-outline-variant/50 focus:border-outline-variant/50 transition-all placeholder:text-outline/70 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.03)]" placeholder="Where is my keys?" type="text">
+<button class="absolute inset-y-0 right-0 pr-6 flex items-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[22px]">mic</span>
+</button>
+</div>
+<!-- Active State: Found Result -->
+<div class="space-y-10 animate-[fadeIn_0.5s_ease-out]">
+<div class="flex items-start justify-between border-b border-outline-variant/20 pb-8">
+<div>
+<h2 class="text-display-lg-mobile md:text-display-lg text-primary font-medium tracking-tight">Your keys are on the Desk.</h2>
+<p class="text-body-lg text-on-surface-variant mt-3 font-light">Seen 2 minutes ago by Camera 03 (Study)</p>
+</div>
+<div class="px-4 py-1.5 bg-surface-container-high rounded-full flex items-center gap-2 border border-outline-variant/30">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[11px] font-semibold text-primary uppercase tracking-wider">Detected</span>
+</div>
+</div>
+<!-- Evidence Image Panel -->
+<div class="relative w-full aspect-video overflow-hidden border border-outline-variant/20 bg-surface-container-low shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] rounded-xl">
+<img class="w-full h-full object-cover" data-alt="A high-resolution, wide-angle interior shot of a modern, minimalist home office desk." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJFUe1H5VF9VXtZx6g_KMjeI7SdK3ecIfay8F8k4BWg9yX3SbRSNVEI_R3pZa38QcTxpO5xi-NtjvRMocDl7MxrB0wCM3Ox4KMQNxM0Xz7Pnogga0oM0UozH6kg5XtxUXolW29ycUoDT7xgRdTxPgHJ8VIqqTFTvzItTWXWnsRxO1NQ4MKhl1-Gvj08KNvegGdRpXh0zoIQNE3epJWNHreqluCt-yj8VwUfSidwD-StyT5KCVZ3HDjqw">
+<!-- Bounding Box Annotation -->
+<div class="bounding-box top-[40%] left-[55%] w-[15%] h-[20%]"></div>
+<!-- Image Metadata Overlay -->
+<div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+<div class="bg-surface-container-lowest/90 backdrop-blur-md px-4 py-3 rounded-lg border border-outline-variant/30 shadow-md">
+<p class="text-label-sm font-bold text-primary">FRAME: 849201</p>
+<p class="text-[11px] font-medium text-on-surface-variant mt-1">TS: 2023-10-27 14:02:11 UTC</p>
+</div>
+<button class="bg-surface-container-lowest/90 backdrop-blur-md p-3 rounded-full border border-outline-variant/30 text-on-surface-variant hover:text-primary transition-all hover:scale-110 shadow-md">
+<span class="material-symbols-outlined text-[20px]">zoom_in</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Missing State -->
+<div class="mt-20 pt-16 border-t border-outline-variant/20 space-y-10">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline/80">visibility_off</span>
+<h3 class="text-body-lg font-medium text-on-surface-variant/80">Not detected in current view.</h3>
+</div>
+<div class="space-y-6">
+<h4 class="text-label-sm text-outline uppercase tracking-[0.2em] font-bold">Inferred Locations</h4>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Inferred Card 1 -->
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest hover:bg-surface-container-low transition-all group flex flex-col gap-3 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="text-headline-md text-primary font-medium">Bed</span>
+<span class="material-symbols-outlined text-outline/50 group-hover:text-primary/60 transition-colors text-[20px]">bed</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-[2px] rounded-full overflow-hidden">
+<div class="bg-primary/40 h-full w-[68%]"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant font-semibold">68% Confidence</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed">Last seen moving towards Bedroom.</p>
+</div>
+<!-- Inferred Card 2 -->
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest hover:bg-surface-container-low transition-all group flex flex-col gap-3 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="text-headline-md text-primary font-medium">Table</span>
+<span class="material-symbols-outlined text-outline/50 group-hover:text-primary/60 transition-colors text-[20px]">table_restaurant</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-[2px] rounded-full overflow-hidden">
+<div class="bg-primary/40 h-full w-[45%]"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant font-semibold">45% Confidence</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed">Routine placement location.</p>
+</div>
+<!-- Inferred Card 3 -->
+<div class="p-6 border border-outline-variant/20 bg-surface-container-lowest hover:bg-surface-container-low transition-all group flex flex-col gap-3 shadow-[0_2px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-md rounded-xl">
+<div class="flex items-center justify-between">
+<span class="text-headline-md text-primary font-medium">Wardrobe</span>
+<span class="material-symbols-outlined text-outline/50 group-hover:text-primary/60 transition-colors text-[20px]">checkroom</span>
+</div>
+<div class="w-full bg-outline-variant/30 h-[2px] rounded-full overflow-hidden">
+<div class="bg-primary/40 h-full w-[22%]"></div>
+</div>
+<p class="text-label-sm text-on-surface-variant font-semibold">22% Confidence</p>
+<p class="text-body-md text-on-surface-variant leading-relaxed">Correlated with Jacket pickup.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Status Bar -->
+<footer class="absolute bottom-0 left-0 right-0 bg-surface/95 backdrop-blur-sm border-t border-outline-variant/20 px-margin-mobile md:px-margin-desktop py-4 flex items-center justify-between z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="relative flex items-center justify-center w-2 h-2">
+<span class="absolute inline-flex w-full h-full rounded-full bg-primary/20 pulse-ring"></span>
+<span class="relative inline-flex rounded-full w-1.5 h-1.5 bg-primary/60"></span>
+</div>
+<span class="text-label-sm text-on-surface-variant/80 font-medium">5 Active Feeds</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/40"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">memory</span>
+<span class="text-label-sm text-on-surface-variant/80 font-medium">Visual AI Engine Active</span>
+</div>
+</div>
+<div class="text-label-sm text-outline/60 tracking-wider">
+            LTCY 24MS
+        </div>
+</footer>
+</main>
+
+
+</body></html>
