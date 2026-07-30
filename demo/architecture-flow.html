@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Where Is It - 项目流程架构</title>
+    <style>
+      :root {
+        --ink: #e8eef0;
+        --muted: #98a9ad;
+        --canvas: #10171a;
+        --surface: #162125;
+        --surface-strong: #1d2c31;
+        --line: #314449;
+        --accent: #7bd3b8;
+        --accent-deep: #245b50;
+        --warning: #e2b05a;
+        --danger: #e67d6c;
+        --radius: 16px;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--canvas);
+        font-family: "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif;
+        line-height: 1.5;
+      }
+
+      button { font: inherit; }
+
+      .page {
+        width: min(1440px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 36px 0 52px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 24px;
+        padding-bottom: 28px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .02em; }
+      .brand-mark { width: 12px; height: 12px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 0 5px rgba(123, 211, 184, .11); }
+      .live { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 14px; }
+      .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(360px, .75fr);
+        align-items: end;
+        gap: 48px;
+        padding: 62px 0 46px;
+      }
+
+      .eyebrow { color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+      h1 { margin: 12px 0 14px; font-size: clamp(38px, 6vw, 72px); line-height: 1.02; letter-spacing: -.055em; max-width: 760px; }
+      .intro { max-width: 620px; margin: 0; color: var(--muted); font-size: 18px; }
+      .legend { display: grid; gap: 12px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+      .legend-item { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 14px; }
+      .key { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; }
+      .key.live-key { background: var(--accent); }
+      .key.demo-key { background: var(--warning); }
+      .key.plan-key { border: 1px dashed var(--muted); }
+
+      .architecture { position: relative; padding: 30px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+      .architecture::before { content: ""; position: absolute; inset: 0; opacity: .18; pointer-events: none; background-image: linear-gradient(rgba(152,169,173,.19) 1px, transparent 1px), linear-gradient(90deg, rgba(152,169,173,.19) 1px, transparent 1px); background-size: 30px 30px; }
+      .architecture > * { position: relative; }
+      .arch-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 28px; }
+      .arch-heading h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
+      .arch-heading span { color: var(--muted); font-size: 14px; }
+
+      .flow {
+        display: grid;
+        grid-template-columns: minmax(150px, .85fr) 42px minmax(185px, 1.05fr) 42px minmax(210px, 1.25fr) 42px minmax(150px, .85fr);
+        align-items: stretch;
+      }
+
+      .node {
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background: rgba(22, 33, 37, .96);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        transition: transform .25s ease, border-color .25s ease, background .25s ease;
+      }
+      .node:hover { transform: translateY(-3px); border-color: rgba(123, 211, 184, .7); }
+      .node.active { border-color: var(--accent); background: var(--surface-strong); box-shadow: 0 0 0 3px rgba(123, 211, 184, .1); }
+      .node h3 { margin: 0; font-size: 18px; letter-spacing: -.02em; }
+      .node p { margin: 9px 0 18px; color: var(--muted); font-size: 14px; }
+      .node ul { padding: 0; margin: auto 0 0; list-style: none; display: grid; gap: 8px; }
+      .node li { color: #c6d2d4; font-size: 13px; padding-left: 12px; position: relative; }
+      .node li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; position: absolute; left: 0; top: .53em; background: currentColor; opacity: .65; }
+      .port { margin-top: auto; padding-top: 16px; color: var(--accent); font-family: Consolas, "Cascadia Mono", monospace; font-size: 12px; }
+      .port.demo { color: var(--warning); }
+      .arrow { display: grid; place-items: center; color: var(--accent); font-size: 27px; font-weight: 300; }
+      .arrow small { color: var(--muted); font-size: 10px; writing-mode: vertical-rl; letter-spacing: .08em; margin-bottom: 7px; }
+
+      .support-flow {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) 42px minmax(0, .8fr) 42px minmax(0, 1.15fr);
+        margin-top: 24px;
+        align-items: stretch;
+      }
+      .support-node { min-height: 126px; padding: 17px 20px; background: rgba(16, 23, 26, .7); border: 1px dashed #496068; border-radius: 14px; }
+      .support-node h3 { margin: 0; font-size: 15px; }
+      .support-node p { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+      .support-node.current { border-style: solid; border-color: #607b82; }
+
+      .detail-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; margin-top: 22px; }
+      .panel { padding: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+      .panel h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -.025em; }
+      .panel > p { margin: 0 0 20px; color: var(--muted); }
+      .timeline { display: grid; gap: 0; }
+      .timeline-row { display: grid; grid-template-columns: 132px 1fr; gap: 18px; padding: 14px 0; border-bottom: 1px solid rgba(73, 96, 104, .55); }
+      .timeline-row:last-child { border-bottom: 0; padding-bottom: 0; }
+      .timeline-row strong { color: var(--accent); font: 600 12px Consolas, "Cascadia Mono", monospace; }
+      .timeline-row span { color: #d4dfe1; font-size: 14px; }
+      .config { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .config div { padding: 12px; background: #111a1d; border-radius: 10px; }
+      .config code { display: block; color: var(--accent); font: 600 12px Consolas, "Cascadia Mono", monospace; overflow-wrap: anywhere; }
+      .config span { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+
+      .demo-control { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; margin-top: 22px; padding: 22px 26px; background: #142124; border: 1px solid #34524e; border-radius: var(--radius); }
+      .demo-control h2 { margin: 0 0 4px; font-size: 18px; }
+      .demo-control p { margin: 0; color: var(--muted); font-size: 14px; }
+      .actions { display: flex; gap: 10px; }
+      button { cursor: pointer; border: 0; border-radius: 10px; padding: 11px 15px; color: #092019; background: var(--accent); font-weight: 700; transition: transform .2s ease, filter .2s ease; }
+      button:hover { filter: brightness(1.08); }
+      button:active { transform: translateY(1px) scale(.98); }
+      button.secondary { color: var(--ink); background: transparent; border: 1px solid #537078; }
+      .event { min-height: 25px; margin-top: 15px; color: var(--accent); font: 13px Consolas, "Cascadia Mono", monospace; }
+      .footer { margin-top: 24px; color: var(--muted); font-size: 13px; }
+
+      @media (max-width: 1020px) {
+        .hero, .detail-grid { grid-template-columns: 1fr; gap: 24px; }
+        .flow { grid-template-columns: 1fr; gap: 11px; }
+        .arrow { min-height: 30px; transform: rotate(90deg); }
+        .arrow small { display: none; }
+        .node { min-height: auto; }
+        .support-flow { grid-template-columns: 1fr; gap: 11px; }
+      }
+
+      @media (max-width: 620px) {
+        .page { width: min(100% - 28px, 1440px); padding-top: 22px; }
+        .topbar { align-items: flex-start; flex-direction: column; gap: 14px; }
+        .hero { padding: 40px 0 30px; }
+        .architecture, .panel, .demo-control { padding: 20px; }
+        .arch-heading { display: block; }
+        .arch-heading span { display: block; margin-top: 5px; }
+        .timeline-row { grid-template-columns: 1fr; gap: 5px; }
+        .config { grid-template-columns: 1fr; }
+        .actions { width: 100%; }
+        .actions button { flex: 1; padding-inline: 8px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark"></span>Where Is It</div>
+        <div class="live"><i></i> 当前开发服务已运行</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <div class="eyebrow">项目流程架构</div>
+          <h1>从一段画面，到一句可靠的回答。</h1>
+          <p class="intro">室内物品定位系统把摄像头观测转换为结构化位置记忆，再用受约束的自然语言问答返回结果。</p>
+        </div>
+        <aside class="legend" aria-label="架构图例">
+          <div class="legend-item"><span class="key live-key"></span>当前服务已可启动</div>
+          <div class="legend-item"><span class="key demo-key"></span>当前以 Demo 数据或降级逻辑运行</div>
+          <div class="legend-item"><span class="key plan-key"></span>已定义接口，待接入真实模型或设备</div>
+        </aside>
+      </section>
+
+      <section class="architecture" aria-labelledby="flow-title">
+        <div class="arch-heading">
+          <h2 id="flow-title">核心查询与视觉流程</h2>
+          <span>单机开发环境 · Web 5173 · API 8000 · Vision 8001</span>
+        </div>
+        <div class="flow">
+          <article class="node" data-node="web">
+            <h3>用户与网页</h3>
+            <p>浏览器提供文字输入、麦克风录音、结果展示和语音播报。</p>
+            <ul>
+              <li>React + Vite</li>
+              <li>文字或语音问题</li>
+              <li>speechSynthesis 输出</li>
+            </ul>
+            <div class="port">http://127.0.0.1:5173</div>
+          </article>
+          <div class="arrow" aria-hidden="true"><small>HTTP</small>→</div>
+          <article class="node" data-node="api">
+            <h3>业务 API</h3>
+            <p>唯一写入者。处理对象目录、位置状态、问答编排和证据索引。</p>
+            <ul>
+              <li>FastAPI</li>
+              <li>POST /api/query</li>
+              <li>POST /api/speech/transcribe</li>
+            </ul>
+            <div class="port">http://127.0.0.1:8000</div>
+          </article>
+          <div class="arrow" aria-hidden="true"><small>观测事件</small>←</div>
+          <article class="node" data-node="vision">
+            <h3>视觉服务</h3>
+            <p>摄像头接入、检测、跟踪、重识别的独立进程边界。</p>
+            <ul>
+              <li>当前为 cpu-demo</li>
+              <li>模型适配器已预留</li>
+              <li>USB / RTSP / fixture</li>
+            </ul>
+            <div class="port demo">http://127.0.0.1:8001</div>
+          </article>
+          <div class="arrow" aria-hidden="true"><small>视频帧</small>←</div>
+          <article class="node" data-node="camera">
+            <h3>摄像头</h3>
+            <p>部署时接入卧室 USB 摄像头或 RTSP 网络摄像头。</p>
+            <ul>
+              <li>目标 1280 × 720</li>
+              <li>持续采集最新帧</li>
+              <li>当前 fixture 模拟源</li>
+            </ul>
+            <div class="port demo">CAMERA_SOURCE=fixture</div>
+          </article>
+        </div>
+
+        <div class="support-flow">
+          <article class="support-node current" data-node="store">
+            <h3>SQLite 与证据目录</h3>
+            <p>当前已启用。保存目录、对象、位置、状态和有限证据图片。</p>
+          </article>
+          <div class="arrow" aria-hidden="true">←</div>
+          <article class="support-node" data-node="llm">
+            <h3>LLM Provider</h3>
+            <p>规划为 OpenAI-compatible 接口。Qwen3 4B 可本地运行，也可改为远程服务。</p>
+          </article>
+          <div class="arrow" aria-hidden="true">←</div>
+          <article class="support-node" data-node="asr">
+            <h3>ASR 语音转写</h3>
+            <p>规划接入 faster-whisper small。当前接口返回 Demo 降级文本。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="detail-grid">
+        <article class="panel">
+          <h2>一次“钥匙在哪里”的数据旅程</h2>
+          <p>核心查询不会触发重型视频推理，而是读取已经持续更新的位置记忆。</p>
+          <div class="timeline">
+            <div class="timeline-row"><strong>用户提出问题</strong><span>网页把文字发送到 <code>/api/query</code>，或先上传短音频到转写接口。</span></div>
+            <div class="timeline-row"><strong>API 解析候选</strong><span>优先使用名称、别名和模糊匹配，从对象目录召回可选对象。</span></div>
+            <div class="timeline-row"><strong>读取事实包</strong><span>查询最后出现位置、状态、时间、证据和最多三个推测位置。</span></div>
+            <div class="timeline-row"><strong>受约束回答</strong><span>LLM 仅负责理解与表达。超时、不可用或格式错误时，模板回答接管。</span></div>
+            <div class="timeline-row"><strong>网页呈现结果</strong><span>先显示文字与证据入口，再使用浏览器 TTS 播报。</span></div>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <h2>当前关键配置</h2>
+          <p>以下参数已写在 <code>.env.example</code>。其中模型和 LLM 配置目前尚未接入真实推理。</p>
+          <div class="config">
+            <div><code>VISION_PROFILE=cpu</code><span>当前演示模式</span></div>
+            <div><code>CAMERA_SOURCE=fixture</code><span>模拟摄像头输入</span></div>
+            <div><code>LLM_MODEL=qwen3-4b</code><span>目标本地模型</span></div>
+            <div><code>LLM_TIMEOUT_SECONDS=2.5</code><span>LLM 最大预算</span></div>
+            <div><code>ASR_MODEL=small</code><span>目标转写模型</span></div>
+            <div><code>EVIDENCE_MAX_BYTES=512MB</code><span>证据文件预算</span></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="demo-control" aria-labelledby="demo-title">
+        <div>
+          <h2 id="demo-title">链路演示</h2>
+          <p>模拟一次用户查询，按顺序高亮本项目当前和规划中的服务边界。</p>
+          <div class="event" id="event" aria-live="polite">等待开始</div>
+        </div>
+        <div class="actions">
+          <button id="play" type="button">播放一次请求</button>
+          <button id="reset" class="secondary" type="button">重置演示</button>
+        </div>
+      </section>
+
+      <footer class="footer">说明：绿色表示本地服务已可启动，黄色表示当前 Demo 或降级路径，虚线框表示尚待落地的真实模型或硬件集成。</footer>
+    </main>
+
+    <script>
+      const stages = [
+        ["web", "网页接收问题：‘我的钥匙在哪里？’"],
+        ["asr", "语音输入可先转写为可编辑文字，目前使用 Demo 降级结果。"],
+        ["api", "API 调用 /api/query，匹配对象名称与别名。"],
+        ["store", "读取 SQLite 中的对象状态、位置记忆与证据索引。"],
+        ["llm", "可选 LLM 只基于事实包组织回答，超时则回退模板。"],
+        ["web", "网页显示答案，并可通过浏览器语音能力播报。"]
+      ];
+      const event = document.getElementById("event");
+      const play = document.getElementById("play");
+      const reset = document.getElementById("reset");
+      let timer;
+
+      function clearDemo() {
+        clearTimeout(timer);
+        document.querySelectorAll(".node, .support-node").forEach((node) => node.classList.remove("active"));
+        event.textContent = "等待开始";
+        play.disabled = false;
+      }
+
+      function run(index = 0) {
+        document.querySelectorAll(".node, .support-node").forEach((node) => node.classList.remove("active"));
+        const [name, text] = stages[index];
+        document.querySelectorAll(`[data-node="${name}"]`).forEach((node) => node.classList.add("active"));
+        event.textContent = text;
+        if (index < stages.length - 1) {
+          timer = setTimeout(() => run(index + 1), 1050);
+        } else {
+          play.disabled = false;
+          event.textContent = "查询完成：返回受事实边界约束的中文答案。";
+        }
+      }
+
+      play.addEventListener("click", () => {
+        clearTimeout(timer);
+        play.disabled = true;
+        run();
+      });
+      reset.addEventListener("click", clearDemo);
+    </script>
+  </body>
+</html>

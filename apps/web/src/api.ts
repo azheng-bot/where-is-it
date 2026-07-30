@@ -14,6 +14,13 @@ export async function getLocations() {
   return response.json() as Promise<Array<{ location_id: string; name: string; item_count: number }>>;
 }
 
+export interface RoomState { camera: { status: string; label: string; updated_at: string; frame_url: string }; catalog: { objects: number; locations: number }; vision: { status: string; profile: string } }
+
+export async function getRoomState(): Promise<RoomState> {
+  const response = await fetch(`${baseUrl}/api/room/state`);
+  if (!response.ok) throw new Error("无法获取摄像头状态");
+  return response.json();
+}
 export async function askQuestion(text: string): Promise<QueryResult> {
   const response = await fetch(`${baseUrl}/api/query`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
   if (!response.ok) throw new Error("查询服务暂时不可用");

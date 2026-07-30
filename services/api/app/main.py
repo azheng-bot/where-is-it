@@ -1,12 +1,15 @@
 from pathlib import Path
 from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
-from .models import QueryRequest, QueryResult, RenameRequest, TranscriptionResult
+from .llm import AnswerComposer
+from .models import ObservationBatch, QueryRequest, QueryResult, RenameRequest, TranscriptionResult
 from .repository import Repository
 
 repository = Repository(settings.database_path)
+composer = AnswerComposer(settings)
 app = FastAPI(title="Where Is It API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
@@ -15,7 +18,6 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http
 def startup() -> None:
     settings.evidence_dir.mkdir(parents=True, exist_ok=True)
     repository.migrate()
-    repository.seed_demo_data()
 
 
 @app.get("/health/live")
@@ -25,13 +27,19 @@ def live() -> dict[str, str]:
 
 @app.get("/health/ready")
 def ready() -> dict[str, str]:
-    return {"status": "ready", "database": "connected", "vision": "demo"}
+    return {"status": "ready", "database": "connected", "vision": "fixture"}
 
 
 @app.get("/api/room/state")
 def room_state() -> dict[str, object]:
     objects = repository.list_objects()
-    return {"camera": {"status": "online", "label": "卧室摄像头", "updated_at": "刚刚"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "cpu-demo"}}
+    return {"camera": {"status": "online", "label": "Mock 卧室摄像头", "updated_at": "持续循环", "frame_url": f"{settings.vision_public_url}/api/camera/frame"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "fixture-mock"}}
+
+
+@app.post("/internal/observations/batch")
+def ingest_observations(batch: ObservationBatch) -> dict[str, int | str]:
+    created = repository.ingest_observations(batch.observations, batch.observed_at, batch.fixture_image_path, settings.evidence_dir)
+    return {"source": batch.source, "accepted": len(batch.observations), "created": created}
 
 
 @app.get("/api/objects")
@@ -68,7 +76,20 @@ def patch_location(location_id: str, body: RenameRequest):
 
 @app.post("/api/query", response_model=QueryResult)
 def query(body: QueryRequest) -> QueryResult:
-    return repository.query(body.text)
+    result = repository.query(body.text, "http://127.0.0.1:8000")
+    answer, llm_ms = composer.compose(result)
+    result.answer = answer
+    result.timings["llm_ms"] = llm_ms
+    result.timings["total_ms"] = result.timings.get("resolve_ms", 0) + result.timings.get("lookup_ms", 0) + llm_ms
+    return result
+
+
+@app.get("/api/evidence/{evidence_id}")
+def evidence(evidence_id: str):
+    path = repository.evidence_path(evidence_id)
+    if not path or not path.is_file():
+        raise HTTPException(status_code=404, detail="证据图片已不存在")
+    return FileResponse(path)
 
 
 @app.post("/api/speech/transcribe", response_model=TranscriptionResult)

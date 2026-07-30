@@ -1,0 +1,221 @@
+
+> where-is-it@ dev D:\Desktop\where-is-it
+> pnpm --parallel --filter @where-is-it/web --filter @where-is-it/api --filter @where-is-it/vision dev
+
+Scope: 3 of 5 workspace projects
+services/api dev$ python -m uvicorn app.main:app --app-dir . --reload --port 8000
+services/vision dev$ python -m uvicorn app.main:app --app-dir . --reload --port 8001
+apps/web dev$ vite --host 0.0.0.0
+services/api dev: INFO:     Will watch for changes in these directories: ['D:\\Desktop\\where-is-it\\services\\api']
+services/vision dev: INFO:     Will watch for changes in these directories: ['D:\\Desktop\\where-is-it\\services\\vision']
+services/vision dev: INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+services/vision dev: INFO:     Started reloader process [21020] using WatchFiles
+services/api dev: INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+services/api dev: INFO:     Started reloader process [30428] using WatchFiles
+apps/web dev:   [32m[1mVITE[22m v6.4.3[39m  [2mready in [0m[1m626[22m[2m[0m ms[22m
+apps/web dev:   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+apps/web dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://198.18.0.1:[1m5173[22m/[39m
+apps/web dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.171.1:[1m5173[22m/[39m
+apps/web dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.66.1:[1m5173[22m/[39m
+apps/web dev:   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.31.217:[1m5173[22m/[39m
+services/vision dev: INFO:     Started server process [43972]
+services/vision dev: INFO:     Waiting for application startup.
+services/vision dev: INFO:     Application startup complete.
+services/api dev: INFO:     Started server process [39908]
+services/api dev: INFO:     Waiting for application startup.
+services/api dev: INFO:     Application startup complete.
+services/api dev: INFO:     127.0.0.1:63420 - "GET /docs HTTP/1.1" 200 OK
+services/vision dev: INFO:     127.0.0.1:63421 - "GET /health/ready HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:50658 - "GET /api/objects HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:50658 - "GET /api/objects HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:64569 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:64569 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:53434 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:53434 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:53434 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:53434 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57410 - "OPTIONS /api/query HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57410 - "POST /api/query HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57056 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57056 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57056 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:57056 - "GET /api/locations HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:58162 - "GET /docs HTTP/1.1" 200 OK
+services/api dev: INFO:     127.0.0.1:58162 - "GET /openapi.json HTTP/1.1" 200 OK
+services/vision dev: INFO:     127.0.0.1:49549 - "GET /health/ready HTTP/1.1" 200 OK
+services/vision dev: INFO:     127.0.0.1:49549 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+services/api dev: INFO:     127.0.0.1:54792 - "GET /api/query HTTP/1.1" 405 Method Not Allowed
+services/api dev: INFO:     127.0.0.1:54792 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+services/api dev: WARNING:  WatchFiles detected changes in 'app\config.py', 'app\models.py'. Reloading...
+services/vision dev: WARNING:  WatchFiles detected changes in 'app\main.py'. Reloading...
+apps/web dev: [2m23:55:13[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+apps/web dev: [2m23:55:26[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+services/vision dev:  INFO:     127.0.0.1:63260 - "GET /api/camera/frame HTTP/1.1" 404 Not Found
+services/api dev:  INFO:     127.0.0.1:63878 - "GET /api/objects HTTP/1.1" 200 OK
+apps/web dev: Failed
+services/api dev: INFO:     Shutting down
+services/api dev: INFO:     127.0.0.1:55715 - "GET /api/room/state HTTP/1.1" 200 OK
+services/vision dev: INFO:     Shutting down
+services/api dev: INFO:     Waiting for application shutdown.
+services/api dev: INFO:     Application shutdown complete.
+services/api dev: INFO:     Finished server process [39908]
+services/vision dev: INFO:     Waiting for application shutdown.
+services/vision dev: INFO:     Application shutdown complete.
+services/vision dev: INFO:     Finished server process [43972]
+services/api dev: WARNING:  WatchFiles detected changes in 'app\llm.py', 'app\main.py', 'app\repository.py'. Reloading...
+services/api dev: Process SpawnProcess-2:
+services/api dev: Traceback (most recent call last):
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+services/api dev:     self.run()
+services/api dev:     ~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 108, in run
+services/api dev:     self._target(*self._args, **self._kwargs)
+services/api dev:     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+services/api dev:     target(sockets=sockets)
+services/api dev:     ~~~~~~^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 75, in run
+services/api dev:     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+services/api dev:     return runner.run(main)
+services/api dev:            ~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+services/api dev:     return self._loop.run_until_complete(task)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 719, in run_until_complete
+services/api dev:     return future.result()
+services/api dev:            ~~~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 79, in serve
+services/api dev:     await self._serve(sockets)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 86, in _serve
+services/api dev:     config.load()
+services/api dev:     ~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\config.py", line 449, in load
+services/api dev:     self.loaded_app = import_from_string(self.app)
+services/api dev:                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+services/api dev:     module = importlib.import_module(module_str)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+services/api dev:     return _bootstrap._gcd_import(name[level:], package, level)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+services/api dev:   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+services/api dev:   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+services/api dev:   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\main.py", line 7, in <module>
+services/api dev:     from .llm import AnswerComposer
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\llm.py", line 49
+services/api dev:     if "??????" not in answer:
+services/api dev:                               ^
+services/api dev: IndentationError: expected an indented block after 'if' statement on line 49
+services/vision dev: INFO:     Started server process [13740]
+services/vision dev: INFO:     Waiting for application startup.
+services/vision dev: INFO:     Application startup complete.
+services/vision dev: INFO:     Shutting down
+services/vision dev: INFO:     Waiting for application shutdown.
+services/api dev: Process SpawnProcess-3:
+services/api dev: Traceback (most recent call last):
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+services/api dev:     self.run()
+services/api dev:     ~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 108, in run
+services/api dev:     self._target(*self._args, **self._kwargs)
+services/api dev:     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+services/api dev:     target(sockets=sockets)
+services/api dev:     ~~~~~~^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 75, in run
+services/api dev:     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+services/api dev:     return runner.run(main)
+services/api dev:            ~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+services/api dev:     return self._loop.run_until_complete(task)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 719, in run_until_complete
+services/api dev:     return future.result()
+services/api dev:            ~~~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 79, in serve
+services/api dev:     await self._serve(sockets)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 86, in _serve
+services/api dev:     config.load()
+services/api dev:     ~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\config.py", line 449, in load
+services/api dev:     self.loaded_app = import_from_string(self.app)
+services/api dev:                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+services/api dev:     module = importlib.import_module(module_str)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+services/api dev:     return _bootstrap._gcd_import(name[level:], package, level)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+services/api dev:   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+services/api dev:   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+services/api dev:   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\main.py", line 7, in <module>
+services/api dev:     from .llm import AnswerComposer
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\llm.py", line 49
+services/api dev:     if "??????" not in answer:
+services/api dev:                               ^
+services/api dev: IndentationError: expected an indented block after 'if' statement on line 49
+services/vision dev: INFO:     Application shutdown complete.
+services/vision dev: INFO:     Finished server process [13740]
+services/vision dev: INFO:     Stopping reloader process [21020]
+services/vision dev: Failed
+services/api dev: WARNING:  WatchFiles detected changes in 'app\llm.py', 'app\repository.py'. Reloading...
+services/api dev: Process SpawnProcess-4:
+services/api dev: Traceback (most recent call last):
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 313, in _bootstrap
+services/api dev:     self.run()
+services/api dev:     ~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\multiprocessing\process.py", line 108, in run
+services/api dev:     self._target(*self._args, **self._kwargs)
+services/api dev:     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\_subprocess.py", line 80, in subprocess_started
+services/api dev:     target(sockets=sockets)
+services/api dev:     ~~~~~~^^^^^^^^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 75, in run
+services/api dev:     return asyncio_run(self.serve(sockets=sockets), loop_factory=self.config.get_loop_factory())
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 195, in run
+services/api dev:     return runner.run(main)
+services/api dev:            ~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\runners.py", line 118, in run
+services/api dev:     return self._loop.run_until_complete(task)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 719, in run_until_complete
+services/api dev:     return future.result()
+services/api dev:            ~~~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 79, in serve
+services/api dev:     await self._serve(sockets)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\server.py", line 86, in _serve
+services/api dev:     config.load()
+services/api dev:     ~~~~~~~~~~~^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\config.py", line 449, in load
+services/api dev:     self.loaded_app = import_from_string(self.app)
+services/api dev:                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\site-packages\uvicorn\importer.py", line 19, in import_from_string
+services/api dev:     module = importlib.import_module(module_str)
+services/api dev:   File "C:\Users\76361\AppData\Local\Programs\Python\Python313\Lib\importlib\__init__.py", line 88, in import_module
+services/api dev:     return _bootstrap._gcd_import(name[level:], package, level)
+services/api dev:            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+services/api dev:   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+services/api dev:   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+services/api dev:   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+services/api dev:   File "<frozen importlib._bootstrap_external>", line 1026, in exec_module
+services/api dev:   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\main.py", line 9, in <module>
+services/api dev:     from .repository import Repository
+services/api dev:   File "D:\Desktop\where-is-it\services\api\app\repository.py", line 99
+services/api dev:     def ingest_observations(self, observations: list[IncomingObservation], observed_at: datetime, fixture_image_path: str | None, evidence_dir: Path) -> int:
+services/api dev:     ^^^
+services/api dev: IndentationError: expected an indented block after function definition on line 98
+services/api dev: WARNING:  WatchFiles detected changes in 'app\repository.py'. Reloading...
+services/api dev: INFO:     Started server process [35616]
+services/api dev: INFO:     Waiting for application startup.
+services/api dev: INFO:     Application startup complete.
+services/api dev: WARNING:  WatchFiles detected changes in 'app\config.py'. Reloading...

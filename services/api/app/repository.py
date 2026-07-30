@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+import json
+from shutil import copy2
 from datetime import UTC, datetime, timedelta
 import os
 import secrets
@@ -8,7 +10,7 @@ import sqlite3
 from pathlib import Path
 from typing import Iterable
 
-from .models import CatalogObject, ConfidenceLevel, Evidence, Location, LocationSummary, ObjectState, Prediction, QueryResult
+from .models import CatalogObject, ConfidenceLevel, Evidence, IncomingObservation, Location, LocationSummary, ObjectState, Prediction, QueryResult
 
 _CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
 
@@ -66,6 +68,7 @@ class Repository:
                 CREATE TABLE IF NOT EXISTS objects (
                   object_id TEXT PRIMARY KEY, room_id TEXT NOT NULL REFERENCES rooms(room_id), name TEXT NOT NULL,
                   system_name TEXT NOT NULL, category TEXT NOT NULL, normalized_name TEXT NOT NULL,
+                  source_key TEXT UNIQUE,
                   state TEXT NOT NULL, current_location_id TEXT REFERENCES locations(location_id),
                   last_location_id TEXT REFERENCES locations(location_id), relation TEXT, observed_at TEXT, confidence REAL NOT NULL
                 );
@@ -86,6 +89,52 @@ class Repository:
                 """
             )
             conn.execute("INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES(1, ?)", (datetime.now(UTC).isoformat(),))
+            conn.execute("CREATE TABLE IF NOT EXISTS observation_candidates (source_key TEXT PRIMARY KEY, hits INTEGER NOT NULL)")
+
+            try:
+                conn.execute("ALTER TABLE objects ADD COLUMN source_key TEXT UNIQUE")
+            except sqlite3.OperationalError:
+                pass
+    def ingest_observations(self, observations: list[IncomingObservation], observed_at: datetime, fixture_image_path: str | None, evidence_dir: Path) -> int:
+        """Promote a mock candidate only after three matching frames."""
+        with self.session() as conn:
+            room = conn.execute("SELECT room_id FROM rooms WHERE name=?", ("Mock \u5367\u5ba4",)).fetchone()
+            room_id = room["room_id"] if room else new_ulid()
+            if not room:
+                conn.execute("INSERT INTO rooms(room_id, name) VALUES(?, ?)", (room_id, "Mock \u5367\u5ba4"))
+            created = 0
+            for incoming in observations:
+                candidate = conn.execute("SELECT hits FROM observation_candidates WHERE source_key=?", (incoming.track_key,)).fetchone()
+                hits = (candidate["hits"] if candidate else 0) + 1
+                conn.execute("INSERT INTO observation_candidates(source_key, hits) VALUES(?, ?) ON CONFLICT(source_key) DO UPDATE SET hits=excluded.hits", (incoming.track_key, hits))
+                location = conn.execute("SELECT location_id FROM locations WHERE room_id=? AND normalized_name=?", (room_id, normalize_name(incoming.location_name))).fetchone()
+                location_id = location["location_id"] if location else new_ulid()
+                if not location:
+                    conn.execute("INSERT INTO locations(location_id, room_id, name, normalized_name) VALUES(?, ?, ?, ?)", (location_id, room_id, incoming.location_name, normalize_name(incoming.location_name)))
+                existing = conn.execute("SELECT object_id FROM objects WHERE source_key=?", (incoming.track_key,)).fetchone()
+                if not existing and hits < 3:
+                    continue
+                if not existing:
+                    object_id = new_ulid()
+                    conn.execute("INSERT INTO objects(object_id, room_id, name, system_name, category, normalized_name, source_key, state, current_location_id, last_location_id, relation, observed_at, confidence) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (object_id, room_id, incoming.name, incoming.system_name, incoming.category, normalize_name(incoming.name), incoming.track_key, ObjectState.CURRENTLY_DETECTED, location_id, location_id, incoming.relation, observed_at.isoformat(), incoming.confidence))
+                    for alias in incoming.aliases:
+                        conn.execute("INSERT OR IGNORE INTO object_aliases(object_id, alias, normalized_alias) VALUES(?, ?, ?)", (object_id, alias, normalize_name(alias)))
+                    created += 1
+                else:
+                    object_id = existing["object_id"]
+                    conn.execute("UPDATE objects SET state=?, current_location_id=?, last_location_id=?, relation=?, observed_at=?, confidence=? WHERE object_id=?", (ObjectState.CURRENTLY_DETECTED, location_id, location_id, incoming.relation, observed_at.isoformat(), incoming.confidence, object_id))
+                bbox = json.dumps(incoming.bounding_box)
+                conn.execute("INSERT INTO observations(observation_id, object_id, location_id, observed_at, bounding_box_json, confidence) VALUES(?, ?, ?, ?, ?, ?)", (new_ulid(), object_id, location_id, observed_at.isoformat(), bbox, incoming.confidence))
+                evidence = conn.execute("SELECT 1 FROM evidence_images WHERE object_id=?", (object_id,)).fetchone()
+                if fixture_image_path and not evidence:
+                    source = Path(fixture_image_path)
+                    if source.is_file():
+                        evidence_dir.mkdir(parents=True, exist_ok=True)
+                        evidence_id = new_ulid()
+                        destination = evidence_dir / f"{evidence_id}{source.suffix.lower()}"
+                        copy2(source, destination)
+                        conn.execute("INSERT INTO evidence_images(evidence_id, object_id, observed_at, path, bounding_box_json) VALUES(?, ?, ?, ?, ?)", (evidence_id, object_id, observed_at.isoformat(), str(destination), bbox))
+            return created
 
     def seed_demo_data(self) -> None:
         with self.session() as conn:
@@ -159,6 +208,19 @@ class Repository:
             ).fetchall()
             return [Location(location_id=row["location_id"], name=row["name"], normalized_name=row["normalized_name"], item_count=row["item_count"]) for row in rows]
 
+    def latest_evidence(self, object_id: str, public_url: str) -> Evidence | None:
+        with self.session() as conn:
+            row = conn.execute("SELECT * FROM evidence_images WHERE object_id=? ORDER BY observed_at DESC LIMIT 1", (object_id,)).fetchone()
+            if not row:
+                return None
+            return Evidence(evidence_id=row["evidence_id"], image_url=f"{public_url}/api/evidence/{row['evidence_id']}", observed_at=datetime.fromisoformat(row["observed_at"]), bounding_box=tuple(json.loads(row["bounding_box_json"])))
+
+    def evidence_path(self, evidence_id: str) -> Path | None:
+        with self.session() as conn:
+            row = conn.execute("SELECT path FROM evidence_images WHERE evidence_id=?", (evidence_id,)).fetchone()
+            return Path(row["path"]) if row else None
+
+
     def rename_object(self, object_id: str, name: str, aliases: list[str] | None) -> CatalogObject | None:
         with self.session() as conn:
             try:
@@ -197,7 +259,7 @@ class Repository:
                 candidates.append(item)
         return candidates
 
-    def query(self, text: str) -> QueryResult:
+    def query(self, text: str, public_url: str) -> QueryResult:
         started = datetime.now(UTC)
         candidates = self._find_candidates(text)
         resolve_ms = round((datetime.now(UTC) - started).total_seconds() * 1000, 1)
@@ -207,7 +269,7 @@ class Repository:
         if len(candidates) > 1:
             return QueryResult(answer="我找到了多个可能的物品，请选择你要找的具体物品。", status="clarification", clarification_options=candidates, timings={"resolve_ms": resolve_ms, "lookup_ms": 0, "llm_ms": 0, "total_ms": resolve_ms})
         item = candidates[0]
-        evidence = Evidence(evidence_id=f"ev-{item.object_id[-6:]}", image_url="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=1400&q=85", observed_at=item.observed_at or datetime.now(UTC), bounding_box=(0.54, 0.4, 0.15, 0.2))
+        evidence = self.latest_evidence(item.object_id, public_url)
         if item.state == ObjectState.CURRENTLY_DETECTED:
             where = item.current_location or item.last_location
             answer = f"已检测到{item.name}，在{where.name}{'，' + where.relation if where and where.relation else ''}。"
