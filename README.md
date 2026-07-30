@@ -30,3 +30,14 @@ Set-Location services/api; python -m unittest discover -s tests -v
 ```
 
 当前为可演示的工程骨架：包含 SQLite/WAL 目录、十个演示物品、查询澄清、证据查看与目录改名。真实摄像头采集、模型适配、证据落盘与性能验收仍按 OpenSpec 任务继续实现。
+## 服务拆分与运行
+
+`pnpm dev` 会启动 Web、API、无 GPU 的 `vision-orchestrator`、四个默认 mock 的视觉模型服务，以及 ASR 服务。模型服务可以单独运行：`pnpm dev:models`；只启动产品闭环：`pnpm dev:core`。
+
+| 服务 | 默认端口 | 默认模式 | GPU |
+| --- | --- | --- | --- |
+| vision-orchestrator | 8001 | mock | 否 |
+| Florence / Grounding / SAM / Embedding | 8002–8005 | mock | 可选，独立配置 |
+| ASR | 8006 | mock | 可选，独立配置 |
+
+可使用 `docker compose --profile gpu up` 启动带独立 GPU 声明的模型服务；默认不假定全部模型能够同时装入一张显卡。

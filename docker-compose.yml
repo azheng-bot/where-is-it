@@ -1,0 +1,87 @@
+services:
+  vision-orchestrator:
+    build:
+      context: .
+      dockerfile: services/vision-orchestrator/Dockerfile
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      VISION_MODE: ${VISION_MODE:-mock}
+      FLORENCE_SERVICE_URL: http://florence:8002
+      GROUNDING_SERVICE_URL: http://grounding:8003
+      SAM_SERVICE_URL: http://sam:8004
+      EMBEDDING_SERVICE_URL: http://embedding:8005
+    ports:
+      - "8001:8001"
+  florence:
+    build:
+      context: .
+      dockerfile: services/florence/Dockerfile
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${FLORENCE_DEVICE:-cuda:0}"
+      MODEL_MAX_CONCURRENCY: ${FLORENCE_MAX_CONCURRENCY:-1}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  grounding:
+    build:
+      context: .
+      dockerfile: services/grounding/Dockerfile
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${GROUNDING_DEVICE:-cuda:0}"
+      MODEL_MAX_CONCURRENCY: ${GROUNDING_MAX_CONCURRENCY:-1}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  sam:
+    build:
+      context: .
+      dockerfile: services/sam/Dockerfile
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${SAM_DEVICE:-cuda:0}"
+      MODEL_MAX_CONCURRENCY: ${SAM_MAX_CONCURRENCY:-1}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  embedding:
+    build:
+      context: .
+      dockerfile: services/embedding/Dockerfile
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cuda:0}"
+      MODEL_MAX_CONCURRENCY: ${EMBEDDING_MAX_CONCURRENCY:-1}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  asr:
+    build:
+      context: .
+      dockerfile: services/asr/Dockerfile
+    environment:
+      ASR_MODE: ${ASR_MODE:-mock}
+      ASR_DEVICE: ${ASR_DEVICE:-cpu}
+    ports:
+      - "8006:8006"

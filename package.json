@@ -3,10 +3,12 @@
   "private": true,
   "packageManager": "pnpm@9.9.0",
   "scripts": {
-    "dev": "pnpm --parallel --filter @where-is-it/web --filter @where-is-it/api --filter @where-is-it/vision dev",
+    "dev": "pnpm --parallel --filter @where-is-it/web --filter @where-is-it/api --filter @where-is-it/vision-orchestrator --filter @where-is-it/florence --filter @where-is-it/grounding --filter @where-is-it/sam --filter @where-is-it/embedding --filter @where-is-it/asr dev",
+    "dev:core": "pnpm --parallel --filter @where-is-it/web --filter @where-is-it/api --filter @where-is-it/vision-orchestrator --filter @where-is-it/asr dev",
+    "dev:models": "pnpm --parallel --filter @where-is-it/florence --filter @where-is-it/grounding --filter @where-is-it/sam --filter @where-is-it/embedding dev",
     "build": "pnpm --filter @where-is-it/web build",
     "test": "pnpm --filter @where-is-it/web test && python -m unittest discover -s services/api/tests",
-    "lint": "pnpm --filter @where-is-it/web lint && python -m compileall -q services/api/app services/vision/app",
+    "lint": "pnpm --filter @where-is-it/web lint && python -m compileall -q services/api/app services/shared services/model_runtime services/vision-orchestrator/app services/florence/app services/grounding/app services/sam/app services/embedding/app services/asr/app",
     "contracts:check": "pnpm --filter @where-is-it/contracts check"
   },
   "devDependencies": {

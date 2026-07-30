@@ -116,6 +116,11 @@ class RenameRequest(BaseModel):
 
 
 class TranscriptionResult(BaseModel):
-    text: str
+    text: str = ""
     provider: str
-    fallback: bool
+    fallback: bool = False
+    status: Literal["success", "failed"] = "success"
+    model_version: str | None = None
+    language: str | None = None
+    confidence: float | None = None
+    error_code: str | None = None

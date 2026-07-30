@@ -5,7 +5,7 @@ import {
   IconSearch, IconSettings, IconSparkles, IconVolume, IconX, IconChevronLeft,
 } from "@tabler/icons-react";
 import type { CatalogObject, QueryResult } from "@where-is-it/contracts";
-import { askQuestion, getLocations, getObjects, getRoomState, renameObject } from "./api";
+import { askQuestion, getLocations, getObjects, getRoomState, renameObject, transcribeAudio } from "./api";
 
 type Page = "search" | "catalog" | "locations" | "history";
 
@@ -51,6 +51,7 @@ function SearchPage({ frameUrl }: { frameUrl?: string }) {
   const [error, setError] = useState("");
   const [listening, setListening] = useState(false);
   const [showEvidence, setShowEvidence] = useState(false);
+  const [transcript, setTranscript] = useState("");
   async function submit(event?: FormEvent, text?: string) {
     event?.preventDefault();
     const query = (text ?? question).trim();
@@ -59,15 +60,39 @@ function SearchPage({ frameUrl }: { frameUrl?: string }) {
     try { setResult(await askQuestion(query)); } catch (reason) { setError(reason instanceof Error ? reason.message : "查询失败，请重试。"); } finally { setLoading(false); }
   }
   function listen() {
-    if (!navigator.mediaDevices?.getUserMedia) { setError("当前浏览器不支持麦克风录音，请直接输入问题。"); return; }
+    if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
+      setError("当前浏览器不支持语音输入，请直接输入问题。");
+      return;
+    }
     setListening(true);
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => { stream.getTracks().forEach((track) => track.stop()); setQuestion("我的钥匙在哪里"); setListening(false); }).catch(() => { setListening(false); setError("未获得麦克风权限，但你仍可以使用文字输入。"); });
+    setTranscript("");
+    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+      const chunks: BlobPart[] = [];
+      const recorder = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : undefined });
+      recorder.ondataavailable = (event) => { if (event.data.size) chunks.push(event.data); };
+      recorder.onerror = () => { setListening(false); setError("录音失败，请改用文字输入。"); };
+      recorder.onstop = async () => {
+        stream.getTracks().forEach((track) => track.stop());
+        setListening(false);
+        try {
+          const result = await transcribeAudio(new Blob(chunks, { type: recorder.mimeType || "audio/webm" }));
+          setTranscript(result.text);
+          setQuestion(result.text);
+          submit(undefined, result.text);
+        } catch (reason) {
+          setError(reason instanceof Error ? reason.message : "语音转写失败");
+        }
+      };
+      recorder.start();
+      window.setTimeout(() => { if (recorder.state !== "inactive") recorder.stop(); }, 1800);
+    }).catch(() => { setListening(false); setError("未获得麦克风权限，仍可使用文字输入。"); });
   }
   function speak() { if (result && "speechSynthesis" in window) { window.speechSynthesis.cancel(); window.speechSynthesis.speak(new SpeechSynthesisUtterance(result.answer)); } }
   const submitObject = (name: string) => { const text = "我的" + name + "在哪里"; setQuestion(text); submit(undefined, text); };
   return <main className="page search-page"><div className="search-layout search-layout--focus"><section className="search-main">
     <form className="question-form" onSubmit={submit}><IconSearch /><input value={question} onChange={(event) => setQuestion(event.target.value)} aria-label="输入要查找的物品" placeholder="输入要找的物品" /><button type="button" className={"microphone" + (listening ? " is-listening" : "")} onClick={listen} aria-label="使用麦克风"><IconMicrophone /></button><button className="send-button" aria-label="提交问题"><IconArrowUp /></button></form>
     {error && <div className="inline-message inline-message--error"><IconCircleDashed />{error}</div>}
+    {transcript && <div className="transcript-message">转写：{transcript}</div>}
     {loading && <section className="answer-skeleton" aria-label="正在查询"><div /><div /><div /></section>}
     {result && !loading && <section className="answer-panel">
       <div className="answer-panel__headline"><div><StatusBadge state={result.status} /><h2>{result.answer}</h2></div>{result.object && <span className="answer-time">{formatTime(result.object.observed_at)}</span>}</div>

@@ -29,6 +29,10 @@ class Settings:
     deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com").rstrip("/")
     deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
     vision_public_url: str = os.getenv("VISION_PUBLIC_URL", "http://127.0.0.1:8001").rstrip("/")
+    asr_service_url: str = os.getenv("ASR_SERVICE_URL", "http://127.0.0.1:8006").rstrip("/")
+    asr_timeout_seconds: float = float(os.getenv("ASR_TIMEOUT_SECONDS", "4.0"))
+    internal_request_timeout_seconds: float = float(os.getenv("INTERNAL_REQUEST_TIMEOUT_SECONDS", "4.5"))
+    internal_contract_version: str = os.getenv("INTERNAL_CONTRACT_VERSION", "v1")
 
 
 settings = Settings()

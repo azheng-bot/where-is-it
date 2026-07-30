@@ -32,3 +32,23 @@ export async function renameObject(id: string, name: string, aliases: string[]) 
   if (!response.ok) throw new Error((await response.json()).detail ?? "修改失败");
   return response.json() as Promise<CatalogObject>;
 }
+
+export interface TranscriptionResult {
+  text: string;
+  provider: string;
+  status: "success" | "failed";
+  model_version?: string;
+  language?: string;
+  confidence?: number;
+  error_code?: string;
+}
+
+export async function transcribeAudio(audio: Blob): Promise<TranscriptionResult> {
+  const form = new FormData();
+  form.append("audio", audio, "question.webm");
+  const response = await fetch(`${baseUrl}/api/speech/transcribe`, { method: "POST", body: form });
+  if (!response.ok) throw new Error("语音服务暂时不可用");
+  const result = await response.json() as TranscriptionResult;
+  if (result.status !== "success") throw new Error(result.error_code ?? "语音转写失败");
+  return result;
+}

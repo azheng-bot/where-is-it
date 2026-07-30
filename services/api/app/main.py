@@ -4,6 +4,7 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
+from .asr import AsrClient, AsrServiceError
 from .llm import AnswerComposer
 from .models import ObservationBatch, QueryRequest, QueryResult, RenameRequest, TranscriptionResult
 from .repository import Repository
@@ -94,8 +95,23 @@ def evidence(evidence_id: str):
 
 @app.post("/api/speech/transcribe", response_model=TranscriptionResult)
 async def transcribe(audio: UploadFile = File(...)) -> TranscriptionResult:
-    if audio.content_type not in {"audio/webm", "audio/wav", "audio/mpeg", "audio/mp4"}:
-        raise HTTPException(status_code=415, detail="请上传浏览器录制的音频文件")
-    if audio.size and audio.size > 10 * 1024 * 1024:
-        raise HTTPException(status_code=413, detail="录音不能超过十分钟")
-    return TranscriptionResult(text="我的钥匙在哪里", provider="demo-fallback", fallback=True)
+    supported_types = {"audio/webm", "audio/wav", "audio/mpeg", "audio/mp4"}
+    if audio.content_type not in supported_types:
+        return TranscriptionResult(provider="api", status="failed", error_code="unsupported_media_type")
+    payload = await audio.read()
+    if not payload:
+        return TranscriptionResult(provider="api", status="failed", error_code="empty_audio")
+    if len(payload) > 10 * 1024 * 1024:
+        return TranscriptionResult(provider="api", status="failed", error_code="audio_too_large")
+    try:
+        result = AsrClient(settings.asr_service_url, settings.asr_timeout_seconds).transcribe(payload, audio.content_type)
+    except AsrServiceError as error:
+        return TranscriptionResult(provider="asr", status="failed", error_code=error.code)
+    return TranscriptionResult(
+        text=result.text,
+        provider=result.provider,
+        model_version=result.model_version,
+        language=result.language,
+        confidence=result.confidence,
+        status="success",
+    )
