@@ -34,7 +34,7 @@ def ready() -> dict[str, str]:
 @app.get("/api/room/state")
 def room_state() -> dict[str, object]:
     objects = repository.list_objects()
-    return {"camera": {"status": "online", "label": "Mock 卧室摄像头", "updated_at": "持续循环", "frame_url": f"{settings.vision_public_url}/api/camera/frame"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "fixture-mock"}}
+    return {"camera": {"status": "online", "label": "Mock 客厅摄像头", "updated_at": "持续循环", "frame_url": f"{settings.vision_public_url}/api/camera/frame", "stream_url": f"{settings.vision_public_url}/api/camera/stream", "source_kind": "mock-video"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "mock-video-stream"}}
 
 
 @app.post("/internal/observations/batch")

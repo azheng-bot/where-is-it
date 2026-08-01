@@ -23,6 +23,8 @@ from services.shared.contracts import CONTRACT_VERSION, InferenceRequest, Infere
 
 logger = logging.getLogger("vision-orchestrator")
 FIXTURE_PATH = Path(os.getenv("CAMERA_FIXTURE_PATH", Path(__file__).parents[1] / "fixtures" / "bedroom-mock.png")).resolve()
+MOCK_VIDEO_PATH = Path(os.getenv("CAMERA_MOCK_VIDEO_PATH", Path(__file__).parents[1] / "fixtures" / "media" / "indoor-living-room.mp4")).resolve()
+CAMERA_SOURCE = os.getenv("CAMERA_SOURCE", "mock-video").lower()
 API_URL = os.getenv("API_INTERNAL_URL", "http://127.0.0.1:8000").rstrip("/")
 INTERVAL_SECONDS = float(os.getenv("MOCK_FRAME_INTERVAL_SECONDS", "0.7"))
 VISION_MODE = os.getenv("VISION_MODE", "mock").lower()
@@ -60,10 +62,13 @@ class MockFrameSource:
             {"track_key": key, "name": name, "system_name": system_name, "category": category, "aliases": aliases, "location_name": location, "relation": relation, "bounding_box": bbox, "confidence": confidence}
             for key, name, system_name, category, aliases, location, relation, bbox, confidence in MOCK_OBJECTS
         ]
-        return {"source": "fixture", "frame_id": f"bedroom-mock-{self.frame_count}", "observed_at": self.latest_timestamp, "fixture_image_path": str(FIXTURE_PATH), "observations": observations}
+        # The visual stream is an MP4, while the deterministic catalogue uses a
+        # labelled still image. Keeping them separate makes the demo repeatable
+        # until the real video inference pipeline is connected.
+        return {"source": CAMERA_SOURCE, "frame_id": f"bedroom-mock-{self.frame_count}", "observed_at": self.latest_timestamp, "fixture_image_path": str(FIXTURE_PATH), "observations": observations}
 
     def status(self) -> dict[str, object]:
-        return {"kind": "fixture", "connected": self.connected, "latest_timestamp": self.latest_timestamp, "frame_count": self.frame_count, "path": FIXTURE_PATH.name}
+        return {"kind": CAMERA_SOURCE, "connected": self.connected, "latest_timestamp": self.latest_timestamp, "frame_count": self.frame_count, "poster_path": FIXTURE_PATH.name, "video_path": MOCK_VIDEO_PATH.name if MOCK_VIDEO_PATH.is_file() else None}
 
 source = MockFrameSource()
 stop_event = Event()
@@ -91,7 +96,7 @@ def run_pipeline() -> dict[str, object] | None:
     return source.batch()
 
 def publish_once() -> bool:
-    source.connected = FIXTURE_PATH.is_file()
+    source.connected = FIXTURE_PATH.is_file() and (CAMERA_SOURCE != "mock-video" or MOCK_VIDEO_PATH.is_file())
     if not source.connected:
         return False
     batch = run_pipeline()
@@ -131,22 +136,32 @@ def live() -> dict[str, str]:
 
 @app.get("/health/ready")
 def ready() -> dict[str, object]:
-    is_ready = FIXTURE_PATH.is_file() and (VISION_MODE == "mock" or bool(STAGE_URLS))
+    has_media = FIXTURE_PATH.is_file() and (CAMERA_SOURCE != "mock-video" or MOCK_VIDEO_PATH.is_file())
+    is_ready = has_media and (VISION_MODE == "mock" or bool(STAGE_URLS))
     return {"status": "ready" if is_ready else "not_ready", "mode": VISION_MODE, "fixture": source.status(), "stages": last_stages}
 
 @app.post("/v1/frames/process")
 def process_frame() -> dict[str, object]:
-    if not FIXTURE_PATH.is_file():
+    if not FIXTURE_PATH.is_file() or (CAMERA_SOURCE == "mock-video" and not MOCK_VIDEO_PATH.is_file()):
         raise HTTPException(status_code=503, detail="camera fixture is unavailable")
     published = publish_once()
     return {"accepted": published, "mode": VISION_MODE, "stages": last_stages, "frame_id": source.frame_count}
 
 @app.get("/internal/camera/status")
 def camera_status() -> dict[str, object]:
-    return {"active_source": "fixture", "sources": {"fixture": source.status()}, "stages": last_stages}
+    return {"active_source": CAMERA_SOURCE, "sources": {CAMERA_SOURCE: source.status()}, "stages": last_stages}
 
 @app.get("/api/camera/frame")
 def camera_frame():
     if not FIXTURE_PATH.is_file():
         raise HTTPException(status_code=404, detail="mock frame missing")
     return FileResponse(FIXTURE_PATH, media_type="image/png")
+
+@app.get("/api/camera/stream")
+def camera_stream():
+    """Serve the bundled looping mock clip as an ordinary camera-video endpoint."""
+    if CAMERA_SOURCE != "mock-video":
+        raise HTTPException(status_code=404, detail="the active camera source does not expose a mock video stream")
+    if not MOCK_VIDEO_PATH.is_file():
+        raise HTTPException(status_code=404, detail="mock camera video is unavailable")
+    return FileResponse(MOCK_VIDEO_PATH, media_type="video/mp4", filename="camera-live.mp4")
