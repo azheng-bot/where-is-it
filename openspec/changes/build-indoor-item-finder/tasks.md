@@ -87,8 +87,8 @@
 
 ## 11. 部署与运行脚本
 
-- [ ] 11.1 编写 web、api、vision 的生产 Dockerfile 和 Docker Compose 基础配置
-- [ ] 11.2 添加 NVIDIA GPU override、CPU 兼容 profile、模型缓存卷和证据/数据库持久卷
+- [x] 11.1 编写 web、api、vision 的生产 Dockerfile 和 Docker Compose 基础配置
+- [x] 11.2 添加 NVIDIA GPU override、CPU 兼容 profile、模型缓存卷和证据/数据库持久卷
 - [ ] 11.3 编写模型下载/校验脚本、数据库迁移脚本及 Windows PowerShell 一键启动/停止脚本
 - [ ] 11.4 添加首次启动检查，验证摄像头、麦克风提示、模型权重、LLM/ASR、端口和目录写入权限
 - [ ] 11.5 在干净环境执行部署 smoke test，验证停止和重启不会删除目录、历史或证据

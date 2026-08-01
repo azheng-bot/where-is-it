@@ -1,0 +1,53 @@
+services:
+  vision-orchestrator:
+    environment:
+      VISION_PROFILE: gpu
+      VISION_MODE: ${VISION_MODE:-mock}
+  florence:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${FLORENCE_DEVICE:-cuda:0}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  grounding:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${GROUNDING_DEVICE:-cuda:0}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  sam:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${SAM_DEVICE:-cuda:0}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  embedding:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cuda:0}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager
 import json
+import base64
 from shutil import copy2
 from datetime import UTC, datetime, timedelta
 import os
@@ -95,7 +96,7 @@ class Repository:
                 conn.execute("ALTER TABLE objects ADD COLUMN source_key TEXT UNIQUE")
             except sqlite3.OperationalError:
                 pass
-    def ingest_observations(self, observations: list[IncomingObservation], observed_at: datetime, fixture_image_path: str | None, evidence_dir: Path) -> int:
+    def ingest_observations(self, observations: list[IncomingObservation], observed_at: datetime, fixture_image_path: str | None, evidence_dir: Path, frame_image_b64: str | None = None) -> int:
         """Promote a mock candidate only after three matching frames."""
         with self.session() as conn:
             room = conn.execute("SELECT room_id FROM rooms WHERE name=?", ("Mock \u5367\u5ba4",)).fetchone()
@@ -126,13 +127,24 @@ class Repository:
                 bbox = json.dumps(incoming.bounding_box)
                 conn.execute("INSERT INTO observations(observation_id, object_id, location_id, observed_at, bounding_box_json, confidence) VALUES(?, ?, ?, ?, ?, ?)", (new_ulid(), object_id, location_id, observed_at.isoformat(), bbox, incoming.confidence))
                 evidence = conn.execute("SELECT 1 FROM evidence_images WHERE object_id=?", (object_id,)).fetchone()
-                if fixture_image_path and not evidence:
-                    source = Path(fixture_image_path)
-                    if source.is_file():
-                        evidence_dir.mkdir(parents=True, exist_ok=True)
-                        evidence_id = new_ulid()
-                        destination = evidence_dir / f"{evidence_id}{source.suffix.lower()}"
-                        copy2(source, destination)
+                if not evidence:
+                    evidence_dir.mkdir(parents=True, exist_ok=True)
+                    evidence_id = new_ulid()
+                    destination = evidence_dir / f"{evidence_id}.jpg"
+                    stored = False
+                    if frame_image_b64:
+                        try:
+                            destination.write_bytes(base64.b64decode(frame_image_b64, validate=True))
+                            stored = True
+                        except (ValueError, OSError):
+                            destination.unlink(missing_ok=True)
+                    elif fixture_image_path:
+                        source = Path(fixture_image_path)
+                        if source.is_file():
+                            destination = evidence_dir / f"{evidence_id}{source.suffix.lower()}"
+                            copy2(source, destination)
+                            stored = True
+                    if stored:
                         conn.execute("INSERT INTO evidence_images(evidence_id, object_id, observed_at, path, bounding_box_json) VALUES(?, ?, ?, ?, ?)", (evidence_id, object_id, observed_at.isoformat(), str(destination), bbox))
             return created
 

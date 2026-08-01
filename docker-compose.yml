@@ -1,4 +1,25 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-5173}:80"
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    environment:
+      DATABASE_PATH: /data/where-is-it.db
+      EVIDENCE_DIR: /data/evidence
+      VISION_PUBLIC_URL: ${VISION_PUBLIC_URL:-http://127.0.0.1:8001}
+      ASR_SERVICE_URL: http://asr:8006
+    volumes:
+      - api-data:/data
+    ports:
+      - "${API_PORT:-8000}:8000"
   vision-orchestrator:
     build:
       context: .
@@ -6,6 +27,7 @@ services:
     environment:
       API_INTERNAL_URL: http://api:8000
       VISION_MODE: ${VISION_MODE:-mock}
+      VISION_PROFILE: ${VISION_PROFILE:-cpu}
       FLORENCE_SERVICE_URL: http://florence:8002
       GROUNDING_SERVICE_URL: http://grounding:8003
       SAM_SERVICE_URL: http://sam:8004
@@ -16,66 +38,46 @@ services:
     build:
       context: .
       dockerfile: services/florence/Dockerfile
-    profiles: [gpu]
     environment:
       MODEL_MODE: ${MODEL_MODE:-mock}
-      MODEL_DEVICE: "${FLORENCE_DEVICE:-cuda:0}"
+      MODEL_DEVICE: "${FLORENCE_DEVICE:-cpu}"
       MODEL_MAX_CONCURRENCY: ${FLORENCE_MAX_CONCURRENCY:-1}
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
   grounding:
     build:
       context: .
       dockerfile: services/grounding/Dockerfile
-    profiles: [gpu]
     environment:
       MODEL_MODE: ${MODEL_MODE:-mock}
-      MODEL_DEVICE: "${GROUNDING_DEVICE:-cuda:0}"
+      MODEL_DEVICE: "${GROUNDING_DEVICE:-cpu}"
       MODEL_MAX_CONCURRENCY: ${GROUNDING_MAX_CONCURRENCY:-1}
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
   sam:
     build:
       context: .
       dockerfile: services/sam/Dockerfile
-    profiles: [gpu]
     environment:
       MODEL_MODE: ${MODEL_MODE:-mock}
-      MODEL_DEVICE: "${SAM_DEVICE:-cuda:0}"
+      MODEL_DEVICE: "${SAM_DEVICE:-cpu}"
       MODEL_MAX_CONCURRENCY: ${SAM_MAX_CONCURRENCY:-1}
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
   embedding:
     build:
       context: .
       dockerfile: services/embedding/Dockerfile
-    profiles: [gpu]
     environment:
       MODEL_MODE: ${MODEL_MODE:-mock}
-      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cuda:0}"
+      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cpu}"
       MODEL_MAX_CONCURRENCY: ${EMBEDDING_MAX_CONCURRENCY:-1}
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
   asr:
     build:
       context: .
@@ -85,3 +87,7 @@ services:
       ASR_DEVICE: ${ASR_DEVICE:-cpu}
     ports:
       - "8006:8006"
+
+volumes:
+  api-data:
+  model-cache:

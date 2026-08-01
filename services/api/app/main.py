@@ -39,7 +39,7 @@ def room_state() -> dict[str, object]:
 
 @app.post("/internal/observations/batch")
 def ingest_observations(batch: ObservationBatch) -> dict[str, int | str]:
-    created = repository.ingest_observations(batch.observations, batch.observed_at, batch.fixture_image_path, settings.evidence_dir)
+    created = repository.ingest_observations(batch.observations, batch.observed_at, batch.fixture_image_path, settings.evidence_dir, batch.frame_image_b64)
     return {"source": batch.source, "accepted": len(batch.observations), "created": created}
 
 

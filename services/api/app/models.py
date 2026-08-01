@@ -77,6 +77,7 @@ class ObservationBatch(BaseModel):
     frame_id: str = Field(min_length=1, max_length=120)
     observed_at: datetime
     fixture_image_path: str | None = None
+    frame_image_b64: str | None = Field(default=None, max_length=12_000_000)
     observations: list[IncomingObservation] = Field(min_length=1, max_length=50)
 
 
