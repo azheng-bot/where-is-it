@@ -32,6 +32,30 @@ def create_model_app(service_name: str) -> FastAPI:
     load_error: str | None = None
     slots = BoundedSemaphore(int(os.getenv("MODEL_MAX_CONCURRENCY", "1")))
 
+    def runtime_details() -> dict[str, object]:
+        details: dict[str, object] = {
+            "device": os.getenv("MODEL_DEVICE", "cpu"),
+            "dtype": os.getenv("MODEL_DTYPE", "float16"),
+        }
+        try:
+            import torch
+
+            details["torch_version"] = torch.__version__
+            if str(details["device"]).startswith("cuda") and torch.cuda.is_available():
+                index = torch.device(str(details["device"])).index or 0
+                props = torch.cuda.get_device_properties(index)
+                details.update(
+                    cuda_available=True,
+                    gpu_name=props.name,
+                    compute_capability=f"{props.major}.{props.minor}",
+                    gpu_memory_gb=round(props.total_memory / 1024 ** 3, 1),
+                )
+            else:
+                details["cuda_available"] = False
+        except (ImportError, RuntimeError, ValueError) as error:
+            details["runtime_error"] = str(error)
+        return details
+
     def version() -> str: return adapter.model_version if adapter else os.getenv(f"{service_name.upper()}_MODEL_VERSION", os.getenv("MODEL_VERSION", "mock-v1"))
 
     @app.on_event("startup")
@@ -51,7 +75,7 @@ def create_model_app(service_name: str) -> FastAPI:
     def ready(response: Response) -> dict[str, object]:
         available = _configured_ready(service_name) and (_mode() == "mock" or adapter is not None)
         if not available: response.status_code = 503
-        return {"status": "ready" if available else "not_ready", "service": service_name, "mode": _mode(), "model_version": version(), "device": os.getenv("MODEL_DEVICE", "cpu"), "max_concurrency": int(os.getenv("MODEL_MAX_CONCURRENCY", "1")), "error": load_error}
+        return {"status": "ready" if available else "not_ready", "service": service_name, "mode": _mode(), "model_version": version(), **runtime_details(), "max_concurrency": int(os.getenv("MODEL_MAX_CONCURRENCY", "1")), "error": load_error}
 
     @app.post("/v1/infer", response_model=InferenceResponse)
     def infer(request: InferenceRequest, response: Response) -> InferenceResponse:

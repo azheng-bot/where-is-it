@@ -41,18 +41,22 @@ Set-Location services/api; python -m unittest discover -s tests -v
 | ASR | 8006 | mock | 可选，独立配置 |
 
 可使用 `docker compose --profile gpu up` 启动带独立 GPU 声明的模型服务；默认不假定全部模型能够同时装入一张显卡。
-## CPU 开发与 Linux GPU 部署准备
+## CPU development and Linux GPU deployment
 
-本地开发默认是 CPU + mock：直接执行 `pnpm dev`，或复制 `.env.cpu.example` 为 `.env` 后使用 Compose CPU profile：
+Local development uses CPU + mock by default. Run `pnpm dev`, or copy `.env.cpu.example` to `.env` and use the Compose CPU profile:
 
 ```powershell
 docker compose -f docker-compose.yml -f docker-compose.cpu.yml --profile cpu up --build
 ```
 
-线上 Linux NVIDIA 主机部署时，先复制 `.env.gpu.example` 为 `.env`，填写 RTSP 地址与 `VISION_PUBLIC_URL`，再执行：
+The production GPU node baseline is Ubuntu 22.04, CUDA 13.2, Python 3.12, PyTorch 2.13.0, and a 24GB RTX 40-series GPU. Copy `.env.gpu.example` to `.env`, set `VISION_PUSH_TOKEN` and an `API_INTERNAL_URL` reachable from the GPU host, then run:
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu up -d --build
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu exec florence \
+  python /app/services/model_runtime/verify_gpu_runtime.py
 ```
 
-数据库和证据存储在 `api-data` 卷，模型缓存位于 `model-cache` 卷；停止或重建容器不会删除这些卷。GPU 配置目前仅准备设备、缓存和服务边界，真实模型 adapter 接入并验证前必须保持 `MODEL_MODE=mock`、`VISION_MODE=mock`。
+This node is a video-frame receiver (`VISION_ROLE=receiver`), so no camera RTSP/IP is configured on it. The local capture process pushes JPEG frames to `/v1/frames` over HTTPS. Once started, `/health/ready` on each model service reports the PyTorch version, GPU name, compute capability, and available VRAM. See [remote video push](docs/remote-video-push.md) for the network configuration.
+
+The `api-data` and `model-cache` volumes preserve database/evidence and model downloads across container recreation.
