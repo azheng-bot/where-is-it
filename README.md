@@ -30,3 +30,33 @@ Set-Location services/api; python -m unittest discover -s tests -v
 ```
 
 当前为可演示的工程骨架：包含 SQLite/WAL 目录、十个演示物品、查询澄清、证据查看与目录改名。真实摄像头采集、模型适配、证据落盘与性能验收仍按 OpenSpec 任务继续实现。
+## 服务拆分与运行
+
+`pnpm dev` 会启动 Web、API、无 GPU 的 `vision-orchestrator`、四个默认 mock 的视觉模型服务，以及 ASR 服务。模型服务可以单独运行：`pnpm dev:models`；只启动产品闭环：`pnpm dev:core`。
+
+| 服务 | 默认端口 | 默认模式 | GPU |
+| --- | --- | --- | --- |
+| vision-orchestrator | 8001 | mock | 否 |
+| Florence / Grounding / SAM / Embedding | 8002–8005 | mock | 可选，独立配置 |
+| ASR | 8006 | mock | 可选，独立配置 |
+
+可使用 `docker compose --profile gpu up` 启动带独立 GPU 声明的模型服务；默认不假定全部模型能够同时装入一张显卡。
+## CPU development and Linux GPU deployment
+
+Local development uses CPU + mock by default. Run `pnpm dev`, or copy `.env.cpu.example` to `.env` and use the Compose CPU profile:
+
+```powershell
+docker compose -f docker-compose.yml -f docker-compose.cpu.yml --profile cpu up --build
+```
+
+The production GPU node baseline is Ubuntu 22.04, CUDA 13.2, Python 3.12, PyTorch 2.13.0, and a 24GB RTX 40-series GPU. Copy `.env.gpu.example` to `.env`, set `VISION_PUSH_TOKEN` and an `API_INTERNAL_URL` reachable from the GPU host, then run:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu up -d --build
+docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu exec florence \
+  python /app/services/model_runtime/verify_gpu_runtime.py
+```
+
+This node is a video-frame receiver (`VISION_ROLE=receiver`), so no camera RTSP/IP is configured on it. The local capture process pushes JPEG frames to `/v1/frames` over HTTPS. Once started, `/health/ready` on each model service reports the PyTorch version, GPU name, compute capability, and available VRAM. See [remote video push](docs/remote-video-push.md) for the network configuration.
+
+The `api-data` and `model-cache` volumes preserve database/evidence and model downloads across container recreation.

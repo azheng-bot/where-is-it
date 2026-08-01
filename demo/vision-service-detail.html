@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Where Is It - 视觉服务实现</title>
+    <style>
+      :root {
+        --bg: #0d1416;
+        --panel: #142023;
+        --panel-2: #192a2e;
+        --line: #385057;
+        --text: #e8efef;
+        --muted: #9cadb1;
+        --accent: #8ad6bb;
+        --warn: #e5bc71;
+        --danger: #e77f72;
+        --radius: 16px;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif; line-height: 1.5; }
+      button { font: inherit; }
+      .page { width: min(1460px, calc(100% - 40px)); margin: 0 auto; padding: 36px 0 56px; }
+      .bar { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+      .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; }
+      .mark { width: 12px; height: 12px; border-radius: 3px; background: var(--accent); box-shadow: 0 0 0 5px rgba(138,214,187,.11); }
+      .tag { color: var(--muted); font: 13px Consolas, "Cascadia Mono", monospace; }
+      .hero { display: grid; grid-template-columns: 1.1fr .9fr; align-items: end; gap: 50px; padding: 57px 0 36px; }
+      .kicker { color: var(--accent); font-size: 12px; letter-spacing: .13em; font-weight: 700; text-transform: uppercase; }
+      h1 { margin: 11px 0 14px; max-width: 820px; font-size: clamp(38px, 5.6vw, 70px); line-height: 1.02; letter-spacing: -.05em; }
+      .intro { max-width: 670px; color: var(--muted); font-size: 18px; margin: 0; }
+      .reality { padding: 20px; border: 1px solid #5e5134; background: rgba(229,188,113,.08); border-radius: var(--radius); }
+      .reality strong { color: var(--warn); font-size: 14px; }
+      .reality p { margin: 8px 0 0; color: #cad3d4; font-size: 14px; }
+      .architecture { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); position: relative; overflow: hidden; }
+      .architecture::before { content: ""; position: absolute; inset: 0; opacity: .17; pointer-events: none; background-image: linear-gradient(rgba(130,158,164,.18) 1px, transparent 1px), linear-gradient(90deg, rgba(130,158,164,.18) 1px, transparent 1px); background-size: 28px 28px; }
+      .architecture > * { position: relative; }
+      .heading { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 25px; }
+      h2 { margin: 0; font-size: 22px; letter-spacing: -.025em; }
+      .heading span { color: var(--muted); font-size: 14px; }
+      .pipeline { display: grid; grid-template-columns: 1.05fr 42px 1.5fr 42px 1.02fr; align-items: stretch; }
+      .arrow { display: grid; place-items: center; color: var(--accent); font-size: 28px; }
+      .column { min-height: 440px; padding: 20px; background: rgba(13,20,22,.72); border: 1px solid var(--line); border-radius: 14px; }
+      .column h3 { margin: 0; font-size: 17px; }
+      .column > p { margin: 6px 0 16px; color: var(--muted); font-size: 13px; }
+      .camera { min-height: 172px; display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 11px; border-radius: 11px; background: #0a1011; border: 1px solid #31444a; }
+      .camera span { position: relative; min-height: 67px; border-radius: 6px; background: #2c3b40; overflow: hidden; }
+      .camera span::after { content: ""; position: absolute; left: 18%; top: 25%; width: 43%; height: 35%; border: 2px solid var(--accent); border-radius: 3px; opacity: .75; }
+      .camera span:nth-child(2)::after { left: 36%; top: 18%; border-color: var(--warn); }
+      .camera span:nth-child(3)::after { left: 25%; top: 34%; width: 48%; border-color: #90b2ba; }
+      .camera span:nth-child(4)::after { left: 43%; top: 33%; width: 36%; border-color: var(--accent); }
+      .capture-meta { margin-top: 12px; display: grid; gap: 8px; }
+      .capture-meta div { padding: 9px 10px; background: #192629; border-radius: 8px; color: #d4e0e1; font-size: 12px; }
+      .capture-meta code, .event code { color: var(--accent); font: 600 12px Consolas, "Cascadia Mono", monospace; }
+      .drop { color: var(--warn); }
+      .stages { display: grid; gap: 9px; }
+      .stage { min-height: 70px; padding: 11px 13px; border-left: 3px solid #50656a; background: #172428; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+      .stage.active { border-color: var(--accent); background: #203338; transform: translateX(3px); }
+      .stage strong { display: block; font-size: 14px; }
+      .stage span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+      .stage b { color: var(--accent); font: 600 11px Consolas, "Cascadia Mono", monospace; }
+      .stage.plan { border-left-style: dashed; }
+      .event-list { display: grid; gap: 10px; }
+      .event { padding: 12px; border-radius: 10px; background: #18262a; border: 1px solid #365057; transition: border-color .2s ease, background .2s ease; }
+      .event.active { background: #20353a; border-color: var(--accent); }
+      .event strong { display: block; font-size: 14px; }
+      .event span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+      .event.warn { border-color: #665330; }
+      .event.warn strong { color: var(--warn); }
+      .controller { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
+      button { cursor: pointer; padding: 10px 14px; border-radius: 10px; border: 1px solid transparent; background: var(--accent); color: #092019; font-weight: 700; transition: transform .2s ease, filter .2s ease; }
+      button:hover { filter: brightness(1.07); }
+      button:active { transform: translateY(1px) scale(.98); }
+      button.secondary { background: transparent; border-color: #557178; color: var(--text); }
+      .status { color: var(--muted); font-size: 13px; }
+      .state { margin-left: auto; color: var(--accent); font: 12px Consolas, "Cascadia Mono", monospace; }
+      .below { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; margin-top: 22px; }
+      .panel { padding: 25px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+      .panel > p { margin: 6px 0 20px; color: var(--muted); }
+      .logic { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .logic-item { padding: 14px; background: #111b1e; border-radius: 11px; }
+      .logic-item strong { display: block; color: var(--accent); font-size: 14px; }
+      .logic-item span { display: block; margin-top: 6px; color: #c3d0d2; font-size: 13px; }
+      .logic-item.warn strong { color: var(--warn); }
+      pre { margin: 0; padding: 16px; overflow: auto; border-radius: 11px; background: #0b1113; color: #c9d8da; font: 12px/1.65 Consolas, "Cascadia Mono", monospace; }
+      .field { color: var(--accent); }
+      .note { margin-top: 12px; color: var(--muted); font-size: 13px; }
+      .footer { margin-top: 22px; color: var(--muted); font-size: 13px; }
+      @media (max-width: 1050px) { .hero, .below { grid-template-columns: 1fr; gap: 24px; } .pipeline { grid-template-columns: 1fr; gap: 11px; } .arrow { min-height: 30px; transform: rotate(90deg); } .column { min-height: auto; } }
+      @media (max-width: 640px) { .page { width: min(100% - 28px, 1460px); padding-top: 22px; } .bar { display: block; } .tag { margin-top: 9px; } .hero { padding: 40px 0 30px; } .architecture, .panel { padding: 19px; } .heading { display: block; } .heading span { display: block; margin-top: 5px; } .logic { grid-template-columns: 1fr; } .state { width: 100%; margin-left: 0; } }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="bar">
+        <div class="brand"><span class="mark"></span>Where Is It / Vision Service</div>
+        <div class="tag">services/vision/app/main.py</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <div class="kicker">视觉服务如何工作</div>
+          <h1>持续看，低频发现，稳定后才写入位置记忆。</h1>
+          <p class="intro">视觉服务与问答 API 分离。它在后台消费最新视频帧，生成稳定的结构化观测，再批量提交给业务 API。</p>
+        </div>
+        <aside class="reality">
+          <strong>当前仓库实际状态</strong>
+          <p>服务已经是独立 FastAPI 进程，支持健康检查、摄像头来源枚举和模型适配器边界。模型推理、视频采集、跟踪与事件提交尚未落地，目前返回 <code>cpu-demo</code> 状态。</p>
+        </aside>
+      </section>
+
+      <section class="architecture" aria-labelledby="pipeline-title">
+        <div class="heading">
+          <h2 id="pipeline-title">目标运行链路</h2>
+          <span>查询路径不等待视频帧推理</span>
+        </div>
+        <div class="pipeline">
+          <article class="column">
+            <h3>1. 采集最新帧</h3>
+            <p>采集线程仅维护最新画面。旧帧丢弃，不建立连续录像队列。</p>
+            <div class="camera" aria-label="摄像头画面示意"><span></span><span></span><span></span><span></span></div>
+            <div class="capture-meta">
+              <div><code>CAMERA_SOURCE</code> fixture / usb / rtsp</div>
+              <div><code>target</code> 1280 × 720</div>
+              <div class="drop">旧帧可丢弃，避免推理积压</div>
+            </div>
+          </article>
+          <div class="arrow" aria-hidden="true">→</div>
+          <article class="column">
+            <h3>2. 分层视觉流水线</h3>
+            <p>不同模型各自处理最擅长的任务，避免逐帧调用通用大模型。</p>
+            <div class="stages">
+              <div class="stage plan" data-stage="discover"><strong>重型发现 <b>每 1-2 秒</b></strong><span>Florence-2 提取区域描述和属性，Grounding DINO 用开放词汇复核物品与家具候选。</span></div>
+              <div class="stage plan" data-stage="segment"><strong>掩码与跟踪 <b>中间帧</b></strong><span>SAM 2.1 将框转成掩码，在相邻帧传播具体目标。CPU 模式可降级为轻量框跟踪。</span></div>
+              <div class="stage plan" data-stage="identify"><strong>重识别 <b>候选出现时</b></strong><span>DINOv2 向量结合颜色、OCR、类别和空间距离，确认是否仍是同一个 object_id。</span></div>
+              <div class="stage plan" data-stage="locate"><strong>位置归属 <b>稳定后</b></strong><span>将物品掩码与已知区域的交叠、底部中心点和层级关系转成确定位置。</span></div>
+            </div>
+          </article>
+          <div class="arrow" aria-hidden="true">→</div>
+          <article class="column">
+            <h3>3. 稳定观测事件</h3>
+            <p>视觉服务不直接写数据库，而是批量将类型化事件提交给 API。</p>
+            <div class="event-list">
+              <div class="event" data-event="observe"><strong>observation</strong><span>物品、位置、时间、置信度、bbox 或 mask、track_id。</span></div>
+              <div class="event" data-event="stable"><strong>stable observation</strong><span>最近五次发现中至少命中三次，才升级为正式或待确认对象。</span></div>
+              <div class="event" data-event="write"><strong>POST internal observations</strong><span>API 维护 object_state、observations 和必要的证据图片。</span></div>
+              <div class="event warn" data-event="uncertain"><strong>identity_uncertain</strong><span>第一、二名相近或分数不足时，只记录不确定性，不覆盖确定位置。</span></div>
+            </div>
+          </article>
+        </div>
+
+        <div class="controller">
+          <button id="play" type="button">演示稳定观测</button>
+          <button id="occlusion" class="secondary" type="button">演示遮挡与不确定性</button>
+          <span class="status" id="status" aria-live="polite">选择一个场景以高亮数据路径</span>
+          <span class="state" id="state">idle</span>
+        </div>
+      </section>
+
+      <section class="below">
+        <article class="panel">
+          <h2>稳定规则与状态变化</h2>
+          <p>这是设计中要求的保守写入策略，避免一帧误检把“最后出现位置”误写成“当前存在”。</p>
+          <div class="logic">
+            <div class="logic-item"><strong>发现晋级</strong><span>最近 5 次重型发现中至少命中 3 次，才能成为稳定物品或待确认对象。</span></div>
+            <div class="logic-item"><strong>新鲜窗口</strong><span>最近确定观测不超过 3 秒，查询可表述为当前检测到。</span></div>
+            <div class="logic-item warn"><strong>不可见宽限</strong><span>连续 5 秒无法匹配，状态转为 <code>not_currently_detected</code>。</span></div>
+            <div class="logic-item warn"><strong>身份保护</strong><span>相似物品、遮挡后重现或低分匹配都进入 <code>identity_uncertain</code>，不写确定位置。</span></div>
+          </div>
+        </article>
+        <aside class="panel">
+          <h2>提交给 API 的观测形状</h2>
+          <p>实际 HTTP schema 尚未实现，下面展示该服务边界应传递的核心字段。</p>
+          <pre>{
+  <span class="field">"object_id"</span>: "01J...",
+  <span class="field">"observed_at"</span>: "UTC ISO-8601",
+  <span class="field">"track_id"</span>: "sam-track-17",
+  <span class="field">"location_id"</span>: "bedside-table-left",
+  <span class="field">"confidence"</span>: "high",
+  <span class="field">"identity_state"</span>: "confirmed",
+  <span class="field">"evidence"</span>: { "bbox": [x, y, w, h] }
+}</pre>
+          <div class="note">API 是 SQLite 和证据文件的唯一写入者。视觉服务可重启，不会破坏已有位置记忆。</div>
+        </aside>
+      </section>
+
+      <footer class="footer">当前已实现：FastAPI 进程、USB / RTSP / fixture 来源枚举、模型 Adapter 占位接口、健康状态端点。待实现：真实模型加载、采集线程、观测 schema、内部提交、稳定状态机和 CPU / GPU profile。</footer>
+    </main>
+    <script>
+      const stages = ["discover", "segment", "identify", "locate"];
+      const status = document.getElementById("status");
+      const state = document.getElementById("state");
+      let timer;
+
+      function clearScene() {
+        clearTimeout(timer);
+        document.querySelectorAll(".stage, .event").forEach((item) => item.classList.remove("active"));
+        state.textContent = "idle";
+      }
+
+      function activate(selector) {
+        document.querySelectorAll(selector).forEach((item) => item.classList.add("active"));
+      }
+
+      function stableScene(index = 0) {
+        document.querySelectorAll(".stage, .event").forEach((item) => item.classList.remove("active"));
+        if (index < stages.length) {
+          const current = stages[index];
+          activate(`[data-stage="${current}"]`);
+          status.textContent = ["低频发现候选物品与家具", "相邻帧保持目标掩码连续", "特征库确认具体物品身份", "计算物品归属的房间区域"][index];
+          state.textContent = `vision:${current}`;
+          timer = setTimeout(() => stableScene(index + 1), 900);
+          return;
+        }
+        activate('[data-event="observe"], [data-event="stable"], [data-event="write"]');
+        status.textContent = "稳定观测已批量提交。API 更新最新状态，并按需要保存证据。";
+        state.textContent = "api:observation_committed";
+      }
+
+      document.getElementById("play").addEventListener("click", () => {
+        clearScene();
+        stableScene();
+      });
+      document.getElementById("occlusion").addEventListener("click", () => {
+        clearScene();
+        activate('[data-stage="identify"], [data-event="uncertain"]');
+        status.textContent = "遮挡后重新出现的候选与多个已有物品接近。系统保留 identity_uncertain，不覆盖最后确定位置。";
+        state.textContent = "identity_uncertain";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+{
+    "private":  true,
+    "name":  "@where-is-it/sam",
+    "scripts":  {
+                    "dev":  "python -m uvicorn app.main:app --app-dir . --reload --port 8004"
+                }
+}

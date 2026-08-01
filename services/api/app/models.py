@@ -60,6 +60,27 @@ class Observation(BaseModel):
     bounding_box: tuple[float, float, float, float]
     confidence: float
 
+class IncomingObservation(BaseModel):
+    track_key: str = Field(min_length=1, max_length=120)
+    name: str = Field(min_length=1, max_length=80)
+    system_name: str = Field(min_length=1, max_length=80)
+    category: str = Field(min_length=1, max_length=40)
+    aliases: list[str] = Field(default_factory=list, max_length=12)
+    location_name: str = Field(min_length=1, max_length=80)
+    relation: str | None = Field(default=None, max_length=80)
+    bounding_box: tuple[float, float, float, float]
+    confidence: float = Field(ge=0, le=1)
+
+
+class ObservationBatch(BaseModel):
+    source: str = Field(min_length=1, max_length=40)
+    frame_id: str = Field(min_length=1, max_length=120)
+    observed_at: datetime
+    fixture_image_path: str | None = None
+    frame_image_b64: str | None = Field(default=None, max_length=12_000_000)
+    observations: list[IncomingObservation] = Field(min_length=1, max_length=50)
+
+
 
 class Evidence(BaseModel):
     evidence_id: str
@@ -96,6 +117,11 @@ class RenameRequest(BaseModel):
 
 
 class TranscriptionResult(BaseModel):
-    text: str
+    text: str = ""
     provider: str
-    fallback: bool
+    fallback: bool = False
+    status: Literal["success", "failed"] = "success"
+    model_version: str | None = None
+    language: str | None = None
+    confidence: float | None = None
+    error_code: str | None = None

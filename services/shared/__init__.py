@@ -1,0 +1,1 @@
+"""Shared, dependency-light service contracts and HTTP helpers."""

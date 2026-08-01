@@ -1,0 +1,77 @@
+services:
+  vision-orchestrator:
+    environment:
+      VISION_PROFILE: gpu
+      VISION_MODE: ${VISION_MODE:-mock}
+  florence:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${FLORENCE_DEVICE:-cuda:0}"
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-0}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+      TOKENIZERS_PARALLELISM: "false"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  grounding:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${GROUNDING_DEVICE:-cuda:0}"
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-0}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+      TOKENIZERS_PARALLELISM: "false"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  sam:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${SAM_DEVICE:-cuda:0}"
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-0}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+      TOKENIZERS_PARALLELISM: "false"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  embedding:
+    profiles: [gpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cuda:0}"
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-0}
+      PYTORCH_CUDA_ALLOC_CONF: ${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}
+      TOKENIZERS_PARALLELISM: "false"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,104 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "${WEB_PORT:-5173}:80"
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    environment:
+      DATABASE_PATH: /data/where-is-it.db
+      EVIDENCE_DIR: /data/evidence
+      VISION_PUBLIC_URL: ${VISION_PUBLIC_URL:-http://127.0.0.1:8001}
+      ASR_SERVICE_URL: http://asr:8006
+    volumes:
+      - api-data:/data
+    ports:
+      - "${API_PORT:-8000}:8000"
+  vision-orchestrator:
+    build:
+      context: .
+      dockerfile: services/vision-orchestrator/Dockerfile
+    environment:
+      API_INTERNAL_URL: ${API_INTERNAL_URL:-http://api:8000}
+      CAMERA_SOURCE: ${CAMERA_SOURCE:-mock-video}
+      CAMERA_VIDEO_PATH: ${CAMERA_VIDEO_PATH:-/app/services/vision-orchestrator/fixtures/media/indoor-living-room.mp4}
+      CAMERA_USB_INDEX: ${CAMERA_USB_INDEX:-0}
+      CAMERA_RTSP_URL: ${CAMERA_RTSP_URL:-}
+      CAMERA_MOCK_VIDEO_PATH: ${CAMERA_MOCK_VIDEO_PATH:-/app/services/vision-orchestrator/fixtures/media/indoor-living-room.mp4}
+      DISCOVERY_INTERVAL_SECONDS: ${DISCOVERY_INTERVAL_SECONDS:-0.7}
+      VISION_MODE: ${VISION_MODE:-mock}
+      VISION_ROLE: ${VISION_ROLE:-standalone}
+      VISION_INGEST_URL: ${VISION_INGEST_URL:-}
+      VISION_PUSH_TOKEN: ${VISION_PUSH_TOKEN:-}
+      VISION_PUSH_TIMEOUT_SECONDS: ${VISION_PUSH_TIMEOUT_SECONDS:-5}
+      VISION_PUSH_MAX_FRAME_BYTES: ${VISION_PUSH_MAX_FRAME_BYTES:-10485760}
+      VISION_PROFILE: ${VISION_PROFILE:-cpu}
+      FLORENCE_SERVICE_URL: ${FLORENCE_SERVICE_URL:-http://florence:8002}
+      GROUNDING_SERVICE_URL: http://grounding:8003
+      SAM_SERVICE_URL: http://sam:8004
+      EMBEDDING_SERVICE_URL: http://embedding:8005
+    ports:
+      - "8001:8001"
+  florence:
+    build:
+      context: .
+      dockerfile: services/florence/Dockerfile
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${FLORENCE_DEVICE:-cpu}"
+      MODEL_MAX_CONCURRENCY: ${FLORENCE_MAX_CONCURRENCY:-1}
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
+  grounding:
+    build:
+      context: .
+      dockerfile: services/grounding/Dockerfile
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${GROUNDING_DEVICE:-cpu}"
+      MODEL_MAX_CONCURRENCY: ${GROUNDING_MAX_CONCURRENCY:-1}
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
+  sam:
+    build:
+      context: .
+      dockerfile: services/sam/Dockerfile
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${SAM_DEVICE:-cpu}"
+      MODEL_MAX_CONCURRENCY: ${SAM_MAX_CONCURRENCY:-1}
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
+  embedding:
+    build:
+      context: .
+      dockerfile: services/embedding/Dockerfile
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: "${EMBEDDING_DEVICE:-cpu}"
+      MODEL_MAX_CONCURRENCY: ${EMBEDDING_MAX_CONCURRENCY:-1}
+      MODEL_CACHE_DIR: /models
+    volumes:
+      - model-cache:/models
+  asr:
+    build:
+      context: .
+      dockerfile: services/asr/Dockerfile
+    environment:
+      ASR_MODE: ${ASR_MODE:-mock}
+      ASR_DEVICE: ${ASR_DEVICE:-cpu}
+    ports:
+      - "8006:8006"
+
+volumes:
+  api-data:
+  model-cache:

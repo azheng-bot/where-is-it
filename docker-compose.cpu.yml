@@ -1,0 +1,29 @@
+services:
+  vision-orchestrator:
+    environment:
+      VISION_PROFILE: cpu
+      VISION_MODE: ${VISION_MODE:-mock}
+  florence:
+    profiles: [cpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: cpu
+  grounding:
+    profiles: [cpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: cpu
+  sam:
+    profiles: [cpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: cpu
+  embedding:
+    profiles: [cpu]
+    environment:
+      MODEL_MODE: ${MODEL_MODE:-mock}
+      MODEL_DEVICE: cpu
+  asr:
+    environment:
+      ASR_MODE: ${ASR_MODE:-mock}
+      ASR_DEVICE: cpu
