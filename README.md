@@ -9,6 +9,9 @@ pnpm install
 pnpm dev
 ```
 
+For per-service dependency installation, local commands, GPU receiver startup,
+and health checks, see [the service runbook](docs/service-runbook.md).
+
 分别打开：
 
 - Web：<http://127.0.0.1:5173>
