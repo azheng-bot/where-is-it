@@ -33,7 +33,26 @@ Set-Location services/api; python -m unittest discover -s tests -v
 ```
 
 当前为可演示的工程骨架：包含 SQLite/WAL 目录、十个演示物品、查询澄清、证据查看与目录改名。真实摄像头采集、模型适配、证据落盘与性能验收仍按 OpenSpec 任务继续实现。
-## 服务拆分与运行
+## 三服务部署（推荐）
+
+生产和演示环境按三个独立服务包交付：
+
+| 服务包 | 部署位置 | 职责 | 对外端口 |
+| --- | --- | --- | --- |
+| `video-streamer` | 可访问摄像头的边缘设备 | USB/RTSP/mock 采集、最新 JPEG 帧鉴权推送 | 可选健康检查 `8001` |
+| `gpu-inference-api` | GPU 节点 | 帧接收、视觉推理、ASR、物品 API、事实与证据存储 | API `8000`、受保护帧接收 `8001` |
+| `web` | 静态站点或 Web 服务器 | 浏览器查询、录音、回答与证据展示 | `5173` |
+
+复制各服务包中的 `.env.example` 为 `.env` 并分别启动：
+
+```bash
+docker compose --env-file deploy/gpu-inference-api/.env -f deploy/gpu-inference-api/docker-compose.yml up -d --build
+docker compose --env-file deploy/video-streamer/.env -f deploy/video-streamer/docker-compose.yml up -d --build
+docker compose --env-file deploy/web/.env -f deploy/web/docker-compose.yml up -d --build
+```
+
+GPU 包中的 Florence、Grounding、SAM、Embedding 与 ASR 仅在内部网络可见；不要发布其端口。CPU/mock 验证使用 `pnpm up:gpu:cpu`。运行 `pnpm topology:check` 检查服务边界；三套服务已启动后运行 `pnpm smoke:services`。
+## 兼容的本地多进程开发
 
 `pnpm dev` 会启动 Web、API、无 GPU 的 `vision-orchestrator`、四个默认 mock 的视觉模型服务，以及 ASR 服务。模型服务可以单独运行：`pnpm dev:models`；只启动产品闭环：`pnpm dev:core`。
 
@@ -52,7 +71,7 @@ Local development uses CPU + mock by default. Run `pnpm dev`, or copy `.env.cpu.
 docker compose -f docker-compose.yml -f docker-compose.cpu.yml --profile cpu up --build
 ```
 
-The production GPU node baseline is Ubuntu 22.04, CUDA 13.2, Python 3.12, PyTorch 2.13.0, and a 24GB RTX 40-series GPU. Copy `.env.gpu.example` to `.env`, set `VISION_PUSH_TOKEN` and an `API_INTERNAL_URL` reachable from the GPU host, then run:
+The production GPU node baseline is Ubuntu 22.04, CUDA 13.2, Python 3.12, PyTorch 2.12.1, and a 24GB RTX 40-series GPU. Copy `.env.gpu.example` to `.env`, set `VISION_PUSH_TOKEN` and an `API_INTERNAL_URL` reachable from the GPU host, then run:
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu up -d --build

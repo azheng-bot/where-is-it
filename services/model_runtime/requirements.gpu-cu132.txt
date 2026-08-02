@@ -1,5 +1,4 @@
-# PyTorch 2.13 CUDA 13.2 wheels (official release candidate index).
-# Keep this file separate so the other packages continue to resolve from PyPI.
---index-url https://download.pytorch.org/whl/test/cu132
+# Official PyTorch CUDA 13.2 wheel index. Keep this separate from PyPI-only packages.
+--index-url https://download.pytorch.org/whl/cu132
 --extra-index-url https://pypi.org/simple
-torch==2.13.0
+torch==2.12.1

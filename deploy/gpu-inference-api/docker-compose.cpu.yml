@@ -1,0 +1,41 @@
+services:
+  florence:
+    environment:
+      MODEL_MODE: mock
+      MODEL_DEVICE: cpu
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []
+  grounding:
+    environment:
+      MODEL_MODE: mock
+      MODEL_DEVICE: cpu
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []
+  sam:
+    environment:
+      MODEL_MODE: mock
+      MODEL_DEVICE: cpu
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []
+  embedding:
+    environment:
+      MODEL_MODE: mock
+      MODEL_DEVICE: cpu
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []
+  asr:
+    environment:
+      ASR_MODE: mock
+      ASR_DEVICE: cpu
+    deploy:
+      resources:
+        reservations:
+          devices: !reset []

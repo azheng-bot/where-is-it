@@ -1,0 +1,11 @@
+name: where-is-it-web
+
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${PUBLIC_API_URL:?set PUBLIC_API_URL to the GPU API endpoint}
+    ports:
+      - "${WEB_PORT:-5173}:80"

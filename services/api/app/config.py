@@ -16,6 +16,13 @@ def _load_dotenv() -> None:
 
 
 _load_dotenv()
+
+
+def _csv_setting(name: str, default: str) -> tuple[str, ...]:
+    values = (value.strip() for value in os.getenv(name, default).split(","))
+    return tuple(value for value in values if value)
+
+
 @dataclass(frozen=True)
 class Settings:
     database_path: Path = Path(os.getenv("DATABASE_PATH", str(PROJECT_ROOT / "services" / "api" / "data" / "mock-where-is-it.db")))
@@ -29,10 +36,12 @@ class Settings:
     deepseek_base_url: str = os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com").rstrip("/")
     deepseek_model: str = os.getenv("DEEPSEEK_MODEL", "deepseek-chat")
     vision_public_url: str = os.getenv("VISION_PUBLIC_URL", "http://127.0.0.1:8001").rstrip("/")
+    vision_internal_url: str = os.getenv("VISION_INTERNAL_URL", os.getenv("VISION_PUBLIC_URL", "http://127.0.0.1:8001")).rstrip("/")
     asr_service_url: str = os.getenv("ASR_SERVICE_URL", "http://127.0.0.1:8006").rstrip("/")
     asr_timeout_seconds: float = float(os.getenv("ASR_TIMEOUT_SECONDS", "4.0"))
     internal_request_timeout_seconds: float = float(os.getenv("INTERNAL_REQUEST_TIMEOUT_SECONDS", "4.5"))
     internal_contract_version: str = os.getenv("INTERNAL_CONTRACT_VERSION", "v1")
+    web_allowed_origins: tuple[str, ...] = _csv_setting("WEB_ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173")
 
 
 settings = Settings()

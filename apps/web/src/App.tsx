@@ -28,13 +28,20 @@ function boxStyle(boundingBox?: [number, number, number, number]) {
   return { left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` };
 }
 
-function CameraPreview({ frameUrl, streamUrl, boundingBox }: { frameUrl?: string; streamUrl?: string; boundingBox?: [number, number, number, number] }) {
-  const [streamFailed, setStreamFailed] = useState(false);
-  useEffect(() => setStreamFailed(false), [streamUrl]);
+function CameraPreview({ frameUrl, streamUrl: _streamUrl, boundingBox }: { frameUrl?: string; streamUrl?: string; boundingBox?: [number, number, number, number] }) {
+  const [liveFrameUrl, setLiveFrameUrl] = useState(frameUrl);
+  useEffect(() => {
+    if (!frameUrl) return;
+    const refresh = () => setLiveFrameUrl(frameUrl + (frameUrl.includes("?") ? "&" : "?") + "t=" + Date.now());
+    refresh();
+    const timer = window.setInterval(refresh, 1000);
+    return () => window.clearInterval(timer);
+  }, [frameUrl]);
   return <section className="camera-card">
-    <div className="camera-image">{streamUrl && !streamFailed ? <video autoPlay muted loop playsInline poster={frameUrl} aria-label="模拟室内监控直播" onError={() => setStreamFailed(true)}><source src={streamUrl} type="video/mp4" /></video> : <img src={frameUrl ?? "http://127.0.0.1:8001/api/camera/frame"} alt="卧室摄像头预览" />}{boundingBox && <span className="camera-box" style={boxStyle(boundingBox)} />}<span className="camera-label"><IconCamera size={14} /> LIVE</span></div>
+    <div className="camera-image"><img src={liveFrameUrl ?? "http://127.0.0.1:8001/api/camera/latest.jpg"} alt="Current pushed video frame" />{boundingBox && <span className="camera-box" style={boxStyle(boundingBox)} />}<span className="camera-label"><IconCamera size={14} /> LIVE</span></div>
   </section>;
 }
+
 function EvidenceModal({ result, onClose }: { result: QueryResult; onClose: () => void }) {
   if (!result.evidence || !result.object) return null;
   return <div className="dialog-backdrop" onMouseDown={onClose}>

@@ -1,8 +1,26 @@
 # Service installation and startup
 
-This runbook describes the current service boundaries: edge pusher, GPU receiver
-and models, API, ASR, and web frontend. Do not expose model ports 8002-8005 to
+This runbook describes the three deployable service boundaries: `video-streamer`,
+`gpu-inference-api`, and `web`. The visual model and ASR processes remain private
+runtime dependencies inside the GPU service package; never expose their ports to
 the public Internet.
+
+## Recommended three-service deployment
+
+1. On the GPU node, copy `deploy/gpu-inference-api/.env.example` to `.env`, set
+   `VISION_PUSH_TOKEN`, `GPU_VISION_PUBLIC_URL`, and `WEB_ALLOWED_ORIGINS`, then run
+   `docker compose --env-file deploy/gpu-inference-api/.env -f deploy/gpu-inference-api/docker-compose.yml up -d --build`.
+2. On the camera-side machine, copy `deploy/video-streamer/.env.example` to `.env`,
+   set the source plus the same token, then run
+   `docker compose --env-file deploy/video-streamer/.env -f deploy/video-streamer/docker-compose.yml up -d --build`.
+3. Build the Web package with `PUBLIC_API_URL` pointing to the GPU API:
+   `docker compose --env-file deploy/web/.env -f deploy/web/docker-compose.yml up -d --build`.
+
+The GPU package publishes only API port 8000 and its token-protected frame receiver
+on port 8001. Florence, Grounding, SAM, Embedding, and ASR do not have host ports.
+Run `pnpm topology:check` before deployment and `pnpm smoke:services` after all
+three services are healthy. For Ubuntu host setup and runtime preflight, follow
+[the GPU package guide](../deploy/gpu-inference-api/README.md).
 
 ## Shared prerequisites
 
@@ -66,7 +84,7 @@ pnpm --filter @where-is-it/vision-orchestrator dev
 For RTSP also set `CAMERA_RTSP_URL`; for USB set `CAMERA_USB_INDEX` when needed.
 The pusher needs only outbound HTTPS and does not save a video archive.
 
-## GPU receiver and visual models
+## GPU receiver and private visual runtimes
 
 The same `vision-orchestrator` service acts as a receiver when
 `VISION_ROLE=receiver`. It accepts `POST /v1/frames`, keeps only the latest frame
@@ -89,8 +107,8 @@ docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu exe
   python /app/services/model_runtime/verify_gpu_runtime.py
 ```
 
-The preflight must report Python 3.12, PyTorch 2.13.0, CUDA 13.2, capability 8.9,
-and at least 20GB VRAM. The GPU images install `torch==2.13.0` from the CUDA
+The preflight must report Python 3.12, PyTorch 2.12.1, CUDA 13.2, capability 8.9,
+and at least 20GB VRAM. The GPU images install `torch==2.12.1` from the CUDA
 13.2 wheel index, plus FastAPI, Uvicorn, Pillow, and Transformers. Model weights
 persist in the `model-cache` Docker volume. Use `MODEL_MODE=real`,
 `MODEL_DTYPE=float16`, and `MODEL_MAX_CONCURRENCY=1` on the GPU node.
@@ -99,11 +117,11 @@ For non-container model debugging:
 
 ```powershell
 python -m pip install "fastapi>=0.115,<1.0" "uvicorn[standard]>=0.30,<1.0" "pydantic>=2,<3" "python-multipart>=0.0.18,<1.0" "pillow>=10,<12" "transformers>=4.57,<6"
-python -m pip install --index-url https://download.pytorch.org/whl/test/cu132 --extra-index-url https://pypi.org/simple "torch==2.13.0"
+python -m pip install --index-url https://download.pytorch.org/whl/cu132 --extra-index-url https://pypi.org/simple "torch==2.12.1"
 pnpm dev:models
 ```
 
-## ASR (`asr`, port 8006)
+## Private ASR runtime (`asr`, internal port 8006)
 
 Install and start:
 

@@ -76,7 +76,7 @@ class MockFrameSource:
 class VideoFrameSource:
     """Latest-frame capture for files, USB devices, and RTSP streams."""
     def __init__(self) -> None:
-        self.capture = None; self.lock = Lock(); self.frame_count = 0; self.latest_timestamp = "waiting for first frame"; self.connected = False; self.error: str | None = None
+        self.capture = None; self.lock = Lock(); self.frame_count = 0; self.latest_timestamp = "waiting for first frame"; self.connected = False; self.error: str | None = None; self.latest_jpeg: bytes | None = None
 
     def _target(self):
         if CAMERA_SOURCE in {"mock-video", "file", "video"}: return CAMERA_VIDEO_PATH
@@ -104,13 +104,17 @@ class VideoFrameSource:
                 if not ok: raise RuntimeError("camera returned no frame")
                 ok, encoded = cv2.imencode(".jpg", frame, [cv2.IMWRITE_JPEG_QUALITY, int(os.getenv("FRAME_JPEG_QUALITY", "85"))])
                 if not ok: raise RuntimeError("failed to encode camera frame")
-                self.frame_count += 1; self.latest_timestamp = datetime.now(UTC).isoformat(); self.connected, self.error = True, None
-                return base64.b64encode(encoded.tobytes()).decode("ascii")
+                self.latest_jpeg = encoded.tobytes(); self.frame_count += 1; self.latest_timestamp = datetime.now(UTC).isoformat(); self.connected, self.error = True, None
+                return base64.b64encode(self.latest_jpeg).decode("ascii")
         except (ImportError, OSError, RuntimeError, ValueError) as error:
             self.connected, self.error = False, str(error); logger.warning("camera_frame_failed source=%s error=%s", CAMERA_SOURCE, error); return None
 
     def status(self) -> dict[str, object]:
         return {"kind": CAMERA_SOURCE, "connected": self.connected, "latest_timestamp": self.latest_timestamp, "frame_count": self.frame_count, "error": self.error}
+
+    def latest_frame(self) -> bytes | None:
+        with self.lock:
+            return self.latest_jpeg
 
 
 class LatestFrameBuffer:
@@ -310,7 +314,16 @@ def camera_frame():
     return FileResponse(FIXTURE_PATH, media_type="image/png")
 
 
+@app.get("/api/camera/latest.jpg")
+def latest_camera_frame():
+    frame = video_source.latest_frame()
+    if frame is None:
+        raise HTTPException(status_code=404, detail="no captured frame is available yet")
+    return Response(content=frame, media_type="image/jpeg", headers={"Cache-Control": "no-store"})
+
+
 @app.get("/api/camera/stream")
 def camera_stream():
-    if CAMERA_SOURCE != "mock-video" or not MOCK_VIDEO_PATH.is_file(): raise HTTPException(status_code=404, detail="a browser stream is only available for the bundled mock video")
-    return FileResponse(MOCK_VIDEO_PATH, media_type="video/mp4", filename="camera-live.mp4")
+    video_path = Path(CAMERA_VIDEO_PATH).resolve()
+    if CAMERA_SOURCE != "mock-video" or not video_path.is_file(): raise HTTPException(status_code=404, detail="a browser stream is only available for the configured mock video")
+    return FileResponse(video_path, media_type="video/mp4", filename="camera-live.mp4", headers={"Cache-Control": "no-store"})
