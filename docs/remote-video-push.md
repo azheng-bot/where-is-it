@@ -1,67 +1,56 @@
-# Remote video-frame push
+# 远程视频帧推送
 
-The transport uses independent JPEG frames over HTTP, not public RTSP. The receiver keeps only the latest pending frame, so a slow GPU never accumulates recorded video or causes unbounded memory use.
+`video-streamer` 与 `gpu-inference-api` 之间传输的是独立 JPEG 帧，不对外公开 RTSP，也不传输或保存完整视频流。GPU 接收器只保留待处理的最新帧；推流或推理变慢时，旧帧会被丢弃而不是形成队列。
 
-## Three-service deployment
+## 服务边界
 
-The receiver belongs to the `gpu-inference-api` package, which also owns API,
-visual model, ASR, model-cache and evidence/data runtime dependencies. Configure
-and start that package first using `deploy/gpu-inference-api/.env.example`; publish
-only its API endpoint and the authenticated receiver endpoint. Start the
-`video-streamer` package on the camera-side host with `FRAME_INGEST_URL` set to
-`https://<gpu-host>/v1/frames` and the same `VISION_PUSH_TOKEN`. The Web package
-uses the GPU API address only; it never receives a model or ASR address.
-## GPU inference receiver
+- `video-streamer` 部署在能访问摄像头的设备，只读取视频源并向 GPU 节点发起出站请求。
+- `gpu-inference-api` 在 GPU 节点接收帧、执行视觉推理并写入业务事实。
+- `web` 不参与视频传输；它只调用 GPU 包的业务 API。
 
-Deploy the vision orchestrator next to the GPU with the model services and API endpoint it should publish observations to. Configure:
+视觉模型与 ASR 位于 GPU Compose 内部网络，不能用作推流目标，也不得暴露到公网。
 
-```env
-VISION_ROLE=receiver
-VISION_MODE=real
-VISION_PUSH_TOKEN=replace-with-a-long-random-secret
-API_INTERNAL_URL=http://api-or-public-api-host:8000
-```
+## 配置
 
-Expose only `POST /v1/frames` to the edge pusher. It accepts `image/jpeg`, returns `202 Accepted`, and requires the `X-Vision-Push-Token` header when `VISION_PUSH_TOKEN` is set.
-
-## Local mock-video pusher
-
-Run a second vision-orchestrator process on the machine that has the bundled mock video:
+先启动 GPU 包，配置其 `GPU_VISION_PUBLIC_URL` 与 `VISION_PUSH_TOKEN`。然后在推流端使用同一令牌：
 
 ```env
-VISION_ROLE=pusher
-CAMERA_SOURCE=mock-video
-VISION_INGEST_URL=https://gpu.example.com/v1/frames
-VISION_PUSH_TOKEN=replace-with-the-same-secret
-DISCOVERY_INTERVAL_SECONDS=1
+CAMERA_SOURCE=rtsp
+CAMERA_RTSP_URL=rtsp://camera.example/stream
+FRAME_INGEST_URL=https://gpu.example.com/v1/frames
+VISION_PUSH_TOKEN=use-the-same-long-random-secret
+VISION_PUSH_TIMEOUT_SECONDS=5
 ```
 
-For a direct IP during private testing, use `http://GPU_IP:8001/v1/frames`. Use HTTPS and an authenticated reverse proxy or named tunnel in production. The pusher does not need the model services or API because it only reads and forwards frames.
+USB 摄像头使用 `CAMERA_SOURCE=usb` 和 `CAMERA_USB_INDEX`；联调可使用 `CAMERA_SOURCE=mock-video`。完整环境变量见 [推流服务模板](../deploy/video-streamer/.env.example)。
 
-## Observability
+## 传输协议
 
-- `GET /health/ready` reports the role and pushed-frame buffer state.
-- `GET /internal/camera/status` reports `push` as the active source on a receiver.
-- `POST /v1/frames/process` forces one local push or one receiver processing attempt for smoke tests.
+推流端调用：
 
-## Ubuntu 22.04 / CUDA 13.2 RTX 40 (24GB) deployment
+```text
+POST https://<gpu-host>/v1/frames
+Content-Type: image/jpeg
+X-Vision-Push-Token: <shared-secret>
+```
 
-Use the [GPU package guide](../deploy/gpu-inference-api/README.md) on Ubuntu 22.04.
-Copy `deploy/gpu-inference-api/.env.example` to `.env`, set a strong
-`VISION_PUSH_TOKEN`, and leave camera RTSP settings empty: the local pusher
-initiates the outbound connection.
+启用 `VISION_PUSH_TOKEN` 后，缺少或错误的令牌必须被拒绝。成功接收返回 `202 Accepted`。生产入口应使用 HTTPS、反向代理或网关，并按来源 IP/VPN/零信任策略限制 `8001`；不要将摄像头暴露给公网。
+
+## 启动与检查
 
 ```bash
-cp deploy/gpu-inference-api/.env.example deploy/gpu-inference-api/.env
+# GPU 主机
 bash deploy/gpu-inference-api/scripts/preflight-linux-gpu.sh
 docker compose --env-file deploy/gpu-inference-api/.env \
   -f deploy/gpu-inference-api/docker-compose.yml up -d --build
-bash deploy/gpu-inference-api/scripts/verify-deployment.sh
+
+# 摄像头边缘设备
+docker compose --env-file deploy/video-streamer/.env \
+  -f deploy/video-streamer/docker-compose.yml up -d --build
 ```
 
-The preflight must return `ok: true`, CUDA `13.2`, compute capability `8.9`,
-and roughly 24GB VRAM before accepting production traffic. The four visual
-services are constrained to one request each and use FP16. They share the one
-GPU, so do not raise `MODEL_MAX_CONCURRENCY` until measured under the intended
-frame rate. Publish port 8001 behind HTTPS with an authenticated reverse proxy;
-do not expose the model ports 8002-8005 to the Internet.
+- 推流端：`GET /health/ready` 检查采集和推送状态。
+- 接收器：`GET http://<gpu-host>:8001/health/ready` 仅用于受控运维网络。
+- API：`GET http://<gpu-host>:8000/health/ready` 检查业务 API、接收器与 ASR 的聚合状态。
+
+当网络中断、令牌无效或 GPU 不可用时，推流端记录失败并丢弃当前帧；它不会把历史帧当作实时帧重新提交。

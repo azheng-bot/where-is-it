@@ -16,3 +16,10 @@ test("uses the configured public API address", async () => {
 
   expect(fetchMock).toHaveBeenCalledWith("https://gpu.example.com/api/objects");
 });
+test("uses the configured public vision address for the fallback frame", async () => {
+  vi.stubEnv("VITE_VISION_BASE_URL", "https://vision.example.com/");
+
+  const { defaultCameraFrameUrl } = await import("./api");
+
+  expect(defaultCameraFrameUrl).toBe("https://vision.example.com/api/camera/latest.jpg");
+});

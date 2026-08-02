@@ -15,7 +15,6 @@ from typing import Any
 from urllib.request import Request, urlopen
 
 from fastapi import FastAPI, HTTPException, Request as FastAPIRequest, Response, status
-from fastapi.responses import FileResponse
 
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path: sys.path.insert(0, str(ROOT))
@@ -24,16 +23,14 @@ from services.shared.client import InternalServiceClient, ServiceCallError
 from services.shared.contracts import CONTRACT_VERSION, InferenceRequest, InferenceStatus, MediaReference
 
 logger = logging.getLogger("vision-orchestrator")
-FIXTURE_PATH = Path(os.getenv("CAMERA_FIXTURE_PATH", Path(__file__).parents[1] / "fixtures" / "bedroom-mock.png")).resolve()
 MOCK_VIDEO_PATH = Path(os.getenv("CAMERA_MOCK_VIDEO_PATH", Path(__file__).parents[1] / "fixtures" / "media" / "indoor-living-room.mp4")).resolve()
 CAMERA_SOURCE = os.getenv("CAMERA_SOURCE", "mock-video").lower()
 CAMERA_VIDEO_PATH = os.getenv("CAMERA_VIDEO_PATH", str(MOCK_VIDEO_PATH))
 CAMERA_USB_INDEX = int(os.getenv("CAMERA_USB_INDEX", "0"))
 CAMERA_RTSP_URL = os.getenv("CAMERA_RTSP_URL", "")
 API_URL = os.getenv("API_INTERNAL_URL", "http://127.0.0.1:8000").rstrip("/")
-INTERVAL_SECONDS = float(os.getenv("DISCOVERY_INTERVAL_SECONDS", os.getenv("MOCK_FRAME_INTERVAL_SECONDS", "0.7")))
-VISION_MODE = os.getenv("VISION_MODE", "mock").lower()
-VISION_ROLE = os.getenv("VISION_ROLE", "standalone").lower()
+INTERVAL_SECONDS = float(os.getenv("DISCOVERY_INTERVAL_SECONDS", "0.7"))
+VISION_ROLE = os.getenv("VISION_ROLE", "receiver").lower()
 VISION_INGEST_URL = os.getenv("VISION_INGEST_URL", "").rstrip("/")
 VISION_PUSH_TOKEN = os.getenv("VISION_PUSH_TOKEN", "")
 VISION_PUSH_TIMEOUT_SECONDS = float(os.getenv("VISION_PUSH_TIMEOUT_SECONDS", "5"))
@@ -41,37 +38,8 @@ VISION_PUSH_MAX_FRAME_BYTES = int(os.getenv("VISION_PUSH_MAX_FRAME_BYTES", str(1
 PROMPTS = [value.strip() for value in os.getenv("VISION_PROMPTS", "keys,glasses,mug,bottle,laptop,backpack,notebook,headphones,remote control,table lamp").split(",") if value.strip()]
 STAGE_URLS = {"florence": os.getenv("FLORENCE_SERVICE_URL", "http://127.0.0.1:8002"), "grounding": os.getenv("GROUNDING_SERVICE_URL", "http://127.0.0.1:8003"), "sam": os.getenv("SAM_SERVICE_URL", "http://127.0.0.1:8004"), "embedding": os.getenv("EMBEDDING_SERVICE_URL", "http://127.0.0.1:8005")}
 
-if VISION_ROLE not in {"standalone", "pusher", "receiver"}:
-    raise ValueError("VISION_ROLE must be standalone, pusher, or receiver")
-
-MOCK_OBJECTS = [
-    ("tumbler-black", "黑色保温杯", "黑色保温杯", "水杯", ["保温杯", "水杯"], "书桌", "书桌左侧", (.12, .60, .06, .16), .98),
-    ("mug-white", "白色马克杯", "白色马克杯", "水杯", ["马克杯", "杯子"], "书桌", "书桌中部", (.22, .62, .06, .10), .97),
-    ("glasses", "黑框眼镜", "黑框眼镜", "眼镜", ["眼镜"], "书桌", "笔记本前方", (.24, .81, .07, .06), .95),
-    ("keys", "我的钥匙", "银色钥匙", "钥匙", ["钥匙", "门钥匙"], "书桌", "书桌前侧", (.36, .84, .07, .07), .99),
-    ("earbuds-case", "白色耳机盒", "白色耳机盒", "耳机", ["耳机", "耳机盒"], "书桌", "红色笔记本右侧", (.23, .92, .05, .05), .94),
-    ("notebook-red", "红色笔记本", "红色笔记本", "文具", ["笔记本"], "书桌", "书桌左下角", (.07, .83, .12, .16), .96),
-    ("lamp-black", "黑色台灯", "黑色台灯", "灯具", ["台灯"], "书桌", "书桌左侧", (.01, .43, .14, .30), .93),
-    ("backpack-blue", "蓝色背包", "蓝色背包", "包", ["背包"], "地面", "衣柜前方", (.28, .37, .08, .15), .96),
-    ("laptop-silver", "银色笔记本电脑", "银色笔记本电脑", "电脑", ["电脑", "笔记本电脑"], "书桌", "书桌中部", (.29, .68, .12, .16), .97),
-    ("tissue-green", "绿色纸巾盒", "绿色纸巾盒", "纸巾", ["纸巾"], "右侧床头柜", "床头柜上方", (.86, .40, .08, .06), .92),
-]
-
-
-@dataclass
-class MockFrameSource:
-    connected: bool = True
-    latest_timestamp: str = "waiting for first frame"
-    frame_count: int = 0
-
-    def batch(self) -> dict[str, object]:
-        self.frame_count += 1; self.latest_timestamp = datetime.now(UTC).isoformat()
-        observations = [{"track_key": key, "name": name, "system_name": system_name, "category": category, "aliases": aliases, "location_name": location, "relation": relation, "bounding_box": bbox, "confidence": confidence} for key, name, system_name, category, aliases, location, relation, bbox, confidence in MOCK_OBJECTS]
-        return {"source": CAMERA_SOURCE, "frame_id": f"bedroom-mock-{self.frame_count}", "observed_at": self.latest_timestamp, "fixture_image_path": str(FIXTURE_PATH), "observations": observations}
-
-    def status(self) -> dict[str, object]:
-        return {"kind": CAMERA_SOURCE, "connected": self.connected, "latest_timestamp": self.latest_timestamp, "frame_count": self.frame_count, "poster_path": FIXTURE_PATH.name, "video_path": MOCK_VIDEO_PATH.name if MOCK_VIDEO_PATH.is_file() else None}
-
+if VISION_ROLE not in {"pusher", "receiver"}:
+    raise ValueError("VISION_ROLE must be pusher or receiver")
 
 class VideoFrameSource:
     """Latest-frame capture for files, USB devices, and RTSP streams."""
@@ -160,7 +128,7 @@ class TrackStore:
         self.counter += 1; key = f"{label.lower().replace(' ', '-')}-{self.counter}"; self.items[key] = (label, box); return key
 
 
-mock_source, video_source, pushed_frames, tracks = MockFrameSource(), VideoFrameSource(), LatestFrameBuffer(), TrackStore()
+video_source, pushed_frames, tracks = VideoFrameSource(), LatestFrameBuffer(), TrackStore()
 stop_event, worker, last_stages = Event(), None, {}
 app = FastAPI(title="Where Is It Vision Orchestrator", version="0.2.0")
 
@@ -175,8 +143,6 @@ def call(stage: str, request_id: str, jpeg: str, payload: dict[str, object]) -> 
 
 
 def run_pipeline(jpeg: str | None = None, frame_id: str | None = None, observed_at: str | None = None) -> dict[str, object] | None:
-    if VISION_MODE == "mock":
-        last_stages.update({name: "mock" for name in STAGE_URLS}); return mock_source.batch()
     jpeg = jpeg or video_source.read_jpeg()
     if not jpeg: return None
     request_id = uuid.uuid4().hex
@@ -205,15 +171,9 @@ def publish_batch(batch: dict[str, object]) -> bool:
     request = Request(f"{API_URL}/internal/observations/batch", data=json.dumps(batch).encode("utf-8"), headers={"Content-Type": "application/json", "X-Request-ID": uuid.uuid4().hex}, method="POST")
     try:
         with urlopen(request, timeout=5) as response: response.read()
-        logger.info("observation_batch_published frame_id=%s mode=%s", batch["frame_id"], VISION_MODE); return True
+        logger.info("observation_batch_published frame_id=%s", batch["frame_id"]); return True
     except OSError as error:
         logger.warning("observation_publish_failed error=%s", error); return False
-
-
-def publish_once() -> bool:
-    if VISION_MODE == "mock": mock_source.connected = FIXTURE_PATH.is_file()
-    batch = run_pipeline()
-    return batch is not None and publish_batch(batch)
 
 
 def push_once() -> bool:
@@ -242,9 +202,10 @@ def process_pushed_frame_once() -> bool:
 
 def publish_loop() -> None:
     while not stop_event.is_set():
-        if VISION_ROLE == "pusher": push_once()
-        elif VISION_ROLE == "receiver": process_pushed_frame_once()
-        else: publish_once()
+        if VISION_ROLE == "pusher":
+            push_once()
+        else:
+            process_pushed_frame_once()
         stop_event.wait(0.05 if VISION_ROLE == "receiver" else INTERVAL_SECONDS)
 
 
@@ -268,13 +229,10 @@ def live() -> dict[str, str]: return {"status": "ok", "service": "vision-orchest
 def ready() -> dict[str, object]:
     if VISION_ROLE == "receiver":
         source, source_ready = pushed_frames.status(), True
-    elif VISION_ROLE == "pusher":
+    else:
         source = video_source.status()
         source_ready = video_source.connected or (CAMERA_SOURCE in {"mock-video", "file", "video"} and Path(CAMERA_VIDEO_PATH).is_file())
-    else:
-        source = mock_source.status() if VISION_MODE == "mock" else video_source.status()
-        source_ready = FIXTURE_PATH.is_file() if VISION_MODE == "mock" else video_source.connected
-    return {"status": "ready" if source_ready else "not_ready", "mode": VISION_MODE, "role": VISION_ROLE, "source": source, "stages": last_stages}
+    return {"status": "ready" if source_ready else "not_ready", "role": VISION_ROLE, "source": source, "stages": last_stages}
 
 
 @app.post("/v1/frames")
@@ -298,20 +256,15 @@ async def receive_frame(request: FastAPIRequest, response: Response) -> dict[str
 
 @app.post("/v1/frames/process")
 def process_frame() -> dict[str, object]:
-    accepted = push_once() if VISION_ROLE == "pusher" else (process_pushed_frame_once() if VISION_ROLE == "receiver" else publish_once())
-    count = pushed_frames.status()["received_count"] if VISION_ROLE == "receiver" else (mock_source.frame_count if VISION_MODE == "mock" else video_source.frame_count)
-    return {"accepted": accepted, "mode": VISION_MODE, "role": VISION_ROLE, "stages": last_stages, "frame_id": count}
+    accepted = push_once() if VISION_ROLE == "pusher" else process_pushed_frame_once()
+    count = pushed_frames.status()["received_count"] if VISION_ROLE == "receiver" else video_source.frame_count
+    return {"accepted": accepted, "role": VISION_ROLE, "stages": last_stages, "frame_id": count}
 
 
 @app.get("/internal/camera/status")
 def camera_status() -> dict[str, object]:
-    source = pushed_frames.status() if VISION_ROLE == "receiver" else (video_source.status() if VISION_ROLE == "pusher" else (mock_source.status() if VISION_MODE == "mock" else video_source.status()))
+    source = pushed_frames.status() if VISION_ROLE == "receiver" else video_source.status()
     return {"active_source": "push" if VISION_ROLE == "receiver" else CAMERA_SOURCE, "role": VISION_ROLE, "sources": {"push" if VISION_ROLE == "receiver" else CAMERA_SOURCE: source}, "stages": last_stages}
-
-@app.get("/api/camera/frame")
-def camera_frame():
-    if not FIXTURE_PATH.is_file(): raise HTTPException(status_code=404, detail="camera poster missing")
-    return FileResponse(FIXTURE_PATH, media_type="image/png")
 
 
 @app.get("/api/camera/latest.jpg")
@@ -320,10 +273,3 @@ def latest_camera_frame():
     if frame is None:
         raise HTTPException(status_code=404, detail="no captured frame is available yet")
     return Response(content=frame, media_type="image/jpeg", headers={"Cache-Control": "no-store"})
-
-
-@app.get("/api/camera/stream")
-def camera_stream():
-    video_path = Path(CAMERA_VIDEO_PATH).resolve()
-    if CAMERA_SOURCE != "mock-video" or not video_path.is_file(): raise HTTPException(status_code=404, detail="a browser stream is only available for the configured mock video")
-    return FileResponse(video_path, media_type="video/mp4", filename="camera-live.mp4", headers={"Cache-Control": "no-store"})

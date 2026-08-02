@@ -17,19 +17,12 @@ class AdapterUnavailable(RuntimeError):
 
 
 def _device() -> str:
-    return os.getenv("MODEL_DEVICE", "cpu")
+    return os.getenv("MODEL_DEVICE", "cuda:0")
 
 
 def _model_dtype(torch: Any) -> Any:
-    """Return the configured model precision, with a CPU-safe fallback.
+    """Return the configured CUDA precision for online GPU inference."""
 
-    RTX 40-series cards efficiently run the visual models in FP16. CPU mode is
-    deliberately fixed at FP32 because many CPU operator paths do not support
-    half precision.
-    """
-
-    if not _device().startswith("cuda"):
-        return torch.float32
     requested = os.getenv("MODEL_DTYPE", "float16").strip().lower()
     supported = {
         "float16": torch.float16, "fp16": torch.float16,
@@ -43,11 +36,10 @@ def _model_dtype(torch: Any) -> Any:
             "MODEL_DTYPE must be float16, bfloat16, or float32"
         ) from error
 
-
 def _validate_device(torch: Any) -> None:
     device = _device()
     if not device.startswith("cuda"):
-        return
+        raise AdapterUnavailable("MODEL_DEVICE must target a CUDA GPU; CPU inference is not supported")
     if not torch.cuda.is_available():
         raise AdapterUnavailable(
             f"MODEL_DEVICE={device} requires CUDA, but PyTorch cannot see an NVIDIA GPU. "

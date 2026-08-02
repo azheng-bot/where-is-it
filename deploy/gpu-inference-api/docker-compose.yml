@@ -27,7 +27,6 @@ services:
     environment:
       API_INTERNAL_URL: http://api:8000
       VISION_ROLE: receiver
-      VISION_MODE: ${VISION_MODE:-real}
       VISION_PUSH_TOKEN: ${VISION_PUSH_TOKEN:?set VISION_PUSH_TOKEN}
       VISION_PUSH_MAX_FRAME_BYTES: ${VISION_PUSH_MAX_FRAME_BYTES:-10485760}
       FLORENCE_SERVICE_URL: http://florence:8002
@@ -47,7 +46,6 @@ services:
       context: ../..
       dockerfile: services/florence/Dockerfile
     environment:
-      MODEL_MODE: ${MODEL_MODE:-real}
       MODEL_DEVICE: ${FLORENCE_DEVICE:-cuda:0}
       MODEL_DTYPE: ${MODEL_DTYPE:-float16}
       MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
@@ -70,7 +68,6 @@ services:
       context: ../..
       dockerfile: services/grounding/Dockerfile
     environment:
-      MODEL_MODE: ${MODEL_MODE:-real}
       MODEL_DEVICE: ${GROUNDING_DEVICE:-cuda:0}
       MODEL_DTYPE: ${MODEL_DTYPE:-float16}
       MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
@@ -93,7 +90,6 @@ services:
       context: ../..
       dockerfile: services/sam/Dockerfile
     environment:
-      MODEL_MODE: ${MODEL_MODE:-real}
       MODEL_DEVICE: ${SAM_DEVICE:-cuda:0}
       MODEL_DTYPE: ${MODEL_DTYPE:-float16}
       MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
@@ -116,7 +112,6 @@ services:
       context: ../..
       dockerfile: services/embedding/Dockerfile
     environment:
-      MODEL_MODE: ${MODEL_MODE:-real}
       MODEL_DEVICE: ${EMBEDDING_DEVICE:-cuda:0}
       MODEL_DTYPE: ${MODEL_DTYPE:-float16}
       MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
@@ -139,7 +134,6 @@ services:
       context: ../..
       dockerfile: services/asr/Dockerfile
     environment:
-      ASR_MODE: ${ASR_MODE:-faster-whisper}
       ASR_DEVICE: ${ASR_DEVICE:-cuda}
       ASR_MODEL: ${ASR_MODEL:-small}
       ASR_MODEL_CACHE_DIR: /models

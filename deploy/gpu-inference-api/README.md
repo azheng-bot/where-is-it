@@ -1,30 +1,26 @@
 # GPU inference API on Ubuntu 22.04
 
-This package runs API, receiver, visual models and ASR on one NVIDIA GPU node.
-Only API port `8000` and the push-token-protected receiver port `8001` are
-published. Do not publish model or ASR ports.
+This is a GPU-only production package. It runs the API, frame receiver, visual models, and CUDA ASR on one NVIDIA GPU node. Only API port `8000` and the push-token-protected receiver port `8001` are published; model and ASR ports are private.
 
-## Host preparation
+## Requirements
 
-1. Install an NVIDIA driver appropriate for the installed RTX 40-series GPU and
-   verify `nvidia-smi` works on the host.
-2. Run `sudo bash deploy/gpu-inference-api/scripts/bootstrap-ubuntu-22.04.sh`.
-3. Copy `.env.example` to `.env`; set `GPU_VISION_PUBLIC_URL`,
-   `WEB_ALLOWED_ORIGINS`, and a long unique `VISION_PUSH_TOKEN`.
-4. Run `bash deploy/gpu-inference-api/scripts/preflight-linux-gpu.sh`.
+- Ubuntu 22.04 with a working NVIDIA driver and `nvidia-smi`.
+- Docker Engine and NVIDIA Container Toolkit.
+- RTX 40-series GPU with at least 20 GB VRAM.
+- Python 3.12, PyTorch 2.12.1 CUDA 13.2 wheels, and CUDA ASR libraries are built into the images.
 
-The supported runtime is Python 3.12, PyTorch 2.12.1 with the CUDA 13.2 wheel,
-and a CUDA-capable RTX 40-series GPU with at least 20 GB VRAM. ASR includes the
-CUDA 12 cuBLAS and cuDNN 9 user-space libraries required by faster-whisper.
+CPU inference, mock models, and mock ASR are not supported. If Docker cannot expose an NVIDIA GPU, the model/ASR readiness checks remain unavailable rather than falling back.
 
-## Deploy and verify
+## Deploy
 
 ```bash
+sudo bash deploy/gpu-inference-api/scripts/bootstrap-ubuntu-22.04.sh
+cp deploy/gpu-inference-api/.env.example deploy/gpu-inference-api/.env
+# Set GPU_VISION_PUBLIC_URL, WEB_ALLOWED_ORIGINS and VISION_PUSH_TOKEN.
+bash deploy/gpu-inference-api/scripts/preflight-linux-gpu.sh
 docker compose --env-file deploy/gpu-inference-api/.env \
   -f deploy/gpu-inference-api/docker-compose.yml up -d --build
 bash deploy/gpu-inference-api/scripts/verify-deployment.sh
 ```
 
-For CPU/mock development, merge `docker-compose.cpu.yml` and use `MODEL_MODE=mock`.
-The production GPU command is intentionally separate so a missing GPU cannot be
-silently replaced with CPU inference.
+The preflight and verification scripts must report CUDA 13.2, an available GPU, and real model/ASR readiness before traffic is accepted.

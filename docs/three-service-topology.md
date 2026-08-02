@@ -1,25 +1,19 @@
-# Three-service deployment map
+# 三服务部署拓扑
 
-| Deployable package | Runs on | Public configuration | Private dependencies | Persistent data |
+本文是 [三服务架构与部署](three-service-architecture.md) 的速查页。正式交付只有三个服务包。
+
+| 服务包 | 宿主环境 | 对外配置 | 私有依赖 | 持久化数据 |
 | --- | --- | --- | --- | --- |
-| `video-streamer` | Camera-side edge device | `FRAME_INGEST_URL`, `VISION_PUSH_TOKEN` | Camera adapter only | None; failed frames are discarded |
-| `gpu-inference-api` | GPU node | `GPU_API_PORT`, `GPU_VISION_PORT`, `WEB_ALLOWED_ORIGINS`, `VISION_PUSH_TOKEN` | Vision receiver, Florence, Grounding, SAM, Embedding, ASR | `api-data`, `model-cache` volumes |
-| `web` | Static-site or web host | `PUBLIC_API_URL` | None | None |
+| `video-streamer` | 摄像头边缘设备 | `FRAME_INGEST_URL`、`VISION_PUSH_TOKEN` | 摄像头适配器 | 无；失败帧直接丢弃 |
+| `gpu-inference-api` | GPU 节点 | `GPU_API_PORT`、`GPU_VISION_PORT`、`WEB_ALLOWED_ORIGINS`、`VISION_PUSH_TOKEN` | 接收器、视觉模型、ASR（Compose 内部） | `api-data`、`model-cache` 卷 |
+| `web` | 静态站点 / Web 服务器 | `PUBLIC_API_URL` | 无 | 无 |
 
-The browser calls only `PUBLIC_API_URL`. The camera-side service calls only
-`FRAME_INGEST_URL`. API, vision and ASR use Compose-internal DNS names inside the
-GPU package. Do not add host-port mappings for model or ASR containers.
+浏览器只访问 `PUBLIC_API_URL`；摄像头侧只访问 `FRAME_INGEST_URL`。GPU 包内的 API、接收器、模型和 ASR 通过 Compose DNS 通信。模型和 ASR 端口绝不可发布到宿主机。
 
-## Health checks
+## 最小连通性检查
 
-- Video streamer: `GET /health/live` and `GET /health/ready` on its optional health port.
-- GPU package: `GET /health/ready` on API port 8000 aggregates API, receiver and ASR availability; receiver health is available on the protected GPU service endpoint for operations.
-- Web: an HTTP request to `/` confirms the static package is serving; API configuration is checked at build and by `pnpm topology:check`.
+- 推流服务：`/health/live`、`/health/ready`。
+- GPU API：`8000/health/ready`；接收器 `8001/health/ready` 只应在受控运维网络中访问。
+- Web：请求 `/`；部署后浏览器只能看到配置好的 API 根地址。
 
-## Compatibility and rollback
-
-The root Compose files remain the compatibility-oriented local multi-process
-configuration. The three `deploy/` packages are the supported deployment
-interface. Since the GPU package keeps the existing `api-data` volume layout,
-rollback only requires pointing Web and the streamer back to the previous API and
-receiver URLs; it does not migrate or rewrite the database.
+GPU 推理包只支持真实 NVIDIA GPU、真实模型和 CUDA ASR。生产部署与回滚均以 `deploy/video-streamer`、`deploy/gpu-inference-api`、`deploy/web` 为准。
