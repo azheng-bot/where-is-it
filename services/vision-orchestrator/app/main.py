@@ -148,7 +148,9 @@ def run_pipeline(jpeg: str | None = None, frame_id: str | None = None, observed_
     request_id = uuid.uuid4().hex
     florence = call("florence", request_id, jpeg, {"task": "<OD>"})
     if florence is None: return None
-    candidates = [str(item.get("label")) for item in florence.get("detections", []) if isinstance(item, dict)] or PROMPTS
+    # Model labels are localized for consumers; pass their original English
+    # values to Grounding DINO, whose text encoder is trained on English.
+    candidates = [str(item.get("source_label") or item.get("label")) for item in florence.get("detections", []) if isinstance(item, dict)] or PROMPTS
     grounding = call("grounding", request_id, jpeg, {"candidates": candidates})
     if grounding is None: return None
     detections = [item for item in grounding.get("detections", []) if isinstance(item, dict)]
@@ -160,9 +162,10 @@ def run_pipeline(jpeg: str | None = None, frame_id: str | None = None, observed_
     observed_at = observed_at or datetime.now(UTC).isoformat()
     observations = []
     for item in segments:
-        label, box, confidence = str(item.get("label", "object")), item.get("box"), float(item.get("confidence", 0))
+        label, source_label = str(item.get("label", "\u672a\u547d\u540d\u7269\u54c1")), str(item.get("source_label") or item.get("label", "object"))
+        box, confidence = item.get("box"), float(item.get("confidence", 0))
         if not isinstance(box, list) or len(box) != 4: continue
-        observations.append({"track_key": tracks.key(label, box), "name": label, "system_name": label, "category": label, "aliases": [], "location_name": "camera view", "relation": "detected in current frame", "bounding_box": box, "confidence": confidence})
+        observations.append({"track_key": tracks.key(source_label, box), "name": label, "system_name": label, "category": label, "aliases": [], "location_name": "\u6444\u50cf\u5934\u753b\u9762", "relation": "\u5f53\u524d\u753b\u9762\u4e2d\u68c0\u6d4b\u5230", "bounding_box": box, "confidence": confidence})
     if not observations: return None
     return {"source": "push" if VISION_ROLE == "receiver" else CAMERA_SOURCE, "frame_id": frame_id or f"{CAMERA_SOURCE}-{video_source.frame_count}", "observed_at": observed_at, "frame_image_b64": jpeg, "observations": observations}
 

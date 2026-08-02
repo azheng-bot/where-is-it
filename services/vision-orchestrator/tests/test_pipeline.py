@@ -22,9 +22,9 @@ class PipelineTests(unittest.TestCase):
     @staticmethod
     def success(_client, request):
         data = {
-            "florence": {"detections": [{"label": "keys", "box": [.2, .3, .1, .1], "confidence": .5}]},
-            "grounding": {"detections": [{"label": "keys", "box": [.2, .3, .1, .1], "confidence": .9}], "verified": True},
-            "sam": {"segments": [{"label": "keys", "box": [.2, .3, .1, .1], "confidence": .9, "mask_area": .05}]},
+            "florence": {"detections": [{"label": "\u94a5\u5319", "source_label": "keys", "box": [.2, .3, .1, .1], "confidence": .5}]},
+            "grounding": {"detections": [{"label": "\u94a5\u5319", "source_label": "keys", "box": [.2, .3, .1, .1], "confidence": .9}], "verified": True},
+            "sam": {"segments": [{"label": "\u94a5\u5319", "source_label": "keys", "box": [.2, .3, .1, .1], "confidence": .9, "mask_area": .05}]},
             "embedding": {"embeddings": []},
         }
         return InferenceResponse(request_id=request.request_id, model_name=_client.name, model_version="test", status=InferenceStatus.OK, result=data[_client.name])
@@ -34,6 +34,8 @@ class PipelineTests(unittest.TestCase):
             batch = main.run_pipeline()
         self.assertIsNotNone(batch)
         self.assertEqual(batch["observations"][0]["track_key"].split("-")[0], "keys")
+        self.assertEqual(batch["observations"][0]["name"], "\u94a5\u5319")
+        self.assertEqual(batch["observations"][0]["location_name"], "\u6444\u50cf\u5934\u753b\u9762")
         self.assertEqual(set(main.last_stages.values()), {"ok"})
 
     def test_timeout_stops_unverified_observation(self):
