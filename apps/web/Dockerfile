@@ -8,6 +8,10 @@ RUN corepack enable && pnpm install --frozen-lockfile
 
 COPY apps/web apps/web
 COPY packages/contracts packages/contracts
+ARG VITE_API_BASE_URL
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ARG VITE_VISION_BASE_URL
+ENV VITE_VISION_BASE_URL=${VITE_VISION_BASE_URL}
 RUN pnpm --filter @where-is-it/web build
 
 FROM nginx:1.27-alpine

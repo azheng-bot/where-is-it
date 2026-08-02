@@ -12,3 +12,10 @@
   [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.31.217:[1m5173[22m/[39m
   [32m➜[39m  [1mNetwork[22m: [36mhttp://172.21.96.1:[1m5173[22m/[39m
 [2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[2m1:57:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+[2m1:57:29[22m [36m[1m[vite][22m[39m [32m.env.local changed, restarting server...[39m
+[2m1:57:29[22m [36m[1m[vite][22m[39m server restarted.
+[2m1:58:52[22m [36m[1m[vite][22m[39m [32m.env.local changed, restarting server...[39m
+D:\Desktop\where-is-it\apps\web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @where-is-it/web@0.1.0 dev: `vite --host 0.0.0.0`
+Exit status 4294967295

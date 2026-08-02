@@ -1,0 +1,21 @@
+name: where-is-it-video-streamer
+
+services:
+  video-streamer:
+    build:
+      context: ../..
+      dockerfile: services/vision-orchestrator/Dockerfile
+    environment:
+      VISION_ROLE: pusher
+      CAMERA_SOURCE: ${CAMERA_SOURCE:-usb}
+      CAMERA_USB_INDEX: ${CAMERA_USB_INDEX:-0}
+      CAMERA_RTSP_URL: ${CAMERA_RTSP_URL:-}
+      CAMERA_VIDEO_PATH: ${CAMERA_VIDEO_PATH:-}
+      CAMERA_MOCK_VIDEO_PATH: ${CAMERA_MOCK_VIDEO_PATH:-/app/services/vision-orchestrator/fixtures/media/indoor-living-room.mp4}
+      DISCOVERY_INTERVAL_SECONDS: ${DISCOVERY_INTERVAL_SECONDS:-1}
+      VISION_INGEST_URL: ${FRAME_INGEST_URL:?set FRAME_INGEST_URL to the GPU receiver endpoint}
+      VISION_PUSH_TOKEN: ${VISION_PUSH_TOKEN:?set VISION_PUSH_TOKEN}
+      VISION_PUSH_TIMEOUT_SECONDS: ${VISION_PUSH_TIMEOUT_SECONDS:-5}
+      VISION_PUSH_MAX_FRAME_BYTES: ${VISION_PUSH_MAX_FRAME_BYTES:-10485760}
+    ports:
+      - "${VIDEO_STREAMER_PORT:-8001}:8001"

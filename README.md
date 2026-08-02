@@ -1,62 +1,63 @@
 # 在哪里（Where Is It）
 
-单卧室、单摄像头场景的室内物品查找助手。网页会将“当前检测到”“当前未检测到后的最后出现”和“推测位置”明确分层展示，避免将推测伪装为事实。
+面向单房间、单摄像头场景的室内物品查找助手。页面将“当前检测到”“最后一次确定位置”和“推测位置”分层展示，不把推测当作事实。
 
-## 开发启动
+## 正式部署架构
 
-```powershell
-pnpm install
-pnpm dev
+系统按运行环境交付为三个服务包，而不是按源码中的每个进程分别部署：
+
+| 服务包 | 部署位置 | 职责 | 对外入口 |
+| --- | --- | --- | --- |
+| `video-streamer` | 摄像头可达的边缘设备 | USB、RTSP 或 mock 视频取帧；以 JPEG 帧推送到 GPU 节点 | 可选健康检查：`8001` |
+| `gpu-inference-api` | Linux GPU 节点 | 帧接收、视觉推理、ASR、业务 API、SQLite 与证据存储 | API：`8000`；受令牌保护的接收器：`8001` |
+| `web` | 静态站点或 Web 服务器 | 查询、录音、结果与证据展示 | HTTP：`5173`（默认） |
+
+Florence、Grounding、SAM、Embedding 与 ASR 是 `gpu-inference-api` Compose 包内的私有运行时；浏览器和边缘设备都不能直接访问它们。
+
+完整架构、网络边界和配置说明见 [三服务架构与部署](docs/three-service-architecture.md)，生产操作见 [服务运行手册](docs/service-runbook.md)。
+
+## 三服务启动
+
+先在 GPU 主机完成 Linux 与 NVIDIA 环境准备，再依次启动 GPU、推流和 Web：
+
+```bash
+# GPU 节点
+cp deploy/gpu-inference-api/.env.example deploy/gpu-inference-api/.env
+docker compose --env-file deploy/gpu-inference-api/.env \
+  -f deploy/gpu-inference-api/docker-compose.yml up -d --build
+
+# 摄像头边缘设备
+cp deploy/video-streamer/.env.example deploy/video-streamer/.env
+docker compose --env-file deploy/video-streamer/.env \
+  -f deploy/video-streamer/docker-compose.yml up -d --build
+
+# Web 主机
+cp deploy/web/.env.example deploy/web/.env
+docker compose --env-file deploy/web/.env \
+  -f deploy/web/docker-compose.yml up -d --build
 ```
 
-分别打开：
+三个 `.env` 的关键关联：
 
-- Web：<http://127.0.0.1:5173>
-- API：<http://127.0.0.1:8000/docs>
-- Vision：<http://127.0.0.1:8001/health/ready>
+- `video-streamer.FRAME_INGEST_URL` 指向 `https://<gpu-host>/v1/frames`。
+- `video-streamer.VISION_PUSH_TOKEN` 与 `gpu-inference-api.VISION_PUSH_TOKEN` 必须完全一致。
+- `web.PUBLIC_API_URL` 指向 `https://<gpu-host>`，不能填模型、ASR 或摄像头地址。
 
-Python 服务依赖见 `services/api/requirements.txt`，首次运行可执行：
+GPU 节点安装、预检与 CUDA/PyTorch 要求见 [GPU 服务部署说明](deploy/gpu-inference-api/README.md)；帧推送协议见 [远程视频推流](docs/remote-video-push.md)。
 
-```powershell
-python -m pip install -r services/api/requirements.txt
-```
+## 开发与验证
+
+GPU 推理包仅支持真实 NVIDIA GPU、真实视觉模型和 CUDA ASR。请使用 `deploy/gpu-inference-api` 的环境模板、预检和 Compose 入口；未配置 GPU 时，模型与 ASR 会明确未就绪，不会回退到 mock 或 CPU。
+
+摄像头边缘服务可使用 `CAMERA_SOURCE=mock-video` 作为测试帧源，但帧到达 GPU 后仍会走真实推理链路。
 
 ## 验证
 
 ```powershell
 pnpm build
 pnpm contracts:check
+pnpm topology:check
 Set-Location services/api; python -m unittest discover -s tests -v
 ```
 
-当前为可演示的工程骨架：包含 SQLite/WAL 目录、十个演示物品、查询澄清、证据查看与目录改名。真实摄像头采集、模型适配、证据落盘与性能验收仍按 OpenSpec 任务继续实现。
-## 服务拆分与运行
-
-`pnpm dev` 会启动 Web、API、无 GPU 的 `vision-orchestrator`、四个默认 mock 的视觉模型服务，以及 ASR 服务。模型服务可以单独运行：`pnpm dev:models`；只启动产品闭环：`pnpm dev:core`。
-
-| 服务 | 默认端口 | 默认模式 | GPU |
-| --- | --- | --- | --- |
-| vision-orchestrator | 8001 | mock | 否 |
-| Florence / Grounding / SAM / Embedding | 8002–8005 | mock | 可选，独立配置 |
-| ASR | 8006 | mock | 可选，独立配置 |
-
-可使用 `docker compose --profile gpu up` 启动带独立 GPU 声明的模型服务；默认不假定全部模型能够同时装入一张显卡。
-## CPU development and Linux GPU deployment
-
-Local development uses CPU + mock by default. Run `pnpm dev`, or copy `.env.cpu.example` to `.env` and use the Compose CPU profile:
-
-```powershell
-docker compose -f docker-compose.yml -f docker-compose.cpu.yml --profile cpu up --build
-```
-
-The production GPU node baseline is Ubuntu 22.04, CUDA 13.2, Python 3.12, PyTorch 2.13.0, and a 24GB RTX 40-series GPU. Copy `.env.gpu.example` to `.env`, set `VISION_PUSH_TOKEN` and an `API_INTERNAL_URL` reachable from the GPU host, then run:
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu up -d --build
-docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile gpu exec florence \
-  python /app/services/model_runtime/verify_gpu_runtime.py
-```
-
-This node is a video-frame receiver (`VISION_ROLE=receiver`), so no camera RTSP/IP is configured on it. The local capture process pushes JPEG frames to `/v1/frames` over HTTPS. Once started, `/health/ready` on each model service reports the PyTorch version, GPU name, compute capability, and available VRAM. See [remote video push](docs/remote-video-push.md) for the network configuration.
-
-The `api-data` and `model-cache` volumes preserve database/evidence and model downloads across container recreation.
+三个服务均已启动时，可执行 `pnpm smoke:services`；用 `VIDEO_STREAMER_URL`、`GPU_API_URL`、`WEB_URL` 覆盖默认检查地址。

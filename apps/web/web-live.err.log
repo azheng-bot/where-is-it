@@ -1,0 +1,821 @@
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[39m [36mfunction[39m [33mStatusBadge[39m({ state }[33m:[39m { state[33m:[39m string }) {
+ [90m 18 |[39m   [36mconst[39m names[33m:[39m [33mRecord[39m[33m<[39m[33mstring[39m[33m,[39m string[33m>[39m [33m=[39m {
+[31m[1m>[22m[39m[90m 19 |[39m     currently_detected[33m:[39m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[39m瑜版挸澧犻張顏咁梾濞[33m?[39m[33m,[39m identity_uncertain[33m:[39m [32m"闊偂鍞ゅ鍛€樼拋?,[39m
+ [90m    |[39m                                                               [31m[1m^[22m[39m
+ [90m 20 |[39m     clarification[33m:[39m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[39m閺堫亝澹橀崚[33m?[39m[33m,[39m
+ [90m 21 |[39m   }[33m;[39m
+ [90m 22 |[39m   [36mreturn[39m [33m<[39m[33mspan[39m className[33m=[39m{[32m"status status--"[39m [33m+[39m state}[33m>[39m[33m<[39m[33mi[39m [33m/[39m[33m>[39m{names[state] [33m?[39m[33m?[39m state}[33m<[39m[33m/[39m[33mspan[39m[33m>[39m[33m;[39m[0m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:53:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:55:06[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:55:08[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+[2m16:55:13[22m [31m[1m[vite][22m[39m [31mInternal server error: D:\Desktop\where-is-it\apps\web\src\App.tsx: Unexpected token, expected "," (19:62)
+
+[0m [90m 17 |[31m [36mfunction[31m [33mStatusBadge[31m({ state }[33m:[31m { state[33m:[31m string }) {
+ [90m 18 |[31m   [36mconst[31m names[33m:[31m [33mRecord[31m[33m<[31m[33mstring[31m[33m,[31m string[33m>[31m [33m=[31m {
+[31m[1m>[22m[31m[90m 19 |[31m     currently_detected[33m:[31m [32m"瑜版挸澧犲Λ鈧ù?, not_currently_detected: "[31m瑜版挸澧犻張顏咁梾濞[33m?[31m[33m,[31m identity_uncertain[33m:[31m [32m"闊偂鍞ゅ鍛€樼拋?,[31m
+ [90m    |[31m                                                               [31m[1m^[22m[31m
+ [90m 20 |[31m     clarification[33m:[31m [32m"闂団偓鐟曚胶鈥樼拋?, not_found: "[31m閺堫亝澹橀崚[33m?[31m[33m,[31m
+ [90m 21 |[31m   }[33m;[31m
+ [90m 22 |[31m   [36mreturn[31m [33m<[31m[33mspan[31m className[33m=[31m{[32m"status status--"[31m [33m+[31m state}[33m>[31m[33m<[31m[33mi[31m [33m/[31m[33m>[31m{names[state] [33m?[31m[33m?[31m state}[33m<[31m[33m/[31m[33mspan[31m[33m>[31m[33m;[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mD:/Desktop/where-is-it/apps/web/src/App.tsx[39m:19:62
+[33m  17 |  function StatusBadge({ state }: { state: string }) {
+  18 |    const names: Record<string, string> = {
+  19 |      currently_detected: "瑜版挸澧犲Λ鈧ù?, not_currently_detected: "瑜版挸澧犻張顏咁梾濞?, identity_uncertain: "闊偂鍞ゅ鍛€樼拋?,
+     |                                                                                  ^
+  20 |      clarification: "闂団偓鐟曚胶鈥樼拋?, not_found: "閺堫亝澹橀崚?,
+  21 |    };[39m
+      at constructor (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:365:19)
+      at TypeScriptParserMixin.raise (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6616:19)
+      at TypeScriptParserMixin.unexpected (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6636:16)
+      at TypeScriptParserMixin.expect (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:6916:12)
+      at TypeScriptParserMixin.parseObjectLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11839:14)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11356:23)
+      at TypeScriptParserMixin.parseExprAtom (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:4776:20)
+      at TypeScriptParserMixin.parseExprSubscripts (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11098:23)
+      at TypeScriptParserMixin.parseUpdate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11083:21)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:11063:23)
+      at TypeScriptParserMixin.parseMaybeUnary (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9854:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10916:61)
+      at TypeScriptParserMixin.parseExprOps (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10921:23)
+      at TypeScriptParserMixin.parseMaybeConditional (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10898:23)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10848:21)
+      at TypeScriptParserMixin.parseMaybeAssign (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9803:20)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:39
+      at TypeScriptParserMixin.allowInAnd (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12438:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10817:17)
+      at TypeScriptParserMixin.parseVar (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13401:91)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13247:10)
+      at TypeScriptParserMixin.parseVarStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9425:31)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12868:23)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseStatementListItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12764:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:61)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseBlock (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13314:10)
+      at TypeScriptParserMixin.parseFunctionBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12117:24)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12103:10)
+      at TypeScriptParserMixin.parseFunctionBodyAndFinish (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9189:18)
+      at D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13462:12
+      at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12420:14)
+      at TypeScriptParserMixin.parseFunction (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13461:10)
+      at TypeScriptParserMixin.parseFunctionStatement (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13142:17)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12808:21)
+      at TypeScriptParserMixin.parseStatementContent (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:9525:18)
+      at TypeScriptParserMixin.parseStatementLike (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12784:17)
+      at TypeScriptParserMixin.parseModuleItem (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12761:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13333:36)
+      at TypeScriptParserMixin.parseBlockBody (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:13326:10)
+      at TypeScriptParserMixin.parseProgram (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12639:10)
+      at TypeScriptParserMixin.parseTopLevel (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:12629:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14505:25)
+      at TypeScriptParserMixin.parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:10143:18)
+      at parse (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+parser@7.29.7\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (D:\Desktop\where-is-it\node_modules\.pnpm\@babel+core@7.29.7\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)

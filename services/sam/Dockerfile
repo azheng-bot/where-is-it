@@ -1,6 +1,6 @@
 FROM python:3.12-slim
-ARG TORCH_VERSION=2.13.0
-ARG PYTORCH_INDEX_URL=https://download.pytorch.org/whl/test/cu132
+ARG TORCH_VERSION=2.12.1
+ARG PYTORCH_INDEX_URL=https://download.pytorch.org/whl/cu132
 WORKDIR /app
 COPY services /app/services
 RUN pip install --no-cache-dir --index-url "${PYTORCH_INDEX_URL}" --extra-index-url https://pypi.org/simple "torch==${TORCH_VERSION}" \

@@ -1,26 +1,17 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("api", "vision", "florence", "grounding", "sam", "embedding", "asr")]
-    [string]$Service = "florence",
+    [ValidateSet("api", "vision")]
+    [string]$Service = "api",
     [ValidateRange(1, 65535)]
     [int]$Port = 0,
     [string]$CloudflaredPath = (Join-Path $PSScriptRoot "..\.tools\cloudflared.exe")
 )
 
-$servicePorts = @{
-    api       = 8000
-    vision    = 8001
-    florence  = 8002
-    grounding = 8003
-    sam       = 8004
-    embedding = 8005
-    asr       = 8006
-}
-
+$servicePorts = @{ api = 8000; vision = 8001 }
 $targetPort = if ($Port) { $Port } else { $servicePorts[$Service] }
 $listener = Get-NetTCPConnection -State Listen -LocalPort $targetPort -ErrorAction SilentlyContinue
 if (-not $listener) {
-    throw "The local $Service service is not listening on 127.0.0.1:$targetPort. Start it first (for example: pnpm dev:models)."
+    throw "The local $Service service is not listening on 127.0.0.1:$targetPort. Start the GPU package first."
 }
 
 if (-not (Test-Path -LiteralPath $CloudflaredPath)) {
@@ -32,6 +23,6 @@ if (-not (Test-Path -LiteralPath $CloudflaredPath)) {
         -OutFile $CloudflaredPath
 }
 
-Write-Host "Creating a temporary HTTPS tunnel to local $Service service (127.0.0.1:$targetPort)..."
-Write-Host "Give the displayed https://*.trycloudflare.com URL to the GPU service. Press Ctrl+C to close it."
+Write-Host "Creating a temporary HTTPS tunnel to the GPU $Service entry point (127.0.0.1:$targetPort)..."
+Write-Host "Press Ctrl+C to close it. Do not tunnel private model or ASR ports."
 & $CloudflaredPath tunnel --url "http://127.0.0.1:$targetPort"

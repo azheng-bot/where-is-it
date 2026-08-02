@@ -5,7 +5,7 @@ import {
   IconSearch, IconSettings, IconSparkles, IconVolume, IconX, IconChevronLeft,
 } from "@tabler/icons-react";
 import type { CatalogObject, QueryResult } from "@where-is-it/contracts";
-import { askQuestion, getLocations, getObjects, getRoomState, renameObject, transcribeAudio } from "./api";
+import { askQuestion, defaultCameraFrameUrl, getLocations, getObjects, getRoomState, renameObject, transcribeAudio } from "./api";
 
 type Page = "search" | "catalog" | "locations" | "history";
 
@@ -28,13 +28,20 @@ function boxStyle(boundingBox?: [number, number, number, number]) {
   return { left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` };
 }
 
-function CameraPreview({ frameUrl, streamUrl, boundingBox }: { frameUrl?: string; streamUrl?: string; boundingBox?: [number, number, number, number] }) {
-  const [streamFailed, setStreamFailed] = useState(false);
-  useEffect(() => setStreamFailed(false), [streamUrl]);
+function CameraPreview({ frameUrl, streamUrl: _streamUrl, boundingBox }: { frameUrl?: string; streamUrl?: string; boundingBox?: [number, number, number, number] }) {
+  const [liveFrameUrl, setLiveFrameUrl] = useState(frameUrl);
+  useEffect(() => {
+    if (!frameUrl) return;
+    const refresh = () => setLiveFrameUrl(frameUrl + (frameUrl.includes("?") ? "&" : "?") + "t=" + Date.now());
+    refresh();
+    const timer = window.setInterval(refresh, 1000);
+    return () => window.clearInterval(timer);
+  }, [frameUrl]);
   return <section className="camera-card">
-    <div className="camera-image">{streamUrl && !streamFailed ? <video autoPlay muted loop playsInline poster={frameUrl} aria-label="模拟室内监控直播" onError={() => setStreamFailed(true)}><source src={streamUrl} type="video/mp4" /></video> : <img src={frameUrl ?? "http://127.0.0.1:8001/api/camera/frame"} alt="卧室摄像头预览" />}{boundingBox && <span className="camera-box" style={boxStyle(boundingBox)} />}<span className="camera-label"><IconCamera size={14} /> LIVE</span></div>
+    <div className="camera-image"><img src={liveFrameUrl ?? defaultCameraFrameUrl} alt="Current pushed video frame" />{boundingBox && <span className="camera-box" style={boxStyle(boundingBox)} />}<span className="camera-label"><IconCamera size={14} /> LIVE</span></div>
   </section>;
 }
+
 function EvidenceModal({ result, onClose }: { result: QueryResult; onClose: () => void }) {
   if (!result.evidence || !result.object) return null;
   return <div className="dialog-backdrop" onMouseDown={onClose}>
@@ -131,7 +138,7 @@ function App() {
   const refresh = () => getObjects().then((data) => { setObjects(data); setApiOffline(false); }).catch(() => setApiOffline(true));
   useEffect(() => { refresh(); getRoomState().then((state) => { setFrameUrl(state.camera.frame_url); setStreamUrl(state.camera.stream_url); }).catch(() => undefined); }, []);
   const nav: Array<{ id: Page; label: string; icon: typeof IconSearch }> = [{ id: "search", label: "查找", icon: IconSearch }, { id: "catalog", label: "物品目录", icon: IconLayoutGrid }, { id: "locations", label: "位置目录", icon: IconBox }, { id: "history", label: "历史记录", icon: IconHistory }];
-  return <div className={"app-shell" + (sidebarCollapsed ? " is-sidebar-collapsed" : "")}><aside className="sidebar"><div className="sidebar-head"><button className="brand" onClick={() => setPage("search")}><span className="brand-mark"><IconSearch size={20} /></span><span>在哪里<small>室内物品查找助手</small></span></button><button className="sidebar-toggle" onClick={() => setSidebarCollapsed((value) => !value)} aria-label={sidebarCollapsed ? "展开侧边栏" : "收起侧边栏"}><IconChevronLeft size={18} /></button></div><nav>{nav.map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => setPage(item.id)} title={item.label}><Icon size={19} /><span>{item.label}</span></button>; })}</nav><div className="sidebar-bottom"><div className="service-state"><span className={apiOffline ? "offline" : ""} /><div><strong>{apiOffline ? "服务离线" : "服务在线"}</strong><small>{apiOffline ? "请启动 API" : "视觉记忆运行中"}</small></div></div></div></aside><header className="mobile-header"><button className="brand-mobile" onClick={() => setPage("search")}><span className="brand-mark"><IconSearch size={18} /></span>在哪里</button><span className="mobile-status"><i />在线</span></header><div className="content">{page === "search" && <SearchPage frameUrl={frameUrl} streamUrl={streamUrl} />}{page === "catalog" && <CatalogPage objects={objects} refresh={refresh} />}{page === "locations" && <LocationsPage frameUrl={frameUrl} streamUrl={streamUrl} />}{page === "history" && <main className="page history-placeholder"><IconHistory size={28} /><h1>历史记录即将就绪</h1><p>首次出现、位置变化与最后观测会在这里按时间呈现。</p><button className="secondary-button" onClick={() => setPage("search")}><IconSearch size={18} />回到查找</button></main>}</div><nav className="mobile-nav">{nav.slice(0, 3).map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => setPage(item.id)}><Icon size={19} /><span>{item.label}</span></button>; })}</nav></div>;
+  return <div className={"app-shell" + (sidebarCollapsed ? " is-sidebar-collapsed" : "")}><aside className="sidebar"><div className="sidebar-head"><button className="brand" onClick={() => setPage("search")}><span className="brand-mark"><img src="/where-is-it-logo.svg" alt="在哪里" /></span><span>在哪里<small>室内物品查找助手</small></span></button><button className="sidebar-toggle" onClick={() => setSidebarCollapsed((value) => !value)} aria-label={sidebarCollapsed ? "展开侧边栏" : "收起侧边栏"}><IconChevronLeft size={18} /></button></div><nav>{nav.map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => setPage(item.id)} title={item.label}><Icon size={19} /><span>{item.label}</span></button>; })}</nav><div className="sidebar-bottom"><div className="service-state"><span className={apiOffline ? "offline" : ""} /><div><strong>{apiOffline ? "服务离线" : "服务在线"}</strong><small>{apiOffline ? "请启动 API" : "视觉记忆运行中"}</small></div></div></div></aside><header className="mobile-header"><button className="brand-mobile" onClick={() => setPage("search")}><span className="brand-mark"><img src="/where-is-it-logo.svg" alt="在哪里" /></span>在哪里</button><span className="mobile-status"><i />在线</span></header><div className="content">{page === "search" && <SearchPage frameUrl={frameUrl} streamUrl={streamUrl} />}{page === "catalog" && <CatalogPage objects={objects} refresh={refresh} />}{page === "locations" && <LocationsPage frameUrl={frameUrl} streamUrl={streamUrl} />}{page === "history" && <main className="page history-placeholder"><IconHistory size={28} /><h1>历史记录即将就绪</h1><p>首次出现、位置变化与最后观测会在这里按时间呈现。</p><button className="secondary-button" onClick={() => setPage("search")}><IconSearch size={18} />回到查找</button></main>}</div><nav className="mobile-nav">{nav.slice(0, 3).map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => setPage(item.id)}><Icon size={19} /><span>{item.label}</span></button>; })}</nav></div>;
 }
 
 export default App;

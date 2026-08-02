@@ -29,20 +29,26 @@ class TranscriptionResponse(BaseModel):
 
 @dataclass(frozen=True)
 class AsrSettings:
-    mode: str = "mock"
     model: str = "small"
     model_version: str = "small"
-    device: str = "cpu"
-    compute_type: str = "int8"
+    device: str = "cuda"
+    compute_type: str = "float16"
     model_cache_dir: str | None = None
     max_audio_bytes: int = DEFAULT_MAX_AUDIO_BYTES
     ready_override: bool = True
 
     @classmethod
     def from_environment(cls) -> "AsrSettings":
-        device = os.getenv("ASR_DEVICE", "cpu").lower()
-        compute_type = os.getenv("ASR_COMPUTE_TYPE", "float16" if device == "cuda" else "int8")
-        return cls(mode=os.getenv("ASR_MODE", "mock").lower(), model=os.getenv("ASR_MODEL", "small"), model_version=os.getenv("ASR_MODEL_VERSION", os.getenv("ASR_MODEL", "small")), device=device, compute_type=compute_type, model_cache_dir=os.getenv("ASR_MODEL_CACHE_DIR") or None, max_audio_bytes=int(os.getenv("ASR_MAX_AUDIO_BYTES", str(DEFAULT_MAX_AUDIO_BYTES))), ready_override=os.getenv("ASR_READY", "true").lower() in {"1", "true", "yes"})
+        device = os.getenv("ASR_DEVICE", "cuda").lower()
+        return cls(
+            model=os.getenv("ASR_MODEL", "small"),
+            model_version=os.getenv("ASR_MODEL_VERSION", os.getenv("ASR_MODEL", "small")),
+            device=device,
+            compute_type=os.getenv("ASR_COMPUTE_TYPE", "float16"),
+            model_cache_dir=os.getenv("ASR_MODEL_CACHE_DIR") or None,
+            max_audio_bytes=int(os.getenv("ASR_MAX_AUDIO_BYTES", str(DEFAULT_MAX_AUDIO_BYTES))),
+            ready_override=os.getenv("ASR_READY", "true").lower() in {"1", "true", "yes"},
+        )
 
 
 @dataclass(frozen=True)
@@ -65,18 +71,8 @@ class TranscriptionAdapter(Protocol):
     def transcribe(self, audio: bytes, media_type: str) -> Transcription: ...
 
 
-class MockAdapter:
-    """Development-only adapter that keeps the local product loop usable without a model."""
-
-    def __init__(self, settings: AsrSettings) -> None:
-        self.settings = settings
-
-    def transcribe(self, audio: bytes, media_type: str) -> Transcription:
-        return Transcription(text=os.getenv("ASR_MOCK_TEXT", "我的钥匙在哪里？"), provider="mock-asr", model_version=self.settings.model_version, confidence=1.0)
-
-
 class FasterWhisperAdapter:
-    """Lazy faster-whisper adapter so ASR model startup never blocks other services."""
+    """Lazy CUDA faster-whisper adapter for the GPU deployment package."""
 
     def __init__(self, settings: AsrSettings, model_factory: Callable[..., object] | None = None) -> None:
         self.settings = settings
@@ -85,7 +81,7 @@ class FasterWhisperAdapter:
         self._model_lock = Lock()
 
     def is_available(self) -> bool:
-        return self._model_factory is not None or importlib.util.find_spec("faster_whisper") is not None
+        return self.settings.device == "cuda" and (self._model_factory is not None or importlib.util.find_spec("faster_whisper") is not None)
 
     def _get_model(self) -> object:
         with self._model_lock:
@@ -99,12 +95,12 @@ class FasterWhisperAdapter:
                     raise TranscriptionError("model_unavailable", "faster-whisper is not installed", 503) from error
                 factory = WhisperModel
             try:
-                kwargs: dict[str, object] = {"device": self.settings.device, "compute_type": self.settings.compute_type}
+                kwargs: dict[str, object] = {"device": "cuda", "compute_type": self.settings.compute_type}
                 if self.settings.model_cache_dir:
                     kwargs["download_root"] = self.settings.model_cache_dir
                 self._model = factory(self.settings.model, **kwargs)
             except Exception as error:
-                raise TranscriptionError("model_load_failed", "Unable to load ASR model", 503) from error
+                raise TranscriptionError("model_load_failed", "Unable to load CUDA ASR model", 503) from error
             return self._model
 
     def transcribe(self, audio: bytes, media_type: str) -> Transcription:
@@ -135,20 +131,13 @@ class FasterWhisperAdapter:
 class TranscriptionService:
     def __init__(self, settings: AsrSettings, adapter: TranscriptionAdapter | None = None) -> None:
         self.settings = settings
-        if adapter is not None:
-            self.adapter = adapter
-        elif settings.mode == "mock":
-            self.adapter = MockAdapter(settings)
-        elif settings.mode == "faster-whisper":
-            self.adapter = FasterWhisperAdapter(settings)
-        else:
-            self.adapter = None
+        self.adapter = adapter or FasterWhisperAdapter(settings)
 
     def readiness(self) -> tuple[bool, str | None]:
         if not self.settings.ready_override:
             return False, "model_not_ready"
-        if self.adapter is None:
-            return False, "invalid_asr_mode"
+        if self.settings.device != "cuda":
+            return False, "gpu_required"
         if isinstance(self.adapter, FasterWhisperAdapter) and not self.adapter.is_available():
             return False, "model_unavailable"
         return True, None
@@ -163,8 +152,7 @@ class TranscriptionService:
             raise TranscriptionError("audio_too_large", "Audio exceeds the configured size limit", 413)
         available, error_code = self.readiness()
         if not available:
-            raise TranscriptionError(error_code or "model_not_ready", "ASR service is not ready", 503)
-        assert self.adapter is not None
+            raise TranscriptionError(error_code or "model_not_ready", "CUDA ASR service is not ready", 503)
         return self.adapter.transcribe(audio, media_type)
 
 
@@ -184,7 +172,7 @@ def ready(response: Response) -> dict[str, object]:
     available, error_code = service.readiness()
     if not available:
         response.status_code = 503
-    return {"status": "ready" if available else "not_ready", "service": "asr", "mode": service.settings.mode, "model_version": service.settings.model_version, "device": service.settings.device, "error_code": error_code}
+    return {"status": "ready" if available else "not_ready", "service": "asr", "model_version": service.settings.model_version, "device": service.settings.device, "error_code": error_code}
 
 
 @app.post("/v1/transcribe", response_model=TranscriptionResponse)

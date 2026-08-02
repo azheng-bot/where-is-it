@@ -1,0 +1,151 @@
+name: where-is-it-gpu-inference-api
+
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: services/api/Dockerfile
+    environment:
+      DATABASE_PATH: /data/where-is-it.db
+      EVIDENCE_DIR: /data/evidence
+      VISION_PUBLIC_URL: ${GPU_VISION_PUBLIC_URL:-http://127.0.0.1:8001}
+      VISION_INTERNAL_URL: http://vision-receiver:8001
+      ASR_SERVICE_URL: http://asr:8006
+      WEB_ALLOWED_ORIGINS: ${WEB_ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    volumes:
+      - api-data:/data
+    depends_on:
+      - vision-receiver
+      - asr
+    ports:
+      - "${GPU_API_PORT:-8000}:8000"
+
+  vision-receiver:
+    build:
+      context: ../..
+      dockerfile: services/vision-orchestrator/Dockerfile
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      VISION_ROLE: receiver
+      VISION_PUSH_TOKEN: ${VISION_PUSH_TOKEN:?set VISION_PUSH_TOKEN}
+      VISION_PUSH_MAX_FRAME_BYTES: ${VISION_PUSH_MAX_FRAME_BYTES:-10485760}
+      FLORENCE_SERVICE_URL: http://florence:8002
+      GROUNDING_SERVICE_URL: http://grounding:8003
+      SAM_SERVICE_URL: http://sam:8004
+      EMBEDDING_SERVICE_URL: http://embedding:8005
+    depends_on:
+      - florence
+      - grounding
+      - sam
+      - embedding
+    ports:
+      - "${GPU_VISION_PORT:-8001}:8001"
+
+  florence:
+    build:
+      context: ../..
+      dockerfile: services/florence/Dockerfile
+    environment:
+      MODEL_DEVICE: ${FLORENCE_DEVICE:-cuda:0}
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_CACHE_DIR: /models
+      CUDA_VISIBLE_DEVICES: "${GPU_DEVICE_INDEX:-0}"
+      NVIDIA_VISIBLE_DEVICES: "${GPU_VISIBLE_DEVICES:-all}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      PYTORCH_CUDA_ALLOC_CONF: "${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+      PYTORCH_EXPECTED_VERSION: ${PYTORCH_EXPECTED_VERSION:-2.12.1}
+      PYTORCH_EXPECTED_CUDA: ${PYTORCH_EXPECTED_CUDA:-13.2}
+    volumes: [model-cache:/models]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+  grounding:
+    build:
+      context: ../..
+      dockerfile: services/grounding/Dockerfile
+    environment:
+      MODEL_DEVICE: ${GROUNDING_DEVICE:-cuda:0}
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_CACHE_DIR: /models
+      CUDA_VISIBLE_DEVICES: "${GPU_DEVICE_INDEX:-0}"
+      NVIDIA_VISIBLE_DEVICES: "${GPU_VISIBLE_DEVICES:-all}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      PYTORCH_CUDA_ALLOC_CONF: "${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+      PYTORCH_EXPECTED_VERSION: ${PYTORCH_EXPECTED_VERSION:-2.12.1}
+      PYTORCH_EXPECTED_CUDA: ${PYTORCH_EXPECTED_CUDA:-13.2}
+    volumes: [model-cache:/models]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+  sam:
+    build:
+      context: ../..
+      dockerfile: services/sam/Dockerfile
+    environment:
+      MODEL_DEVICE: ${SAM_DEVICE:-cuda:0}
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_CACHE_DIR: /models
+      CUDA_VISIBLE_DEVICES: "${GPU_DEVICE_INDEX:-0}"
+      NVIDIA_VISIBLE_DEVICES: "${GPU_VISIBLE_DEVICES:-all}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      PYTORCH_CUDA_ALLOC_CONF: "${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+      PYTORCH_EXPECTED_VERSION: ${PYTORCH_EXPECTED_VERSION:-2.12.1}
+      PYTORCH_EXPECTED_CUDA: ${PYTORCH_EXPECTED_CUDA:-13.2}
+    volumes: [model-cache:/models]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+  embedding:
+    build:
+      context: ../..
+      dockerfile: services/embedding/Dockerfile
+    environment:
+      MODEL_DEVICE: ${EMBEDDING_DEVICE:-cuda:0}
+      MODEL_DTYPE: ${MODEL_DTYPE:-float16}
+      MODEL_MAX_CONCURRENCY: ${MODEL_MAX_CONCURRENCY:-1}
+      MODEL_MIN_GPU_MEMORY_GB: ${MODEL_MIN_GPU_MEMORY_GB:-20}
+      MODEL_CACHE_DIR: /models
+      CUDA_VISIBLE_DEVICES: "${GPU_DEVICE_INDEX:-0}"
+      NVIDIA_VISIBLE_DEVICES: "${GPU_VISIBLE_DEVICES:-all}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      PYTORCH_CUDA_ALLOC_CONF: "${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
+      PYTORCH_EXPECTED_VERSION: ${PYTORCH_EXPECTED_VERSION:-2.12.1}
+      PYTORCH_EXPECTED_CUDA: ${PYTORCH_EXPECTED_CUDA:-13.2}
+    volumes: [model-cache:/models]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+  asr:
+    build:
+      context: ../..
+      dockerfile: services/asr/Dockerfile
+    environment:
+      ASR_DEVICE: ${ASR_DEVICE:-cuda}
+      ASR_MODEL: ${ASR_MODEL:-small}
+      ASR_MODEL_CACHE_DIR: /models
+      CUDA_VISIBLE_DEVICES: "${GPU_DEVICE_INDEX:-0}"
+      NVIDIA_VISIBLE_DEVICES: "${GPU_VISIBLE_DEVICES:-all}"
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    volumes: [model-cache:/models]
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: 1, capabilities: [gpu]}]
+
+volumes:
+  api-data:
+  model-cache:

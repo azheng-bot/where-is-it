@@ -2,3 +2,24 @@ INFO:     Started server process [22348]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://127.0.0.1:8011 (Press CTRL+C to quit)
+observation_publish_failed error=timed out
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>
+observation_publish_failed error=<urlopen error timed out>

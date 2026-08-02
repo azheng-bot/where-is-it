@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 
 
@@ -17,8 +18,10 @@ def main() -> int:
         return 1
 
     torch_version = torch.__version__.split("+", 1)[0]
-    if torch_version != "2.13.0":
-        errors.append(f"PyTorch 2.13.0 is required, found {torch.__version__}")
+    expected_torch = os.getenv("PYTORCH_EXPECTED_VERSION", "2.12.1")
+    expected_cuda = os.getenv("PYTORCH_EXPECTED_CUDA", "13.2")
+    if torch_version != expected_torch:
+        errors.append(f"PyTorch {expected_torch} is required, found {torch.__version__}")
     if not torch.cuda.is_available():
         errors.append("PyTorch cannot access CUDA")
         report = {
@@ -35,8 +38,8 @@ def main() -> int:
     props = torch.cuda.get_device_properties(device)
     capability = f"{props.major}.{props.minor}"
     memory_gb = round(props.total_memory / 1024 ** 3, 1)
-    if torch.version.cuda != "13.2":
-        errors.append(f"CUDA 13.2 PyTorch wheel is required, found CUDA {torch.version.cuda}")
+    if torch.version.cuda != expected_cuda:
+        errors.append(f"CUDA {expected_cuda} PyTorch wheel is required, found CUDA {torch.version.cuda}")
     if (props.major, props.minor) != (8, 9):
         errors.append(f"RTX 40-series compute capability 8.9 is required, found {capability}")
     if memory_gb < 20:

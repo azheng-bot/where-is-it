@@ -6,3 +6,5 @@ __pycache__/
 .pytest_cache/
 services/api/data/*.db
 services/api/data/evidence/
+.env.local
+apps/web/.env.local

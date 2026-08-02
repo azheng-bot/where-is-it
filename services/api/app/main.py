@@ -1,6 +1,9 @@
+import json
 from pathlib import Path
+from urllib.error import URLError
+from urllib.request import urlopen
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import settings
@@ -12,7 +15,7 @@ from .repository import Repository
 repository = Repository(settings.database_path)
 composer = AnswerComposer(settings)
 app = FastAPI(title="Where Is It API", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=list(settings.web_allowed_origins), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 
 @app.on_event("startup")
@@ -26,15 +29,29 @@ def live() -> dict[str, str]:
     return {"status": "ok"}
 
 
+def _runtime_health(name: str, base_url: str) -> dict[str, object]:
+    try:
+        with urlopen(f"{base_url}/health/ready", timeout=0.75) as upstream:
+            payload = json.loads(upstream.read())
+        return {"status": payload.get("status", "unknown"), "endpoint": base_url}
+    except (URLError, TimeoutError, OSError, ValueError) as error:
+        return {"status": "unavailable", "endpoint": base_url, "error": type(error).__name__}
+
+
 @app.get("/health/ready")
-def ready() -> dict[str, str]:
-    return {"status": "ready", "database": "connected", "vision": "fixture"}
+def ready(response: Response) -> dict[str, object]:
+    vision = _runtime_health("vision", settings.vision_internal_url)
+    asr = _runtime_health("asr", settings.asr_service_url)
+    status = "ready" if vision["status"] == "ready" and asr["status"] == "ready" else "degraded"
+    if vision["status"] != "ready":
+        response.status_code = 503
+    return {"status": status, "database": "connected", "components": {"vision": vision, "asr": asr}}
 
 
 @app.get("/api/room/state")
 def room_state() -> dict[str, object]:
     objects = repository.list_objects()
-    return {"camera": {"status": "online", "label": "Mock 客厅摄像头", "updated_at": "持续循环", "frame_url": f"{settings.vision_public_url}/api/camera/frame", "stream_url": f"{settings.vision_public_url}/api/camera/stream", "source_kind": "mock-video"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "mock-video-stream"}}
+    return {"camera": {"status": "online", "label": "Mock 客厅摄像头", "updated_at": "持续循环", "frame_url": f"{settings.vision_public_url}/api/camera/latest.jpg", "stream_url": f"{settings.vision_public_url}/api/camera/stream", "source_kind": "mock-video"}, "catalog": {"objects": len(objects), "locations": len(repository.list_locations())}, "vision": {"status": "ready", "profile": "mock-video-stream"}}
 
 
 @app.post("/internal/observations/batch")

@@ -1,6 +1,9 @@
 import type { CatalogObject, QueryResult } from "@where-is-it/contracts";
 
-const baseUrl = "http://127.0.0.1:8000";
+const baseUrl = (import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
+const visionBaseUrl = (import.meta.env.VITE_VISION_BASE_URL ?? "http://127.0.0.1:8001").replace(/\/$/, "");
+
+export const defaultCameraFrameUrl = `${visionBaseUrl}/api/camera/latest.jpg`;
 
 export async function getObjects(): Promise<CatalogObject[]> {
   const response = await fetch(`${baseUrl}/api/objects`);

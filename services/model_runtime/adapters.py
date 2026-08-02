@@ -17,19 +17,12 @@ class AdapterUnavailable(RuntimeError):
 
 
 def _device() -> str:
-    return os.getenv("MODEL_DEVICE", "cpu")
+    return os.getenv("MODEL_DEVICE", "cuda:0")
 
 
 def _model_dtype(torch: Any) -> Any:
-    """Return the configured model precision, with a CPU-safe fallback.
+    """Return the configured CUDA precision for online GPU inference."""
 
-    RTX 40-series cards efficiently run the visual models in FP16. CPU mode is
-    deliberately fixed at FP32 because many CPU operator paths do not support
-    half precision.
-    """
-
-    if not _device().startswith("cuda"):
-        return torch.float32
     requested = os.getenv("MODEL_DTYPE", "float16").strip().lower()
     supported = {
         "float16": torch.float16, "fp16": torch.float16,
@@ -43,11 +36,10 @@ def _model_dtype(torch: Any) -> Any:
             "MODEL_DTYPE must be float16, bfloat16, or float32"
         ) from error
 
-
 def _validate_device(torch: Any) -> None:
     device = _device()
     if not device.startswith("cuda"):
-        return
+        raise AdapterUnavailable("MODEL_DEVICE must target a CUDA GPU; CPU inference is not supported")
     if not torch.cuda.is_available():
         raise AdapterUnavailable(
             f"MODEL_DEVICE={device} requires CUDA, but PyTorch cannot see an NVIDIA GPU. "
@@ -148,7 +140,7 @@ class FlorenceAdapter(ModelAdapter):
         parsed = self.processor.post_process_generation(self.processor.batch_decode(ids, skip_special_tokens=False)[0], task=task, image_size=image.size)
         value = parsed.get(task, parsed) if isinstance(parsed, dict) else parsed
         boxes, labels = (value.get("bboxes", []), value.get("labels", [])) if isinstance(value, dict) else ([], [])
-        result: dict[str, Any] = {"detections": [{"label": str(label), "box": _box([float(x) for x in box], image.width, image.height), "confidence": 0.5} for label, box in zip(labels, boxes)], "task": task}
+        result: dict[str, Any] = {"detections": [_detection(label, _box([float(x) for x in box], image.width, image.height), 0.5) for label, box in zip(labels, boxes)], "task": task}
         if isinstance(value, str): result["caption"] = value
         return result
 
@@ -174,7 +166,7 @@ class GroundingAdapter(ModelAdapter):
         inputs = _move(self.processor(images=image, text=". ".join(candidates) + ".", return_tensors="pt"), _device(), self.dtype)
         with self.torch.no_grad(): outputs = self.model(**inputs)
         values = self.processor.post_process_grounded_object_detection(outputs, inputs.input_ids, threshold=float(request.payload.get("box_threshold", os.getenv("GROUNDING_BOX_THRESHOLD", "0.35"))), text_threshold=float(request.payload.get("text_threshold", os.getenv("GROUNDING_TEXT_THRESHOLD", "0.25"))), target_sizes=[image.size[::-1]])[0]
-        return {"detections": [{"label": str(label), "box": _box([float(x) for x in box.tolist()], image.width, image.height), "confidence": round(float(score), 6)} for label, box, score in zip(values["labels"], values["boxes"], values["scores"])], "verified": True}
+        return {"detections": [_detection(label, _box([float(x) for x in box.tolist()], image.width, image.height), round(float(score), 6)) for label, box, score in zip(values["labels"], values["boxes"], values["scores"])], "verified": True}
 
 
 class SamAdapter(ModelAdapter):
@@ -202,7 +194,7 @@ class SamAdapter(ModelAdapter):
         inputs = _move(self.processor(images=image, input_boxes=[boxes], return_tensors="pt"), _device(), self.dtype)
         with self.torch.no_grad(): outputs = self.model(**inputs, multimask_output=False)
         masks = self.processor.post_process_masks(outputs.pred_masks.cpu(), inputs["original_sizes"])[0]
-        return {"segments": [{"label": str(item.get("label", "object")), "box": item["box"], "mask_area": round(float(mask.to(dtype=self.torch.float32).mean().item()), 6), "confidence": item.get("confidence", 0.0)} for item, mask in zip(detections, masks)]}
+        return {"segments": [{"label": str(item.get("label", "object")), "source_label": str(item.get("source_label") or item.get("label", "object")), "box": item["box"], "mask_area": round(float(mask.to(dtype=self.torch.float32).mean().item()), 6), "confidence": item.get("confidence", 0.0)} for item, mask in zip(detections, masks)]}
 
 
 class EmbeddingAdapter(ModelAdapter):
@@ -238,3 +230,18 @@ def create_adapter(service: str) -> ModelAdapter:
     adapters = {"florence": FlorenceAdapter, "grounding": GroundingAdapter, "sam": SamAdapter, "embedding": EmbeddingAdapter}
     if service not in adapters: raise ValueError(f"unsupported model service: {service}")
     return adapters[service](service)
+
+_CHINESE_LABELS = {"backpack": "\u80cc\u5305", "bed": "\u5e8a", "book": "\u4e66", "bottle": "\u74f6\u5b50", "chair": "\u6905\u5b50", "cell phone": "\u624b\u673a", "couch": "\u6c99\u53d1", "cup": "\u676f\u5b50", "glasses": "\u773c\u955c", "headphones": "\u8033\u673a", "keyboard": "\u952e\u76d8", "keys": "\u94a5\u5319", "laptop": "\u7b14\u8bb0\u672c\u7535\u8111", "monitor": "\u663e\u793a\u5668", "mouse": "\u9f20\u6807", "mug": "\u9a6c\u514b\u676f", "notebook": "\u7b14\u8bb0\u672c", "person": "\u4eba", "phone": "\u624b\u673a", "pillow": "\u6795\u5934", "plant": "\u76c6\u683d", "remote control": "\u9065\u63a7\u5668", "table lamp": "\u53f0\u706f", "table": "\u684c\u5b50", "sofa": "\u6c99\u53d1", "television": "\u7535\u89c6", "tv": "\u7535\u89c6", "wallet": "\u94b1\u5305", "window": "\u7a97\u6237"}
+
+def localize_label(label: object) -> tuple[str, str]:
+    source_label = str(label).strip()
+    normalized = " ".join(source_label.lower().replace("_", " ").replace("-", " ").split())
+    if not normalized:
+        return "\u672a\u547d\u540d\u7269\u54c1", source_label
+    if any("\u4e00" <= character <= "\u9fff" for character in source_label):
+        return source_label, source_label
+    return _CHINESE_LABELS.get(normalized, "\u672a\u547d\u540d\u7269\u54c1"), source_label
+
+def _detection(label: object, box: list[float], confidence: float) -> dict[str, object]:
+    localized, source_label = localize_label(label)
+    return {"label": localized, "source_label": source_label, "box": box, "confidence": confidence}

@@ -9,7 +9,12 @@
     "build": "pnpm --filter @where-is-it/web build",
     "test": "pnpm --filter @where-is-it/web test && python -m unittest discover -s services/api/tests",
     "lint": "pnpm --filter @where-is-it/web lint && python -m compileall -q services/api/app services/shared services/model_runtime services/vision-orchestrator/app services/florence/app services/grounding/app services/sam/app services/embedding/app services/asr/app",
-    "contracts:check": "pnpm --filter @where-is-it/contracts check"
+    "contracts:check": "pnpm --filter @where-is-it/contracts check",
+    "topology:check": "node scripts/verify-service-topology.mjs",
+    "smoke:services": "node scripts/smoke-three-services.mjs",
+    "up:video-streamer": "docker compose --env-file deploy/video-streamer/.env -f deploy/video-streamer/docker-compose.yml up --build",
+    "up:gpu": "docker compose --env-file deploy/gpu-inference-api/.env -f deploy/gpu-inference-api/docker-compose.yml up --build",
+    "up:web": "docker compose --env-file deploy/web/.env -f deploy/web/docker-compose.yml up --build"
   },
   "devDependencies": {
     "typescript": "^5.7.3"
